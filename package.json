@@ -7,5 +7,8 @@
   "scripts": {
     "dev:docs": "cd apps/docs && bun run dev",
     "build:docs": "cd apps/docs && bun run build"
-  }
+  },
+  "peerDependencies": {},
+  "dependencies": {},
+  "devDependencies": {}
 }
