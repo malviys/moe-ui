@@ -6,8 +6,11 @@ const withMDX = createMDX();
 const config = {
   // basePath: process.env.NODE_ENV === "production" ? "/moe-ui" : "",
   // assetPrefix: process.env.NODE_ENV === "production" ? "/moe-ui" : "",
+  output: "export",
+  basePath: "/moe-ui",
   reactStrictMode: true,
   async rewrites() {
+    
     return [
       {
         source: '/docs/:path*.mdx',
