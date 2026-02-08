@@ -1,0 +1,53 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add button ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function ButtonDemo() {
+  return <Button>Button</Button>;
+}
+```
+
+## Variants
+
+```tsx
+<Button variant="default">Default</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>
+```
+
+## Sizes
+
+```tsx
+<Button size="default">Default</Button>
+<Button size="sm">Small</Button>
+<Button size="lg">Large</Button>
+<Button size="icon">Icon</Button>
+```
+
+## Props
+
+| Prop       | Type                                                                          | Default     | Description                    |
+| ---------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------ |
+| `variant`  | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link'` | `'default'` | The visual style               |
+| `size`     | `'default' \| 'sm' \| 'lg' \| 'icon'`                                         | `'default'` | The size of the button         |
+| `disabled` | `boolean`                                                                     | `false`     | Whether the button is disabled |

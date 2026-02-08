@@ -1,0 +1,34 @@
+---
+title: Input
+description: Displays a form input field or a component that looks like an input field.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add input ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input";
+
+export function InputDemo() {
+  return <Input placeholder="Email" />;
+}
+```
+
+## Props
+
+| Prop           | Type                     | Default | Description                            |
+| -------------- | ------------------------ | ------- | -------------------------------------- |
+| `placeholder`  | `string`                 | -       | Placeholder text                       |
+| `value`        | `string`                 | -       | The controlled value                   |
+| `onChangeText` | `(text: string) => void` | -       | Event handler called when text changes |
+| `disabled`     | `boolean`                | `false` | Whether the input is disabled          |

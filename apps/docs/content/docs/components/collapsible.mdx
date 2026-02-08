@@ -1,0 +1,48 @@
+---
+title: Collapsible
+description: An interactive component which expands/collapses a panel.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add collapsible ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Button } from "@/components/ui/button";
+
+export function CollapsibleDemo() {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <Button variant="ghost">Toggle</Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <Text>Content that can be expanded/collapsed</Text>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+```
+
+## Props
+
+| Prop           | Type                      | Default | Description                                      |
+| -------------- | ------------------------- | ------- | ------------------------------------------------ |
+| `open`         | `boolean`                 | -       | The controlled open state                        |
+| `onOpenChange` | `(open: boolean) => void` | -       | Event handler called when the open state changes |

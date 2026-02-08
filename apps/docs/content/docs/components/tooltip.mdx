@@ -1,0 +1,42 @@
+---
+title: Tooltip
+description: A popup that displays information related to an element when it receives focus or is hovered.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add tooltip ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+
+export function TooltipDemo() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline">Hover me</Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <Text>Add to library</Text>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+```

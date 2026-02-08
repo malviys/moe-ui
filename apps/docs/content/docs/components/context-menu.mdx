@@ -1,0 +1,43 @@
+---
+title: Context Menu
+description: Displays a menu triggered by a right-click or long-press.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add context-menu ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+
+export function ContextMenuDemo() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <View className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed">
+          <Text>Long press me</Text>
+        </View>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>Profile</ContextMenuItem>
+        <ContextMenuItem>Settings</ContextMenuItem>
+        <ContextMenuItem>Logout</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}
+```

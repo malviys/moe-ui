@@ -1,0 +1,37 @@
+---
+title: Label
+description: Renders an accessible label associated with controls.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add label ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
+export function LabelDemo() {
+  return (
+    <View>
+      <Label nativeID="email">Email</Label>
+      <Input aria-labelledby="email" placeholder="Enter email" />
+    </View>
+  );
+}
+```
+
+## Props
+
+| Prop       | Type     | Default | Description                                         |
+| ---------- | -------- | ------- | --------------------------------------------------- |
+| `nativeID` | `string` | -       | ID used to associate with input via aria-labelledby |

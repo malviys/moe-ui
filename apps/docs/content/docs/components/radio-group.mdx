@@ -1,0 +1,45 @@
+---
+title: Radio Group
+description: A set of checkable buttons where only one can be checked at a time.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add radio-group ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+
+export function RadioGroupDemo() {
+  return (
+    <RadioGroup defaultValue="option-one">
+      <View className="flex-row items-center gap-2">
+        <RadioGroupItem value="option-one" id="option-one" />
+        <Label htmlFor="option-one">Option One</Label>
+      </View>
+      <View className="flex-row items-center gap-2">
+        <RadioGroupItem value="option-two" id="option-two" />
+        <Label htmlFor="option-two">Option Two</Label>
+      </View>
+    </RadioGroup>
+  );
+}
+```
+
+## Props
+
+| Prop            | Type                      | Default | Description                             |
+| --------------- | ------------------------- | ------- | --------------------------------------- |
+| `value`         | `string`                  | -       | The controlled value                    |
+| `onValueChange` | `(value: string) => void` | -       | Event handler called when value changes |
+| `defaultValue`  | `string`                  | -       | The default value                       |

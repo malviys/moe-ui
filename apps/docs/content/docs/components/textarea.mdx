@@ -1,0 +1,34 @@
+---
+title: Textarea
+description: Displays a form textarea or a component that looks like a textarea.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add textarea ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Textarea } from "@/components/ui/textarea";
+
+export function TextareaDemo() {
+  return <Textarea placeholder="Type your message here." />;
+}
+```
+
+## Props
+
+| Prop           | Type                     | Default | Description                            |
+| -------------- | ------------------------ | ------- | -------------------------------------- |
+| `placeholder`  | `string`                 | -       | Placeholder text                       |
+| `value`        | `string`                 | -       | The controlled value                   |
+| `onChangeText` | `(text: string) => void` | -       | Event handler called when text changes |
+| `disabled`     | `boolean`                | `false` | Whether the textarea is disabled       |

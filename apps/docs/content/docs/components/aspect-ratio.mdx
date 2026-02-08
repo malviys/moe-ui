@@ -1,0 +1,40 @@
+---
+title: Aspect Ratio
+description: Displays content within a desired ratio.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add aspect-ratio ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Image } from "react-native";
+
+export function AspectRatioDemo() {
+  return (
+    <AspectRatio ratio={16 / 9}>
+      <Image
+        source={{ uri: "https://example.com/image.jpg" }}
+        style={{ width: "100%", height: "100%" }}
+        resizeMode="cover"
+      />
+    </AspectRatio>
+  );
+}
+```
+
+## Props
+
+| Prop    | Type     | Default | Description              |
+| ------- | -------- | ------- | ------------------------ |
+| `ratio` | `number` | `1`     | The desired aspect ratio |

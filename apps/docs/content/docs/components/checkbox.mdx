@@ -1,0 +1,39 @@
+---
+title: Checkbox
+description: A control that allows the user to toggle between checked and not checked.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add checkbox ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+
+export function CheckboxDemo() {
+  return (
+    <View className="flex-row items-center gap-2">
+      <Checkbox id="terms" />
+      <Label htmlFor="terms">Accept terms and conditions</Label>
+    </View>
+  );
+}
+```
+
+## Props
+
+| Prop              | Type                         | Default | Description                                         |
+| ----------------- | ---------------------------- | ------- | --------------------------------------------------- |
+| `checked`         | `boolean`                    | `false` | The controlled checked state                        |
+| `onCheckedChange` | `(checked: boolean) => void` | -       | Event handler called when the checked state changes |
+| `disabled`        | `boolean`                    | `false` | When true, prevents the user from interacting       |

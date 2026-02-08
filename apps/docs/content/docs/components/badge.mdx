@@ -1,0 +1,40 @@
+---
+title: Badge
+description: Displays a badge or a component that looks like a badge.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add badge ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge";
+
+export function BadgeDemo() {
+  return <Badge>Badge</Badge>;
+}
+```
+
+## Variants
+
+```tsx
+<Badge variant="default">Default</Badge>
+<Badge variant="secondary">Secondary</Badge>
+<Badge variant="destructive">Destructive</Badge>
+<Badge variant="outline">Outline</Badge>
+```
+
+## Props
+
+| Prop      | Type                                                     | Default     | Description                   |
+| --------- | -------------------------------------------------------- | ----------- | ----------------------------- |
+| `variant` | `'default' \| 'secondary' \| 'destructive' \| 'outline'` | `'default'` | The visual style of the badge |

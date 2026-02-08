@@ -1,0 +1,46 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add toggle ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Toggle } from "@/components/ui/toggle";
+import { Bold } from "lucide-react-native";
+
+export function ToggleDemo() {
+  return (
+    <Toggle aria-label="Toggle bold">
+      <Bold className="h-4 w-4" />
+    </Toggle>
+  );
+}
+```
+
+## Variants
+
+```tsx
+<Toggle variant="default">Default</Toggle>
+<Toggle variant="outline">Outline</Toggle>
+```
+
+## Props
+
+| Prop              | Type                         | Default     | Description                                         |
+| ----------------- | ---------------------------- | ----------- | --------------------------------------------------- |
+| `variant`         | `'default' \| 'outline'`     | `'default'` | The visual style                                    |
+| `size`            | `'default' \| 'sm' \| 'lg'`  | `'default'` | The size                                            |
+| `pressed`         | `boolean`                    | -           | The controlled pressed state                        |
+| `onPressedChange` | `(pressed: boolean) => void` | -           | Event handler called when the pressed state changes |

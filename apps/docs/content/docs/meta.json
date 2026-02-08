@@ -1,0 +1,18 @@
+{
+    "pages": [
+        "---Docs---",
+        "index",
+        "installation",
+        "changelog",
+        "[Components](/docs/components)",
+        "[Blocks](/docs/blocks)",
+        "[CLI](/docs/cli)",
+        "[Registry](/docs/registry)",
+        "---UI---",
+        "components",
+        "blocks",
+        "---LLM---",
+        "llm-txt",
+        "mcp"
+    ]
+}

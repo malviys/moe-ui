@@ -1,0 +1,33 @@
+---
+title: Skeleton
+description: Use to show a placeholder while content is loading.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add skeleton ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton";
+
+export function SkeletonDemo() {
+  return (
+    <View className="flex-row items-center gap-4">
+      <Skeleton className="h-12 w-12 rounded-full" />
+      <View className="gap-2">
+        <Skeleton className="h-4 w-[250px]" />
+        <Skeleton className="h-4 w-[200px]" />
+      </View>
+    </View>
+  );
+}
+```

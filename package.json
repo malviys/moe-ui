@@ -1,0 +1,11 @@
+{
+  "name": "moe-ui",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:docs": "cd apps/docs && bun run dev",
+    "build:docs": "cd apps/docs && bun run build"
+  }
+}

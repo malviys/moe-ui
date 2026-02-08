@@ -1,0 +1,36 @@
+---
+title: Hover Card
+description: For sighted users to preview content available behind a link.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add hover-card ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
+export function HoverCardDemo() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger>Hover me</HoverCardTrigger>
+      <HoverCardContent>
+        <Text>Content visible on hover/long-press</Text>
+      </HoverCardContent>
+    </HoverCard>
+  );
+}
+```

@@ -1,0 +1,47 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+/* Grid background pattern for hero section */
+.bg-grid-print {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+:is(.dark) .bg-grid-print {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Source badges for homepage */
+.source-badge {
+  @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border;
+}
+.source-badge.shadcn {
+  @apply bg-green-500/10 text-green-600 border-green-500/20;
+}
+.source-badge.reui {
+  @apply bg-purple-500/10 text-purple-600 border-purple-500/20;
+}
+.source-badge.rnr {
+  @apply bg-orange-500/10 text-orange-600 border-orange-500/20;
+}
+.source-badge.nativewind {
+  @apply bg-blue-500/10 text-blue-600 border-blue-500/20;
+}
+
+/* Sidebar spacing customization */
+[data-sidebar] > div > div {
+  @apply space-y-1;
+}
+
+/* Section separator spacing */
+[data-sidebar] [role="separator"] {
+  @apply my-4;
+}
+
+/* Folder items spacing */
+[data-sidebar] [data-folder] {
+  @apply mt-1;
+}

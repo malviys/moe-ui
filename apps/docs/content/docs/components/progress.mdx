@@ -1,0 +1,34 @@
+---
+title: Progress
+description: Displays an indicator showing the completion progress of a task.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add progress ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+
+export function ProgressDemo() {
+  const [progress, setProgress] = React.useState(33);
+
+  return <Progress value={progress} />;
+}
+```
+
+## Props
+
+| Prop    | Type     | Default | Description                |
+| ------- | -------- | ------- | -------------------------- |
+| `value` | `number` | `0`     | The progress value (0-100) |
+| `max`   | `number` | `100`   | The maximum value          |

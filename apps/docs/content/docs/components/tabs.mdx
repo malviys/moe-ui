@@ -1,0 +1,46 @@
+---
+title: Tabs
+description: A set of layered sections of content that display one panel at a time.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add tabs ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+export function TabsDemo() {
+  return (
+    <Tabs defaultValue="account">
+      <TabsList>
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+        <Text>Make changes to your account here.</Text>
+      </TabsContent>
+      <TabsContent value="password">
+        <Text>Change your password here.</Text>
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+## Props
+
+| Prop            | Type                      | Default | Description                             |
+| --------------- | ------------------------- | ------- | --------------------------------------- |
+| `value`         | `string`                  | -       | The controlled value                    |
+| `onValueChange` | `(value: string) => void` | -       | Event handler called when value changes |
+| `defaultValue`  | `string`                  | -       | The default value                       |

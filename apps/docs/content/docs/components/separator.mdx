@@ -1,0 +1,37 @@
+---
+title: Separator
+description: Visually or semantically separates content.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add separator ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Separator } from "@/components/ui/separator";
+
+export function SeparatorDemo() {
+  return (
+    <View>
+      <Text>Above</Text>
+      <Separator />
+      <Text>Below</Text>
+    </View>
+  );
+}
+```
+
+## Props
+
+| Prop          | Type                         | Default        | Description                      |
+| ------------- | ---------------------------- | -------------- | -------------------------------- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the separator |

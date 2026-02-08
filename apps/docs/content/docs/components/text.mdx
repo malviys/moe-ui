@@ -1,0 +1,39 @@
+---
+title: Text
+description: A universal text component with consistent styling.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">```bash npx @moe/cli add text ```</Tab>
+  <Tab value="Manual">
+    Copy the component source code and add it to your project.
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Text } from "@/components/ui/text";
+
+export function TextDemo() {
+  return <Text>Hello World</Text>;
+}
+```
+
+## Variants
+
+```tsx
+<Text className="text-xl font-bold">Large Bold</Text>
+<Text className="text-muted-foreground">Muted text</Text>
+<Text className="text-destructive">Error text</Text>
+```
+
+## Props
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | -       | Additional CSS classes |
