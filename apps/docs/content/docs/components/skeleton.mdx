@@ -10,7 +10,28 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add skeleton ```</Tab>
   <Tab value="Manual">
-    Copy the component source code and add it to your project.
+
+### Copy/paste the following code to `~/components/ui/skeleton.tsx`
+
+```tsx
+import { cn } from "~/lib/utils";
+import { View } from "react-native";
+
+function Skeleton({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof View>) {
+  return (
+    <View
+      className={cn("rounded-md bg-secondary animate-pulse", className)}
+      {...props}
+    />
+  );
+}
+
+export { Skeleton };
+```
+
   </Tab>
 </Tabs>
 

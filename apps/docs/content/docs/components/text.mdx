@@ -10,7 +10,42 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add text ```</Tab>
   <Tab value="Manual">
-    Copy the component source code and add it to your project.
+
+### Copy/paste the following code to `~/components/ui/text.tsx`
+
+```tsx
+import * as Slot from "@rn-primitives/slot";
+import * as React from "react";
+import { Text as RNText } from "react-native";
+import { cn } from "~/lib/utils";
+
+const TextClassContext = React.createContext<string | undefined>(undefined);
+
+const Text = React.forwardRef<
+  React.ElementRef<typeof RNText>,
+  React.ComponentPropsWithoutRef<typeof RNText> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const textClass = React.useContext(TextClassContext);
+  const Component = asChild ? Slot.Text : RNText;
+  return (
+    <Component
+      className={cn(
+        "text-base text-foreground web:select-text",
+        textClass,
+        className,
+      )}
+      ref={ref}
+      {...props}
+    />
+  );
+});
+Text.displayName = "Text";
+
+export { Text, TextClassContext };
+```
+
   </Tab>
 </Tabs>
 

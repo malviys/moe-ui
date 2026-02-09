@@ -10,7 +10,23 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add aspect-ratio ```</Tab>
   <Tab value="Manual">
-    Copy the component source code and add it to your project.
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/aspect-ratio
+```
+
+### Copy/paste the following code to `~/components/ui/aspect-ratio.tsx`
+
+```tsx
+import * as AspectRatioPrimitive from "@rn-primitives/aspect-ratio";
+
+const AspectRatio = AspectRatioPrimitive.Root;
+
+export { AspectRatio };
+```
+
   </Tab>
 </Tabs>
 

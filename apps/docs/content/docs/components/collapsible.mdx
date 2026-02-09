@@ -10,7 +10,25 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add collapsible ```</Tab>
   <Tab value="Manual">
-    Copy the component source code and add it to your project.
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/collapsible
+```
+
+### Copy/paste the following code to `~/components/ui/collapsible.tsx`
+
+```tsx
+import * as CollapsiblePrimitive from "@rn-primitives/collapsible";
+
+const Collapsible = CollapsiblePrimitive.Root;
+const CollapsibleTrigger = CollapsiblePrimitive.Trigger;
+const CollapsibleContent = CollapsiblePrimitive.Content;
+
+export { Collapsible, CollapsibleContent, CollapsibleTrigger };
+```
+
   </Tab>
 </Tabs>
 
