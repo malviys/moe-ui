@@ -1,15 +1,14 @@
 import { createMDX } from 'fumadocs-mdx/next';
+import path from 'node:path'; 
 
 const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
-  output: "export",
-  basePath: "/moe-ui",
-  images: {
-    unoptimized: true,
-  },
   reactStrictMode: true,
+  turbopack: {
+    root: path.join(process.cwd(), '..'),
+  },
   async rewrites() {
     return [
       {
