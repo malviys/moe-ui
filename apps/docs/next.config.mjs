@@ -6,9 +6,9 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  turbopack: {
-    root: path.join(process.cwd(), '..'),
-  },
+  // turbopack: {
+  //   root: path.join(process.cwd(), '..'),
+  // },
   async rewrites() {
     return [
       {
