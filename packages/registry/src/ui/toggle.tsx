@@ -1,0 +1,77 @@
+import * as TogglePrimitive from "@rn-primitives/toggle";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+import { cn } from "../lib/utils";
+import { TextClassContext } from "./text";
+
+const toggleVariants = cva(
+  "web:group web:inline-flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:hover:bg-muted active:bg-muted web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default: "bg-transparent",
+        outline:
+          "border border-input bg-transparent web:hover:bg-accent active:bg-accent",
+      },
+      size: {
+        default: "h-10 px-3 native:h-12 native:px-[12px]",
+        sm: "h-9 px-2.5 native:h-10 native:px-[9px]",
+        lg: "h-11 px-5 native:h-14 native:px-6",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+);
+
+const toggleTextVariants = cva(
+  "text-sm native:text-base text-foreground font-medium web:group-hover:text-muted-foreground active:text-muted-foreground web:transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "",
+        outline:
+          "web:group-hover:text-accent-foreground active:text-accent-foreground",
+      },
+      size: {
+        default: "",
+        sm: "",
+        lg: "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+);
+
+const Toggle = React.forwardRef<
+  React.ElementRef<typeof TogglePrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> &
+    VariantProps<typeof toggleVariants>
+>(({ className, variant, size, ...props }, ref) => (
+  <TextClassContext.Provider
+    value={cn(
+      toggleTextVariants({ variant, size }),
+      props.pressed && "text-accent-foreground",
+      props.disabled && "web:pointer-events-none opacity-50",
+    )}
+  >
+    <TogglePrimitive.Root
+      ref={ref}
+      className={cn(
+        toggleVariants({ variant, size, className }),
+        props.disabled && "web:pointer-events-none opacity-50",
+        props.pressed && "bg-accent",
+      )}
+      {...props}
+    />
+  </TextClassContext.Provider>
+));
+
+Toggle.displayName = TogglePrimitive.Root.displayName;
+
+export { Toggle, toggleTextVariants, toggleVariants };
