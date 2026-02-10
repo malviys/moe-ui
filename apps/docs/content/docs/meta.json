@@ -4,6 +4,7 @@
         "index",
         "installation",
         "component-list",
+        "blocks",
         "cli",
         "registry",
         "changelog",
@@ -39,8 +40,6 @@
         "components/toggle",
         "components/toggle-group",
         "components/tooltip",
-        "---Blocks---",
-        "blocks/index",
         "---LLM---",
         "llm-txt",
         "mcp"
