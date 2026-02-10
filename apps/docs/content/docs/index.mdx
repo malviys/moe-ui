@@ -6,26 +6,32 @@ icon: Album
 
 > This is not a component library. It is how you build your component library.
 
-## Bringing the shadcn/ui experience to React Native
+Moe UI brings the **shadcn/ui** experience to React Native. It provides a set of beautifully crafted, accessible, and customizable components that work universally across iOS, Android, and Web.
 
-Built with familiar tools and libraries, it follows consistent styling, structure, and naming conventions, letting you use your favorite design system to create beautiful universal apps.
+## Philosophy
 
-## Key differences from shadcn/ui
+Moe UI is built on three core pillars to ensure a top-tier developer and user experience:
 
-- **NativeWind**: Moe UI provides a Tailwind-like experience adapted for React Native using NativeWind.
+### 📱 Universal
 
-- **RN Primitives**: A universal port of Radix UI primitives for React Native with an almost identical API, enabling consistent composition on native platforms.
+Write once, run everywhere. Every component is designed to work seamlessly on **iOS**, **Android**, and the **Web** using a single codebase. By leveraging universal primitives, you can ensure consistent behavior and styling across all platforms.
 
-- **Portals**: React Native doesn't support DOM portals. On native platforms, components like modals and menus need a `PortalHost`.
+### ♿ Accessible
 
-- **No cascading styles**: Child elements like `Text` can't inherit styles from a parent class. Each element must be styled directly.
+Accessibility is a first-class citizen. Built on top of **rn-primitives** (a port of Radix UI), Moe UI ensures that your app is usable by everyone. It handles focus management, keyboard navigation, and screen reader support out of the box.
 
-- **No data attributes**: React Native doesn't support `data-*` attributes, so variants rely on props or state for native platforms.
+### 🎨 Customizable
 
-- **Reanimated**: Uses `react-native-reanimated` for smooth, native performance.
+Styled with **NativeWind** (TailwindCSS for React Native), Moe UI gives you complete control over the look and feel of your app. Whether you need to tweak a color, adjust spacing, or implement a completely new theme, you can do it directly with utility classes.
 
-- **Icons**: Uses a wrapper component in combination with Lucide icons to avoid wrapping every imported icon individually.
+## Adapting for React Native
 
-- **Programmatic control**: Some components, such as `DropdownMenu`, can't be controlled with `open` or `onOpenChange` props. Instead, you use a `ref` to manage open and close behavior.
+While Moe UI aims to replicate the **shadcn/ui** experience, distinct differences exist due to the nature of mobile development:
 
-Moe UI aims to stay true to the spirit of shadcn/ui while adapting it to the unique constraints of mobile/universal development.
+- **NativeWind**: The styling engine that brings TailwindCSS to React Native.
+- **RN Primitives**: The foundation for accessible, unstyled components.
+- **Portals**: Native modals and menus require `PortalHost` to render correctly above other content.
+- **No Cascading Styles**: React Native styles do not cascade. Text styles must be applied directly to `Text` components.
+- **Reanimated**: Used for high-performance, native-driven animations.
+
+Moe UI handles these constraints for you, providing a familiar API that feels like home for React developers.
