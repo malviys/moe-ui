@@ -1,0 +1,9 @@
+{
+    "title": "LLM",
+    "icon": "Puzzle",
+    "defaultOpen": false,
+    "pages": [
+        "llm-txt",
+        "mcp"
+    ]
+}

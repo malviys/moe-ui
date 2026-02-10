@@ -1,6 +1,7 @@
 {
     "title": "Blocks",
-    "defaultOpen": true,
+    "icon": "LayoutGrid",
+    "defaultOpen": false,
     "pages": [
         "index"
     ]

@@ -1,17 +1,8 @@
 {
     "pages": [
-        "---Getting Started---",
-        "index",
-        "installation",
-        "cli",
-        "registry",
-        "changelog",
-        "---Components---",
+        "getting-started",
         "components",
-        "---Blocks---",
         "blocks",
-        "---LLM---",
-        "llm-txt",
-        "mcp"
+        "llm"
     ]
 }
