@@ -7,6 +7,22 @@
   display: none !important;
 }
 
+/* Sidebar spacing customization */
+[data-sidebar] > div > div {
+  @apply space-y-1;
+}
+
+/* Section separator spacing */
+[data-sidebar] [role="separator"] {
+  @apply my-4;
+}
+
+/* Folder items spacing */
+[data-sidebar] [data-folder] {
+  @apply mt-1;
+}
+
+
 /* Grid background pattern for hero section */
 .bg-grid-print {
   background-image:
@@ -38,17 +54,3 @@
   @apply bg-blue-500/10 text-blue-600 border-blue-500/20;
 }
 
-/* Sidebar spacing customization */
-[data-sidebar] > div > div {
-  @apply space-y-1;
-}
-
-/* Section separator spacing */
-[data-sidebar] [role="separator"] {
-  @apply my-4;
-}
-
-/* Folder items spacing */
-[data-sidebar] [data-folder] {
-  @apply mt-1;
-}
