@@ -5,6 +5,8 @@ description: A modal dialog that interrupts the user with important content and 
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="alert-dialog-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,16 +19,16 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/alert-dialog
 ```
 
-### Copy/paste the following code to `~/components/ui/alert-dialog.tsx`
+### Copy/paste the following code to `@/components/ui/alert-dialog.tsx`
 
 ```tsx
 import * as AlertDialogPrimitive from "@rn-primitives/alert-dialog";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { cn } from "~/lib/utils";
-import { buttonTextVariants, buttonVariants } from "~/components/ui/button";
-import { TextClassContext } from "~/components/ui/text";
+import { cn } from "@/lib/utils";
+import { buttonTextVariants, buttonVariants } from "@/components/ui/button";
+import { TextClassContext } from "@/components/ui/text";
 
 const AlertDialog = AlertDialogPrimitive.Root;
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
@@ -193,8 +195,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+} from "@moe/registry/ui/alert-dialog";
+import { Button } from "@moe/registry/ui/button";
 
 export function AlertDialogDemo() {
   return (

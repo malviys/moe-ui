@@ -5,6 +5,8 @@ description: A set of checkable buttons where only one can be checked at a time.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="radio-group-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,13 +19,13 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/radio-group
 ```
 
-### Copy/paste the following code to `~/components/ui/radio-group.tsx`
+### Copy/paste the following code to `@/components/ui/radio-group.tsx`
 
 ```tsx
 import * as RadioGroupPrimitive from "@rn-primitives/radio-group";
 import * as React from "react";
 import { View } from "react-native";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -70,8 +72,9 @@ export { RadioGroup, RadioGroupItem };
 ## Usage
 
 ```tsx
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@moe/registry/ui/radio-group";
+import { Label } from "@moe/registry/ui/label";
+import { View } from "react-native";
 
 export function RadioGroupDemo() {
   return (

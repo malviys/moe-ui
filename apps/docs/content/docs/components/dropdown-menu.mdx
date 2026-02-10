@@ -5,6 +5,8 @@ description: Displays a menu to the user with a list of actions.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="dropdown-menu-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,17 +19,17 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/dropdown-menu
 ```
 
-### Copy/paste the following code to `~/components/ui/dropdown-menu.tsx`
+### Copy/paste the following code to `@/components/ui/dropdown-menu.tsx`
 
 ```tsx
 import * as DropdownMenuPrimitive from "@rn-primitives/dropdown-menu";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Check } from "~/lib/icons/Check";
-import { ChevronRight } from "~/lib/icons/ChevronRight";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
+import { Check } from "@/lib/icons/Check";
+import { ChevronRight } from "@/lib/icons/ChevronRight";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
@@ -247,30 +249,4 @@ export {
 ## Usage
 
 ```tsx
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-
-export function DropdownMenuDemo() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Logout</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 ```

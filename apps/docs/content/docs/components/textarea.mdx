@@ -5,18 +5,20 @@ description: Displays a form textarea or a component that looks like a textarea.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="textarea-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add textarea ```</Tab>
   <Tab value="Manual">
 
-### Copy/paste the following code to `~/components/ui/textarea.tsx`
+### Copy/paste the following code to `@/components/ui/textarea.tsx`
 
 ```tsx
 import * as React from "react";
 import { TextInput, type TextInputProps } from "react-native";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Textarea = React.forwardRef<
   React.ElementRef<typeof TextInput>,
@@ -61,7 +63,7 @@ export { Textarea };
 ## Usage
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@moe/registry/ui/textarea";
 
 export function TextareaDemo() {
   return <Textarea placeholder="Type your message here." />;

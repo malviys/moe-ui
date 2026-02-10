@@ -5,16 +5,18 @@ description: Use to show a placeholder while content is loading.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="skeleton-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add skeleton ```</Tab>
   <Tab value="Manual">
 
-### Copy/paste the following code to `~/components/ui/skeleton.tsx`
+### Copy/paste the following code to `@/components/ui/skeleton.tsx`
 
 ```tsx
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 import { View } from "react-native";
 
 function Skeleton({
@@ -38,7 +40,8 @@ export { Skeleton };
 ## Usage
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@moe/registry/ui/skeleton";
+import { View } from "react-native";
 
 export function SkeletonDemo() {
   return (
@@ -52,3 +55,4 @@ export function SkeletonDemo() {
   );
 }
 ```
+

@@ -5,6 +5,8 @@ description: A window overlaid on the primary window, rendering the content unde
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="dialog-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,15 +19,15 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/dialog
 ```
 
-### Copy/paste the following code to `~/components/ui/dialog.tsx`
+### Copy/paste the following code to `@/components/ui/dialog.tsx`
 
 ```tsx
 import * as DialogPrimitive from "@rn-primitives/dialog";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { X } from "~/lib/icons/X";
-import { cn } from "~/lib/utils";
+import { X } from "@/lib/icons/X";
+import { cn } from "@/lib/utils";
 
 const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
@@ -162,37 +164,6 @@ export {
 ## Usage
 
 ```tsx
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-
-export function DialogDemo() {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Open Dialog</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button>Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
 ```
 
 ## Props

@@ -17,17 +17,17 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/menubar
 ```
 
-### Copy/paste the following code to `~/components/ui/menubar.tsx`
+### Copy/paste the following code to `@/components/ui/menubar.tsx`
 
 ```tsx
 import * as MenubarPrimitive from "@rn-primitives/menubar";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Check } from "~/lib/icons/Check";
-import { ChevronRight } from "~/lib/icons/ChevronRight";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
+import { Check } from "@/lib/icons/Check";
+import { ChevronRight } from "@/lib/icons/ChevronRight";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
 
 const MenubarMenu = MenubarPrimitive.Menu;
 const MenubarGroup = MenubarPrimitive.Group;
@@ -286,7 +286,7 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
-} from "@/components/ui/menubar";
+} from "@moe/registry/ui/menubar";
 
 export function MenubarDemo() {
   return (

@@ -5,6 +5,8 @@ description: A set of layered sections of content that display one panel at a ti
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="tabs-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,13 +19,13 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/tabs
 ```
 
-### Copy/paste the following code to `~/components/ui/tabs.tsx`
+### Copy/paste the following code to `@/components/ui/tabs.tsx`
 
 ```tsx
 import * as TabsPrimitive from "@rn-primitives/tabs";
 import * as React from "react";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
 
 const Tabs = TabsPrimitive.Root;
 
@@ -94,24 +96,6 @@ export { Tabs, TabsContent, TabsList, TabsTrigger };
 ## Usage
 
 ```tsx
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-export function TabsDemo() {
-  return (
-    <Tabs defaultValue="account">
-      <TabsList>
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
-      </TabsList>
-      <TabsContent value="account">
-        <Text>Make changes to your account here.</Text>
-      </TabsContent>
-      <TabsContent value="password">
-        <Text>Change your password here.</Text>
-      </TabsContent>
-    </Tabs>
-  );
-}
 ```
 
 ## Props

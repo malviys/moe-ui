@@ -5,6 +5,8 @@ description: A set of two-state buttons that can be toggled on or off.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="toggle-group-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,16 +19,16 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/toggle-group
 ```
 
-### Copy/paste the following code to `~/components/ui/toggle-group.tsx`
+### Copy/paste the following code to `@/components/ui/toggle-group.tsx`
 
 ```tsx
 import * as ToggleGroupPrimitive from "@rn-primitives/toggle-group";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { View } from "react-native";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
-import { toggleTextVariants, toggleVariants } from "~/components/ui/toggle";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
+import { toggleTextVariants, toggleVariants } from "@/components/ui/toggle";
 
 const ToggleGroupContext = React.createContext<VariantProps<
   typeof toggleVariants
@@ -109,20 +111,20 @@ export { ToggleGroup, ToggleGroupItem };
 ## Usage
 
 ```tsx
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@moe/registry/ui/toggle-group";
 import { Bold, Italic, Underline } from "lucide-react-native";
 
 export function ToggleGroupDemo() {
   return (
     <ToggleGroup type="multiple">
       <ToggleGroupItem value="bold" aria-label="Toggle bold">
-        <Bold className="h-4 w-4" />
+        <Bold className="h-4 w-4 text-foreground" />
       </ToggleGroupItem>
       <ToggleGroupItem value="italic" aria-label="Toggle italic">
-        <Italic className="h-4 w-4" />
+        <Italic className="h-4 w-4 text-foreground" />
       </ToggleGroupItem>
       <ToggleGroupItem value="underline" aria-label="Toggle underline">
-        <Underline className="h-4 w-4" />
+        <Underline className="h-4 w-4 text-foreground" />
       </ToggleGroupItem>
     </ToggleGroup>
   );

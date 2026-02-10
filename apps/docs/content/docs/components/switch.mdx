@@ -5,6 +5,8 @@ description: A control that allows the user to toggle between checked and not ch
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="switch-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,7 +19,7 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/switch
 ```
 
-### Copy/paste the following code to `~/components/ui/switch.tsx`
+### Copy/paste the following code to `@/components/ui/switch.tsx`
 
 ```tsx
 import * as SwitchPrimitive from "@rn-primitives/switch";
@@ -29,8 +31,8 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useColorScheme } from "~/lib/useColorScheme";
-import { cn } from "~/lib/utils";
+import { useColorScheme } from "@/lib/useColorScheme";
+import { cn } from "@/lib/utils";
 
 const RGB_COLORS = {
   light: {
@@ -101,8 +103,10 @@ export { Switch };
 ## Usage
 
 ```tsx
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
+import { Switch } from "@moe/registry/ui/switch";
+import { Label } from "@moe/registry/ui/label";
+import { View } from "react-native";
+import * as React from "react";
 
 export function SwitchDemo() {
   const [enabled, setEnabled] = React.useState(false);

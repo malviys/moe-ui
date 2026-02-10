@@ -17,17 +17,17 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/context-menu
 ```
 
-### Copy/paste the following code to `~/components/ui/context-menu.tsx`
+### Copy/paste the following code to `@/components/ui/context-menu.tsx`
 
 ```tsx
 import * as ContextMenuPrimitive from "@rn-primitives/context-menu";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Check } from "~/lib/icons/Check";
-import { ChevronRight } from "~/lib/icons/ChevronRight";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
+import { Check } from "@/lib/icons/Check";
+import { ChevronRight } from "@/lib/icons/ChevronRight";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
 
 const ContextMenu = ContextMenuPrimitive.Root;
 const ContextMenuTrigger = ContextMenuPrimitive.Trigger;
@@ -248,7 +248,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@moe/registry/ui/context-menu";
 
 export function ContextMenuDemo() {
   return (

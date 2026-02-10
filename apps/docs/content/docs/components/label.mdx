@@ -5,6 +5,8 @@ description: Renders an accessible label associated with controls.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="label-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,12 +19,12 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/label
 ```
 
-### Copy/paste the following code to `~/components/ui/label.tsx`
+### Copy/paste the following code to `@/components/ui/label.tsx`
 
 ```tsx
 import * as LabelPrimitive from "@rn-primitives/label";
 import * as React from "react";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Text>,
@@ -61,12 +63,13 @@ export { Label };
 ## Usage
 
 ```tsx
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Label } from "@moe/registry/ui/label";
+import { Input } from "@moe/registry/ui/input";
+import { View } from "react-native";
 
 export function LabelDemo() {
   return (
-    <View>
+    <View className="w-full max-w-sm items-start gap-1.5">
       <Label nativeID="email">Email</Label>
       <Input aria-labelledby="email" placeholder="Enter email" />
     </View>

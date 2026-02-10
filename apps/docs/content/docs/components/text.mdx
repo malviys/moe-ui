@@ -5,19 +5,21 @@ description: A universal text component with consistent styling.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="text-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add text ```</Tab>
   <Tab value="Manual">
 
-### Copy/paste the following code to `~/components/ui/text.tsx`
+### Copy/paste the following code to `@/components/ui/text.tsx`
 
 ```tsx
 import * as Slot from "@rn-primitives/slot";
 import * as React from "react";
 import { Text as RNText } from "react-native";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
@@ -52,7 +54,7 @@ export { Text, TextClassContext };
 ## Usage
 
 ```tsx
-import { Text } from "@/components/ui/text";
+import { Text } from "@moe/registry/ui/text";
 
 export function TextDemo() {
   return <Text>Hello World</Text>;

@@ -5,6 +5,8 @@ description: A two-state button that can be either on or off.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="toggle-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,14 +19,14 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/toggle
 ```
 
-### Copy/paste the following code to `~/components/ui/toggle.tsx`
+### Copy/paste the following code to `@/components/ui/toggle.tsx`
 
 ```tsx
 import * as TogglePrimitive from "@rn-primitives/toggle";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
 
 const toggleVariants = cva(
   "web:group web:inline-flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:hover:bg-muted active:bg-muted web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
@@ -105,13 +107,13 @@ export { Toggle, toggleTextVariants, toggleVariants };
 ## Usage
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@moe/registry/ui/toggle";
 import { Bold } from "lucide-react-native";
 
 export function ToggleDemo() {
   return (
     <Toggle aria-label="Toggle bold">
-      <Bold className="h-4 w-4" />
+      <Bold className="h-4 w-4 text-foreground" />
     </Toggle>
   );
 }

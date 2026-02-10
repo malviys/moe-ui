@@ -5,18 +5,20 @@ description: Displays a form input field or a component that looks like an input
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="input-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add input ```</Tab>
   <Tab value="Manual">
 
-### Copy/paste the following code to `~/components/ui/input.tsx`
+### Copy/paste the following code to `@/components/ui/input.tsx`
 
 ```tsx
 import * as React from "react";
 import { TextInput, type TextInputProps } from "react-native";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Input = React.forwardRef<
   React.ElementRef<typeof TextInput>,
@@ -47,7 +49,7 @@ export { Input };
 ## Usage
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@moe/registry/ui/input";
 
 export function InputDemo() {
   return <Input placeholder="Email" />;

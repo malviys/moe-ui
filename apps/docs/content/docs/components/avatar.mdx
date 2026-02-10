@@ -5,6 +5,8 @@ description: An image element with a fallback for representing the user.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="avatar-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,12 +19,12 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/avatar
 ```
 
-### Copy/paste the following code to `~/components/ui/avatar.tsx`
+### Copy/paste the following code to `@/components/ui/avatar.tsx`
 
 ```tsx
 import * as AvatarPrimitive from "@rn-primitives/avatar";
 import * as React from "react";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -75,7 +77,7 @@ export { Avatar, AvatarFallback, AvatarImage };
 ## Usage
 
 ```tsx
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@moe/registry/ui/avatar";
 
 export function AvatarDemo() {
   return (

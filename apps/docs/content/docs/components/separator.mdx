@@ -5,6 +5,8 @@ description: Visually or semantically separates content.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="separator-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,12 +19,12 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/separator
 ```
 
-### Copy/paste the following code to `~/components/ui/separator.tsx`
+### Copy/paste the following code to `@/components/ui/separator.tsx`
 
 ```tsx
 import * as SeparatorPrimitive from "@rn-primitives/separator";
 import * as React from "react";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
@@ -56,13 +58,15 @@ export { Separator };
 ## Usage
 
 ```tsx
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@moe/registry/ui/separator";
+import { View } from "react-native";
+import { Text } from "@moe/registry/ui/text";
 
 export function SeparatorDemo() {
   return (
-    <View>
+    <View className="w-full max-w-sm">
       <Text>Above</Text>
-      <Separator />
+      <Separator className="my-4" />
       <Text>Below</Text>
     </View>
   );

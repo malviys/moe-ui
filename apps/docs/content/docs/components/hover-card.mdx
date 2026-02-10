@@ -5,6 +5,8 @@ description: For sighted users to preview content available behind a link.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="hover-card-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,15 +19,15 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/hover-card
 ```
 
-### Copy/paste the following code to `~/components/ui/hover-card.tsx`
+### Copy/paste the following code to `@/components/ui/hover-card.tsx`
 
 ```tsx
 import * as HoverCardPrimitive from "@rn-primitives/hover-card";
 import * as React from "react";
 import { Platform, StyleSheet } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
 
 const HoverCard = HoverCardPrimitive.Root;
 const HoverCardTrigger = HoverCardPrimitive.Trigger;
@@ -69,20 +71,4 @@ export { HoverCard, HoverCardContent, HoverCardTrigger };
 ## Usage
 
 ```tsx
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-
-export function HoverCardDemo() {
-  return (
-    <HoverCard>
-      <HoverCardTrigger>Hover me</HoverCardTrigger>
-      <HoverCardContent>
-        <Text>Content visible on hover/long-press</Text>
-      </HoverCardContent>
-    </HoverCard>
-  );
-}
 ```

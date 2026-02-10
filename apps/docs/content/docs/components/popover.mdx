@@ -5,6 +5,8 @@ description: Displays rich content in a portal, triggered by a button.
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
+<ComponentPreview name="popover-preview" />
+
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
@@ -17,15 +19,15 @@ import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 npx expo install @rn-primitives/popover
 ```
 
-### Copy/paste the following code to `~/components/ui/popover.tsx`
+### Copy/paste the following code to `@/components/ui/popover.tsx`
 
 ```tsx
 import * as PopoverPrimitive from "@rn-primitives/popover";
 import * as React from "react";
 import { Platform, StyleSheet } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
+import { cn } from "@/lib/utils";
+import { TextClassContext } from "@/components/ui/text";
 
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
@@ -68,23 +70,4 @@ export { Popover, PopoverContent, PopoverTrigger };
 ## Usage
 
 ```tsx
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-
-export function PopoverDemo() {
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Open popover</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <Text>Popover content here</Text>
-      </PopoverContent>
-    </Popover>
-  );
-}
 ```
