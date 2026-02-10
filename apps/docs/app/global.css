@@ -2,6 +2,11 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+/* Hide the 'Docs' heading/toggle in the sidebar */
+.fd-sidebar :is(button[aria-haspopup="menu"], .fd-sidebar-title, [data-sidebar] > div:first-child) {
+  display: none !important;
+}
+
 /* Grid background pattern for hero section */
 .bg-grid-print {
   background-image:
