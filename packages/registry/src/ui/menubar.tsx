@@ -1,35 +1,11 @@
----
-title: Menubar
-description: A visually persistent menu common in desktop applications.
----
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-
-<ComponentPreview name="menubar-preview" />
-
-## Installation
-
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add menubar ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
-```bash
-npx expo install @rn-primitives/menubar
-```
-
-### Copy/paste the following code to `@/components/ui/menubar.tsx`
-
-```tsx
 import * as MenubarPrimitive from "@rn-primitives/menubar";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Check } from "@/lib/icons/Check";
-import { ChevronRight } from "@/lib/icons/ChevronRight";
-import { cn } from "@/lib/utils";
-import { TextClassContext } from "@/components/ui/text";
+import { Check } from "../lib/icons/Check";
+import { ChevronRight } from "../lib/icons/ChevronRight";
+import { cn } from "../lib/utils";
+import { TextClassContext } from "./text";
 
 const MenubarMenu = MenubarPrimitive.Menu;
 const MenubarGroup = MenubarPrimitive.Group;
@@ -62,7 +38,7 @@ const MenubarTrigger = React.forwardRef<
     <MenubarPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-row web:cursor-default web:select-none items-center rounded-sm px-3 py-1.5 text-sm native:h-10 native:px-5 native:py-0 font-medium web:outline-none web:focus:bg-accent web:focus:text-accent-foreground active:bg-accent",
+        "flex flex-row web:cursor-default web:select-none items-center rounded-sm px-3 py-1.5 text-sm native:px-5 native:py-0 font-medium web:outline-none web:focus:bg-accent web:focus:text-accent-foreground active:bg-accent",
         value === itemValue && "bg-accent",
         className,
       )}
@@ -274,33 +250,3 @@ export {
   MenubarSubTrigger,
   MenubarTrigger,
 };
-```
-
-  </Tab>
-</Tabs>
-
-## Usage
-
-```tsx
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarTrigger,
-} from "@moe/registry/ui/menubar";
-
-export function MenubarDemo() {
-  return (
-    <Menubar>
-      <MenubarMenu>
-        <MenubarTrigger>File</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>New Tab</MenubarItem>
-          <MenubarItem>New Window</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-    </Menubar>
-  );
-}
-```
