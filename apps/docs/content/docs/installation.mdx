@@ -4,61 +4,121 @@ description: Getting Started with Moe UI
 icon: Terminal
 ---
 
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-## Create project
+## Manual Installation
 
-Run `init` to start a new project, or follow the manual steps to set up an existing one.
+Since we don't have a CLI yet, you need to manually install the dependencies and configure your project.
 
-<Tabs items={["npm", "bun", "pnpm", "yarn"]}>
-  <Tab value="npm">```bash npx @moe/cli@latest init ```</Tab>
-  <Tab value="bun">```bash bunx --bun @moe/cli@latest init ```</Tab>
-  <Tab value="pnpm">```bash pnpm dlx @moe/cli@latest init ```</Tab>
-  <Tab value="yarn">```bash npx @moe/cli@latest init ```</Tab>
+### 1. Install Dependencies
+
+Install the required packages for NativeWind, Reanimated, and utility libraries.
+
+<Tabs items={["npm", "pnpm", "bun", "yarn"]}>
+  <Tab value="npm">
+    ```bash npm install nativewind tailwindcss react-native-reanimated
+    react-native-safe-area-context clsx tailwind-merge lucide-react-native ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash pnpm add nativewind tailwindcss react-native-reanimated
+    react-native-safe-area-context clsx tailwind-merge lucide-react-native ```
+  </Tab>
+  <Tab value="bun">
+    ```bash bun add nativewind tailwindcss react-native-reanimated
+    react-native-safe-area-context clsx tailwind-merge lucide-react-native ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash yarn add nativewind tailwindcss react-native-reanimated
+    react-native-safe-area-context clsx tailwind-merge lucide-react-native ```
+  </Tab>
 </Tabs>
 
-This creates a new project in the current directory.
+### 2. Configure NativeWind
 
-### Package Manager Options
+Follow the [NativeWind v4 documentation](https://www.nativewind.dev/v4/getting-started/expo) to set up Tailwind CSS in your Expo project.
 
-You can specify which package manager to use for installing dependencies:
+Typically, this involves:
 
-```bash
-npx @moe/cli@latest init --pm bun
-npx @moe/cli@latest init --pm npm
-npx @moe/cli@latest init --pm pnpm
-```
+1. Running `npx tailwindcss init` to create `tailwind.config.js`.
+2. Configuring your `babel.config.js` to include the `nativewind/babel` plugin.
+3. Adding the `nativewind-env.d.ts` file.
 
-The CLI will use your specified package manager for all dependency installations.
+### 3. Add Utilities
 
-## Add components
+Create a `lib/utils.ts` file to handle class merging. This is used by all components.
 
-You can now start adding components to your app.
+```ts title="lib/utils.ts"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-<Tabs items={["npm", "bun", "pnpm", "yarn"]}>
-  <Tab value="npm">```bash npx @moe/cli@latest add button ```</Tab>
-  <Tab value="bun">```bash bunx --bun @moe/cli@latest add button ```</Tab>
-  <Tab value="pnpm">```bash pnpm dlx @moe/cli@latest add button ```</Tab>
-  <Tab value="yarn">```bash npx @moe/cli@latest add button ```</Tab>
-</Tabs>
-
-You can also specify the package manager when adding components:
-
-```bash
-npx @moe/cli@latest add button --pm bun
-```
-
-The command above will add the `Button` component to your project. You can then import it like this:
-
-```tsx title="index.tsx"
-import { Button } from "@moe/registry/ui/button";
-import { Text } from "@moe/registry/ui/text";
-
-export default function Screen() {
-  return (
-    <Button>
-      <Text>Click me</Text>
-    </Button>
-  );
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
 ```
+
+### 4. Configure Theme
+
+Create a `global.css` file to define your CSS variables for the theme. NativeWind v4 uses these variables to style your components.
+
+```css title="global.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+```
+
+Make sure to import this file in your root layout file (e.g., `app/_layout.tsx`).
+
+```tsx
+import "../global.css";
+```
+
+## That's it!
+
+You can now start copying compoments from the documentation to your project.
