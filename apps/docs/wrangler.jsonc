@@ -10,14 +10,4 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  "routes": [
-    {
-      "zone_name": "malviys.com",
-      "pattern": "www.malviys.com/moe-ui/*"
-    },
-    {
-      "zone_name": "malviys.com",
-      "pattern": "malviys.com/moe-ui/*"
-    },
-  ]
 }
