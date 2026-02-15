@@ -5,7 +5,7 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
-  output: "export",
+  // output: "export",
   reactStrictMode: true,
   // TODO: Remove this once the types are fixed
   typescript: {
@@ -17,6 +17,14 @@ const config = {
     "react-native-web",
     "lucide-react-native",
   ],
+  async rewrites() {
+    return [
+      {
+        source: '/docs/:path*.mdx',
+        destination: '/llms.mdx/docs/:path*',
+      },
+    ];
+  },
 };
 
 export default withMDX(withExpo(config));
