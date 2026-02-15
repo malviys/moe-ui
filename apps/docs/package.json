@@ -18,6 +18,7 @@
     "@expo/next-adapter": "^6.0.0",
     "@moe/registry": "workspace:*",
     "@opennextjs/cloudflare": "1.16.3",
+    "@orama/orama": "^3.1.18",
     "cookies-next": "6.1.1",
     "expo": "^54.0.33",
     "fumadocs-core": "16.5.1",
