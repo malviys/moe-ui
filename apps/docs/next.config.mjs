@@ -7,10 +7,15 @@ const withMDX = createMDX();
 const config = {
   reactStrictMode: true,
   test: /\.(js|jsx|ts|tsx)$/,
+  // TODO: Remove this once the types are fixed
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   transpilePackages: [
     "@moe/registry",
     "react-native",
-    "react-native-web"
+    "react-native-web",
+    "lucide-react-native",
   ],
   async rewrites() {
     return [

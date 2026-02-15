@@ -14,6 +14,7 @@
     "types:check": "turbo types:check",
     "dev:docs": "turbo dev --filter=docs",
     "build:docs": "turbo build --filter=docs",
+    "preview:docs": "turbo preview --filter=docs",
     "deploy:docs": "turbo deploy --filter=docs"
   },
   "peerDependencies": {},
