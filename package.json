@@ -1,16 +1,24 @@
 {
   "name": "moe-ui",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev:docs": "cd apps/docs && bun run dev",
-    "build:docs": "cd apps/docs && bun run build",
-    "deploy:docs": "cd apps/docs && bun run deploy"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "types:check": "turbo types:check",
+    "dev:docs": "turbo dev --filter=docs",
+    "build:docs": "turbo build --filter=docs",
+    "deploy:docs": "turbo deploy --filter=docs"
   },
   "peerDependencies": {},
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "turbo": "^2.8.9"
+  }
 }

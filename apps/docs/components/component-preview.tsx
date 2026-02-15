@@ -3,6 +3,7 @@
 import { cn } from "@/lib/cn";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import * as React from "react";
+import ButtonPreview from "./preview/button-preview";
 // import { examples, code } from "@/registry";
 
 interface ComponentPreviewProps {
@@ -45,6 +46,7 @@ export function ComponentPreview({
               fallback={<div className="text-sm text-muted">Loading...</div>}
             >
               {/* <Component /> */}
+              <ButtonPreview />
             </React.Suspense>
           </div>
         </Tab>
