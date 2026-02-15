@@ -6,7 +6,6 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  test: /\.(js|jsx|ts|tsx)$/,
   // TODO: Remove this once the types are fixed
   typescript: {
     ignoreBuildErrors: true,
