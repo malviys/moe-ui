@@ -3,7 +3,7 @@
 import { cn } from "@/lib/cn";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import * as React from "react";
-import ButtonPreview from "./preview/button-preview";
+import ButtonPreview from "@/components/preview/button-preview";
 // import { examples, code } from "@/registry";
 
 interface ComponentPreviewProps {

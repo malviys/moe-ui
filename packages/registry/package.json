@@ -4,7 +4,7 @@
     "private": true,
     "main": "src/index.ts",
     "exports": {
-        "./ui/*": "./src/ui/*.tsx",
+        "./components/ui/*": "./src/components/ui/*.tsx",
         "./lib/*": "./src/lib/*.ts",
         "./lib/icons/*": "./src/lib/icons/*.tsx"
     },

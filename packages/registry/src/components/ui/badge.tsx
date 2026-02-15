@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { View } from "react-native";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { TextClassContext } from "./text";
 
 const badgeVariants = cva(

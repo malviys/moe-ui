@@ -2,7 +2,7 @@ import * as ToggleGroupPrimitive from "@rn-primitives/toggle-group";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { View } from "react-native";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { TextClassContext } from "./text";
 import { toggleTextVariants, toggleVariants } from "./toggle";
 

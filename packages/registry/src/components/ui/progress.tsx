@@ -1,7 +1,7 @@
 import * as ProgressPrimitive from "@rn-primitives/progress";
 import * as React from "react";
 import { View } from "react-native";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,

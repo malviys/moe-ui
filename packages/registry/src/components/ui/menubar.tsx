@@ -2,9 +2,9 @@ import * as MenubarPrimitive from "@rn-primitives/menubar";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Check } from "../lib/icons/Check";
-import { ChevronRight } from "../lib/icons/ChevronRight";
-import { cn } from "../lib/utils";
+import { Check } from "../../lib/icons/Check";
+import { ChevronRight } from "../../lib/icons/ChevronRight";
+import { cn } from "../../lib/utils";
 import { TextClassContext } from "./text";
 
 const MenubarMenu = MenubarPrimitive.Menu;

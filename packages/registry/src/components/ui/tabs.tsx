@@ -1,6 +1,6 @@
 import * as TabsPrimitive from "@rn-primitives/tabs";
 import * as React from "react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { TextClassContext } from "./text";
 
 const Tabs = TabsPrimitive.Root;
