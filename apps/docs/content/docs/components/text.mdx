@@ -1,53 +1,58 @@
 ---
 title: Text
-description: A universal text component with consistent styling.
+description: A component for displaying text.
 ---
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { TextPreview } from "@/components/preview/text";
+import { TypographyPreview } from "@/components/preview/text/typography";
+import { ComponentPreview } from "@/components/component-preview";
 
-<ComponentPreview name="text-preview" />
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <TextPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/text/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add text ```</Tab>
   <Tab value="Manual">
-
-### Copy/paste the following code to `@/components/ui/text.tsx`
-
-```tsx
-import * as Slot from "@rn-primitives/slot";
-import * as React from "react";
-import { Text as RNText } from "react-native";
-import { cn } from "@/lib/utils";
-
-const TextClassContext = React.createContext<string | undefined>(undefined);
-
-const Text = React.forwardRef<
-  React.ElementRef<typeof RNText>,
-  React.ComponentPropsWithoutRef<typeof RNText> & {
-    asChild?: boolean;
+<Steps>
+<Step>
+  ### Install the following dependency:
+  ```bash
+  npx expo install @rn-primitives/slot
+  ```
+</Step>
+<Step>
+  ### Copy/paste the following code to `@/components/ui/text.tsx`
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "./node_modules/@moe/registry/src/components/ui/text.tsx",
+    "codeblock": {
+    "lang": "tsx"
   }
->(({ className, asChild = false, ...props }, ref) => {
-  const textClass = React.useContext(TextClassContext);
-  const Component = asChild ? Slot.Text : RNText;
-  return (
-    <Component
-      className={cn(
-        "text-base text-foreground web:select-text",
-        textClass,
-        className,
-      )}
-      ref={ref}
-      {...props}
-    />
-  );
-});
-Text.displayName = "Text";
-
-export { Text, TextClassContext };
+}
 ```
-
+</Step>
+</Steps>
   </Tab>
 </Tabs>
 
@@ -56,18 +61,29 @@ export { Text, TextClassContext };
 ```tsx
 import { Text } from "@moe/registry/ui/text";
 
-export function TextDemo() {
-  return <Text>Hello World</Text>;
-}
+return <Text>Hello World</Text>;
 ```
 
-## Variants
+## Typography
 
-```tsx
-<Text className="text-xl font-bold">Large Bold</Text>
-<Text className="text-muted-foreground">Muted text</Text>
-<Text className="text-destructive">Error text</Text>
-```
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <TypographyPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/text/typography.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## Props
 
