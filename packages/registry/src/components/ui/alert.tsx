@@ -1,104 +1,85 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { Icon } from "./icon";
+import { Text, TextClassContext } from "./text";
+import { cn } from "../../lib/utils";
 import type { LucideIcon } from "lucide-react-native";
 import * as React from "react";
-import { View } from "react-native";
-import { cn } from "../../lib/utils";
-import { Text, TextClassContext } from "./text";
+import { View, type ViewProps } from "react-native";
 
-const alertVariants = cva(
-  "relative w-full rounded-lg border border-border p-4 shadow shadow-foreground/5",
-  {
-    variants: {
-      variant: {
-        default: "bg-background",
-        destructive: "border-destructive/50 dark:border-destructive",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-);
-
-const Alert = React.forwardRef<
-  React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View> &
-    VariantProps<typeof alertVariants> & {
-      icon?: LucideIcon;
-      iconSize?: number;
-      iconClassName?: string;
-    }
->(
-  (
-    {
-      className,
-      variant,
-      children,
-      icon: Icon,
-      iconSize = 16,
-      iconClassName,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
+function Alert({
+  className,
+  variant,
+  children,
+  icon,
+  iconClassName,
+  ...props
+}: ViewProps &
+  React.RefAttributes<View> & {
+    icon: LucideIcon;
+    variant?: "default" | "destructive";
+    iconClassName?: string;
+  }) {
+  return (
+    <TextClassContext.Provider
+      value={cn(
+        "text-sm text-foreground",
+        variant === "destructive" && "text-destructive",
+        className,
+      )}
+    >
       <View
-        ref={ref}
         role="alert"
-        className={cn(alertVariants({ variant }), !!Icon && "pl-12", className)}
+        className={cn(
+          "bg-card border-border relative w-full rounded-lg border px-4 pb-2 pt-3.5",
+          className,
+        )}
         {...props}
       >
-        {Icon && (
-          <View className="absolute left-4 top-4 -translate-y-0.5">
-            <Icon
-              size={iconSize}
-              className={cn(
-                "text-foreground",
-                variant === "destructive" && "text-destructive",
-                iconClassName,
-              )}
-            />
-          </View>
-        )}
-        <TextClassContext.Provider
-          value={cn(
-            "text-foreground",
-            variant === "destructive" && "text-destructive",
-          )}
-        >
-          {children}
-        </TextClassContext.Provider>
+        <View className="absolute left-3.5 top-3">
+          <Icon
+            as={icon}
+            className={cn(
+              "size-4",
+              variant === "destructive" && "text-destructive",
+              iconClassName,
+            )}
+          />
+        </View>
+        {children}
       </View>
-    );
-  },
-);
-Alert.displayName = "Alert";
+    </TextClassContext.Provider>
+  );
+}
 
-const AlertTitle = React.forwardRef<
-  React.ElementRef<typeof Text>,
-  React.ComponentPropsWithoutRef<typeof Text>
->(({ className, ...props }, ref) => (
-  <Text
-    ref={ref}
-    className={cn(
-      "mb-1 font-medium text-base leading-none tracking-tight",
-      className,
-    )}
-    {...props}
-  />
-));
-AlertTitle.displayName = "AlertTitle";
+function AlertTitle({
+  className,
+  ...props
+}: React.ComponentProps<typeof Text> & React.RefAttributes<Text>) {
+  return (
+    <Text
+      className={cn(
+        "mb-1 ml-0.5 min-h-4 pl-6 font-medium leading-none tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-const AlertDescription = React.forwardRef<
-  React.ElementRef<typeof Text>,
-  React.ComponentPropsWithoutRef<typeof Text>
->(({ className, ...props }, ref) => (
-  <Text
-    ref={ref}
-    className={cn("text-sm leading-relaxed", className)}
-    {...props}
-  />
-));
-AlertDescription.displayName = "AlertDescription";
+function AlertDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof Text> & React.RefAttributes<Text>) {
+  const textClass = React.useContext(TextClassContext);
+  return (
+    <Text
+      className={cn(
+        "text-muted-foreground ml-0.5 pb-1.5 pl-6 text-sm leading-relaxed",
+        textClass?.includes("text-destructive") && "text-destructive/90",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
 export { Alert, AlertDescription, AlertTitle };

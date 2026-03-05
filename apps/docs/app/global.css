@@ -25,12 +25,14 @@
       --color-border: oklch(91.7% 0 0);
       --color-input: oklch(91.7% 0 0);
       --color-ring: oklch(69.4% 0 0);
-      --radius: 0.625rem;
       --color-chart-1: oklch(67.3% 0.173 35.6);
       --color-chart-2: oklch(58.4% 0.117 172.6);
       --color-chart-3: oklch(42.6% 0.075 218.9);
       --color-chart-4: oklch(77.9% 0.128 75.4);
       --color-chart-5: oklch(73.6% 0.17 55.3);
+
+      /* Radius */
+      --radius: 0.625rem;
     }
     @variant dark {
       --color-background: oklch(14.5% 0 0);
@@ -56,6 +58,9 @@
       --color-chart-3: oklch(68.7% 0.193 55.5);
       --color-chart-4: oklch(60.1% 0.189 302.7);
       --color-chart-5: oklch(61.8% 0.213 0.6);
+
+      /* Radius */
+      --radius: 0.625rem;
     }
   }
 }

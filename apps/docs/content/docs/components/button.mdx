@@ -4,111 +4,73 @@ description: Displays a button or a component that looks like a button.
 ---
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { ComponentPreview } from "@/components/component-preview";
+import { ButtonPreview } from "@/components/preview/button";
+import { ButtonDefaultVariantPreview } from "@/components/preview/button/default";
+import { ButtonDestructiveVariantPreview } from "@/components/preview/button/destructive";
+import { ButtonOutlineVariantPreview } from "@/components/preview/button/outline";
+import { ButtonSecondaryVariantPreview } from "@/components/preview/button/secondary";
+import { ButtonGhostVariantPreview } from "@/components/preview/button/ghost";
+import { ButtonLinkVariantPreview } from "@/components/preview/button/link";
+import { ButtonSizesPreview } from "@/components/preview/button/sizes";
 
-<ComponentPreview name="button-preview" />
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add button ```</Tab>
   <Tab value="Manual">
-
-### Copy/paste the following code to `@/components/ui/button.tsx`
-
-```tsx
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
-import { Pressable } from "react-native";
-import { cn } from "@/lib/utils";
-import { TextClassContext } from "@/components/ui/text";
-
-const buttonVariants = cva(
-  "group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+<Steps>
+<Step>
+  ### Install the following dependencies
+  ```bash
+  npx expo install @rn-primitives/slot
+  ```
+</Step>
+<Step>
+  ### Copy/paste the following code to `@/components/ui/text.tsx`
+  ```json doc-gen:file
   {
-    variants: {
-      variant: {
-        default: "bg-primary web:hover:opacity-90 active:opacity-90",
-        destructive: "bg-destructive web:hover:opacity-90 active:opacity-90",
-        outline:
-          "border border-input bg-background web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-        secondary: "bg-secondary web:hover:opacity-80 active:opacity-80",
-        ghost:
-          "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-        link: "web:underline-offset-4 web:hover:underline web:focus:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2 native:h-12 native:px-5 native:py-3",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8 native:h-14",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
-);
-
-const buttonTextVariants = cva(
-  "web:whitespace-nowrap text-sm native:text-base font-medium text-foreground web:transition-colors",
+    "type": "code",
+    "file": "./node_modules/@moe/registry/src/components/ui/text.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+</Step>
+<Step>
+  ### Copy/paste the following code to `@/components/ui/button.tsx`
+  ```json doc-gen:file
   {
-    variants: {
-      variant: {
-        default: "text-primary-foreground",
-        destructive: "text-destructive-foreground",
-        outline: "group-active:text-accent-foreground",
-        secondary:
-          "text-secondary-foreground group-active:text-secondary-foreground",
-        ghost: "group-active:text-accent-foreground",
-        link: "text-primary group-active:underline",
-      },
-      size: {
-        default: "",
-        sm: "",
-        lg: "native:text-lg",
-        icon: "",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
-);
-
-type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
-  VariantProps<typeof buttonVariants>;
-
-const Button = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  ButtonProps
->(({ className, variant, size, ...props }, ref) => {
-  return (
-    <TextClassContext.Provider
-      value={cn(
-        props.disabled && "web:pointer-events-none",
-        buttonTextVariants({ variant, size }),
-      )}
-    >
-      <Pressable
-        className={cn(
-          props.disabled && "opacity-50 web:pointer-events-none",
-          buttonVariants({ variant, size, className }),
-        )}
-        ref={ref}
-        role="button"
-        {...props}
-      />
-    </TextClassContext.Provider>
-  );
-});
-Button.displayName = "Button";
-
-export { Button, buttonTextVariants, buttonVariants };
-export type { ButtonProps };
-```
-
+    "type": "code",
+    "file": "./node_modules/@moe/registry/src/components/ui/button.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+</Step>
+</Steps>
   </Tab>
 </Tabs>
 
@@ -116,31 +78,163 @@ export type { ButtonProps };
 
 ```tsx
 import { Button } from "@moe/registry/ui/button";
+import { Text } from "@moe/registry/ui/text";
 
-export function ButtonDemo() {
-  return <Button>Button</Button>;
-}
+return (
+  <Button>
+    <Text>Button</Text>
+  </Button>
+);
 ```
 
 ## Variants
 
-```tsx
-<Button variant="default">Default</Button>
-<Button variant="destructive">Destructive</Button>
-<Button variant="outline">Outline</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="link">Link</Button>
-```
+### Default
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonDefaultVariantPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/default.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Destructive
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonDestructiveVariantPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/destructive.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Outline
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonOutlineVariantPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/outline.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Secondary
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonSecondaryVariantPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/secondary.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Ghost
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonGhostVariantPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/ghost.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Link
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonLinkVariantPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/link.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## Sizes
 
-```tsx
-<Button size="default">Default</Button>
-<Button size="sm">Small</Button>
-<Button size="lg">Large</Button>
-<Button size="icon">Icon</Button>
-```
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <ButtonSizesPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/button/sizes.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## Props
 

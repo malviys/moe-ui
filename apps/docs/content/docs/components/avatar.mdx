@@ -4,73 +4,57 @@ description: An image element with a fallback for representing the user.
 ---
 
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { ComponentPreview } from "@/components/component-preview";
+import { AvatarPreview } from "@/components/preview/avatar";
+import { AvatarImageExamplePreview } from "@/components/preview/avatar/image";
+import { AvatarFallbackExamplePreview } from "@/components/preview/avatar/fallback";
+import { AvatarSizesExamplePreview } from "@/components/preview/avatar/sizes";
 
-<ComponentPreview name="avatar-preview" />
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <AvatarPreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/avatar/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## Installation
 
 <Tabs items={["CLI", "Manual"]}>
   <Tab value="CLI">```bash npx @moe/cli add avatar ```</Tab>
   <Tab value="Manual">
-
-### Install the following dependency:
-
-```bash
-npx expo install @rn-primitives/avatar
-```
-
-### Copy/paste the following code to `@/components/ui/avatar.tsx`
-
-```tsx
-import * as AvatarPrimitive from "@rn-primitives/avatar";
-import * as React from "react";
-import { cn } from "@/lib/utils";
-
-const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className,
-    )}
-    {...props}
-  />
-));
-Avatar.displayName = AvatarPrimitive.Root.displayName;
-
-const AvatarImage = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Image>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
-    {...props}
-  />
-));
-AvatarImage.displayName = AvatarPrimitive.Image.displayName;
-
-const AvatarFallback = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Fallback>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted",
-      className,
-    )}
-    {...props}
-  />
-));
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
-
-export { Avatar, AvatarFallback, AvatarImage };
-```
-
+<Steps>
+<Step>
+  #### Install the following dependency:
+  ```bash
+  npx expo install @rn-primitives/avatar
+  ```
+</Step>
+<Step>
+  #### Copy/paste the following code to `@/components/ui/avatar.tsx`
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "./node_modules/@moe/registry/src/components/ui/avatar.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+</Step>
+</Steps>
   </Tab>
 </Tabs>
 
@@ -79,23 +63,86 @@ export { Avatar, AvatarFallback, AvatarImage };
 ```tsx
 import { Avatar, AvatarFallback, AvatarImage } from "@moe/registry/ui/avatar";
 
-export function AvatarDemo() {
-  return (
-    <Avatar>
-      <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
-      <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
-  );
-}
+return (
+  <Avatar>
+    <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+);
 ```
+
+## Examples
+
+### Image
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <AvatarImageExamplePreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/avatar/image.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Fallback
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <AvatarFallbackExamplePreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/avatar/fallback.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <ComponentPreview>
+      <AvatarSizesExamplePreview />
+    </ComponentPreview>
+  </Tab>
+  <Tab value="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./components/preview/avatar/sizes.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## Props
 
 ### Avatar
 
-| Prop   | Type                   | Default | Description        |
-| ------ | ---------------------- | ------- | ------------------ |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size of the avatar |
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | -       | Additional CSS classes |
 
 ### AvatarImage
 

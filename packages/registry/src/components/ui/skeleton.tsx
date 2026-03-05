@@ -1,14 +1,35 @@
 import { cn } from "../../lib/utils";
 import { View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 import * as React from "react";
+
+const duration = 1000;
 
 function Skeleton({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<typeof View>) {
+}: React.ComponentProps<typeof View> & React.RefAttributes<View>) {
+  const sv = useSharedValue(1);
+
+  React.useEffect(() => {
+    sv.value = withRepeat(withTiming(0.5, { duration }), -1, true);
+  }, []);
+
+  const style = useAnimatedStyle(
+    () => ({
+      opacity: sv.value,
+    }),
+    [sv],
+  );
   return (
-    <View
-      className={cn("rounded-md bg-secondary animate-pulse", className)}
+    <Animated.View
+      style={style}
+      className={cn("bg-secondary dark:bg-muted rounded-md", className)}
       {...props}
     />
   );

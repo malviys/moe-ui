@@ -3,10 +3,10 @@
 import { Button } from "@moe/registry/components/ui/button";
 import { Text } from "@moe/registry/components/ui/text";
 
-export const ButtonPreview = () => {
+export const ButtonDefaultVariantPreview = () => {
   return (
-    <Button variant={"outline"}>
-      <Text>HELLO</Text>
+    <Button variant="default">
+      <Text>Default</Text>
     </Button>
   );
 };
