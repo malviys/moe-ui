@@ -1,0 +1,70 @@
+---
+title: Collapsible
+description: An interactive component which expands/collapses a panel.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+
+<Tabs>
+  <Tab label="Preview">
+    <ComponentPreview name="collapsible"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/collapsible/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add collapsible ```</Tab>
+  <Tab label="Manual">
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/collapsible
+```
+
+### Copy/paste the following code to `@/components/ui/collapsible.tsx`
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/collapsible.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/collapsible.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+## Props
+
+| Prop           | Type                      | Default | Description                                      |
+| -------------- | ------------------------- | ------- | ------------------------------------------------ |
+| `open`         | `boolean`                 | -       | The controlled open state                        |
+| `onOpenChange` | `(open: boolean) => void` | -       | Event handler called when the open state changes |

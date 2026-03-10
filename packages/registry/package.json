@@ -41,6 +41,7 @@
         "react-native-reanimated": "4.2.1",
         "react-native-screens": "^4.24.0",
         "react-native-svg": "15.15.3",
+        "tailwind-merge": "^3.5.0",
         "tailwindcss": "^4.1.18",
         "uniwind": "^1.2.7"
     },

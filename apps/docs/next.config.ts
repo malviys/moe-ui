@@ -32,7 +32,4 @@ const config: NextConfig = {
   },
 };
 
-export default withUniwind(withMDX(withExpo(config)), {
-  cssEntryFile: "./app/global.css",
-  dtsFile: "./uniwind-types.d.ts",
-});
+export default withMDX(withExpo(config));

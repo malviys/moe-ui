@@ -1,0 +1,70 @@
+---
+title: Dialog
+description: A window overlaid on the primary window, rendering the content underneath inert.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+
+<Tabs>
+  <Tab label="Preview">
+    <ComponentPreview name="dialog"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/dialog/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add dialog ```</Tab>
+  <Tab label="Manual">
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/dialog
+```
+
+### Copy/paste the following code to `@/components/ui/dialog.tsx`
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/dialog.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/dialog.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+## Props
+
+| Prop           | Type                      | Default | Description                                      |
+| -------------- | ------------------------- | ------- | ------------------------------------------------ |
+| `open`         | `boolean`                 | -       | The controlled open state                        |
+| `onOpenChange` | `(open: boolean) => void` | -       | Event handler called when the open state changes |

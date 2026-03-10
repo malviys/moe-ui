@@ -1,0 +1,136 @@
+---
+title: Installation
+description: Getting Started with Moe UI
+icon: Terminal
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+
+## Manual Installation
+
+Since we don't have a CLI yet, you need to manually install the dependencies and configure your project.
+
+### 1. Install Dependencies
+
+Install the required packages for NativeWind, Reanimated, and utility libraries.
+
+<Tabs>
+  <Tab label="npm">
+
+    ```bash
+    npm install nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
+    ```
+
+  </Tab>
+  <Tab label="pnpm">
+
+    ```bash
+    pnpm add nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
+    ```
+
+  </Tab>
+  <Tab label="bun">
+
+    ```bash
+    bun add nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
+    ```
+
+  </Tab>
+  <Tab label="yarn">
+
+    ```bash
+    yarn add nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
+    ```
+
+  </Tab>
+</Tabs>
+
+### 2. Configure NativeWind
+
+Follow the [NativeWind v4 documentation](https://www.nativewind.dev/v4/getting-started/expo) to set up Tailwind CSS in your Expo project.
+
+Typically, this involves:
+
+1. Running `npx tailwindcss init` to create `tailwind.config.js`.
+2. Configuring your `babel.config.js` to include the `nativewind/babel` plugin.
+3. Adding the `nativewind-env.d.ts` file.
+
+### 3. Add Utilities
+
+Create a `lib/utils.ts` file to handle class merging. This is used by all components.
+
+```ts title="lib/utils.ts"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+### 4. Configure Theme
+
+Create a `global.css` file to define your CSS variables for the theme. NativeWind v4 uses these variables to style your components.
+
+```css title="global.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+```
+
+Make sure to import this file in your root layout file (e.g., `app/_layout.tsx`).
+
+```tsx
+import "../global.css";
+```
+
+## That's it!
+
+You can now start copying compoments from the documentation to your project.

@@ -1,0 +1,63 @@
+---
+title: Context Menu
+description: Displays a menu triggered by a right-click or long-press.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+
+<Tabs>
+  <Tab label="Preview">
+    <ComponentPreview name="context-menu"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/context-menu/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add context-menu ```</Tab>
+  <Tab label="Manual">
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/context-menu
+```
+
+### Copy/paste the following code to `@/components/ui/context-menu.tsx`
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/context-menu.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/context-menu.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```

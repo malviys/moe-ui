@@ -1,0 +1,63 @@
+---
+title: Sheet
+description: Extends the Dialog component to display content that complements the main screen of an application.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+
+<Tabs>
+  <Tab label="Preview">
+    <ComponentPreview name="sheet"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/sheet/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add sheet ```</Tab>
+  <Tab label="Manual">
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/dialog
+```
+
+### Copy/paste the following code to `@/components/ui/sheet.tsx`
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/sheet.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/sheet.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```

@@ -1,0 +1,84 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+
+<Tabs>
+  <Tab label="Preview">
+    <ComponentPreview name="toggle"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/toggle/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add toggle ```</Tab>
+  <Tab label="Manual">
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/toggle
+```
+
+### Copy/paste the following code to `@/components/ui/toggle.tsx`
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/toggle.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/toggle.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+## Variants
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/toggle.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+## Props
+
+| Prop              | Type                         | Default     | Description                                         |
+| ----------------- | ---------------------------- | ----------- | --------------------------------------------------- |
+| `variant`         | `'default' \| 'outline'`     | `'default'` | The visual style                                    |
+| `size`            | `'default' \| 'sm' \| 'lg'`  | `'default'` | The size                                            |
+| `pressed`         | `boolean`                    | -           | The controlled pressed state                        |
+| `onPressedChange` | `(pressed: boolean) => void` | -           | Event handler called when the pressed state changes |

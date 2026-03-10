@@ -1,0 +1,92 @@
+---
+title: Text
+description: A component for displaying text.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+import { Steps } from "@astrojs/starlight/components";
+
+<Tabs>
+  <Tab label="Preview">
+        <ComponentPreview name="text"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/text/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add text ```</Tab>
+  <Tab label="Manual">
+<Steps>
+<ol>
+<li>
+  #### Install the following dependency:
+  ```bash
+  npx expo install @rn-primitives/slot
+  ```
+</li>
+<li>
+  #### Copy/paste the following code to `@/components/ui/text.tsx`
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/text.tsx",
+    "codeblock": {
+    "lang": "tsx"
+  }
+}
+```
+</li>
+</ol>
+</Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/text.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+## Typography
+
+<Tabs>
+  <Tab label="Preview">
+        <ComponentPreview name="text/typography"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/text/typography.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Props
+
+| Prop        | Type     | Default | Description            |
+| ----------- | -------- | ------- | ---------------------- |
+| `className` | `string` | -       | Additional CSS classes |
