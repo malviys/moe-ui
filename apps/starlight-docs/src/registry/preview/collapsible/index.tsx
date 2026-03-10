@@ -1,15 +1,16 @@
 "use client";
 
+import { ChevronsUpDown } from "lucide-react-native";
+import * as React from "react";
+import { View } from "react-native";
+
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@moe/registry/ui/collapsible";
-import { Button } from "@moe/registry/ui/button";
-import { Text } from "@moe/registry/ui/text";
-import { ChevronsUpDown } from "lucide-react-native";
-import * as React from "react";
-import { View } from "react-native";
+} from "@moe/registry/components/ui/collapsible";
+import { Button } from "@moe/registry/components/ui/button";
+import { Text } from "@moe/registry/components/ui/text";
 
 export function CollapsiblePreview() {
   const [isOpen, setIsOpen] = React.useState(false);

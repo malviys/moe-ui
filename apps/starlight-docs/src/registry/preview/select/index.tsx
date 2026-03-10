@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { View } from "react-native";
+
 import {
   Select,
   SelectContent,
@@ -9,8 +11,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@moe/registry/ui/select";
-import { View } from "react-native";
+} from "@moe/registry/components/ui/select";
 
 export function SelectPreview() {
   return (

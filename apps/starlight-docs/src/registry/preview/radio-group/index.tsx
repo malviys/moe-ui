@@ -1,7 +1,10 @@
 "use client";
 
-import { RadioGroup, RadioGroupItem } from "@moe/registry/ui/radio-group";
-import { Label } from "@moe/registry/ui/label";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@moe/registry/components/ui/radio-group";
+import { Label } from "@moe/registry/components/ui/label";
 import { View } from "react-native";
 
 export function RadioGroupPreview() {

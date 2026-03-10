@@ -1,8 +1,9 @@
 "use client";
 
-import { Progress } from "@moe/registry/ui/progress";
 import * as React from "react";
 import { View } from "react-native";
+
+import { Progress } from "@moe/registry/components/ui/progress";
 
 export function ProgressPreview() {
   const [progress, setProgress] = React.useState(13);

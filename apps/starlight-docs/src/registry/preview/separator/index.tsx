@@ -1,8 +1,9 @@
 "use client";
 
-import { Separator } from "@moe/registry/ui/separator";
 import { View } from "react-native";
-import { Text } from "@moe/registry/ui/text";
+
+import { Separator } from "@moe/registry/components/ui/separator";
+import { Text } from "@moe/registry/components/ui/text";
 
 export function SeparatorPreview() {
   return (

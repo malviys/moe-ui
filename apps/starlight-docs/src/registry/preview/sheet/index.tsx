@@ -1,8 +1,10 @@
 "use client";
 
-import { Button } from "@moe/registry/ui/button";
-import { Input } from "@moe/registry/ui/input";
-import { Label } from "@moe/registry/ui/label";
+import { View } from "react-native";
+
+import { Button } from "@moe/registry/components//ui/button";
+import { Input } from "@moe/registry/components//ui/input";
+import { Label } from "@moe/registry/components//ui/label";
 import {
   Sheet,
   SheetClose,
@@ -12,9 +14,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@moe/registry/ui/sheet";
-import { Text } from "@moe/registry/ui/text";
-import { View } from "react-native";
+} from "@moe/registry/components/ui/sheet";
+import { Text } from "@moe/registry/components//ui/text";
 
 export function SheetPreview() {
   return (

@@ -1,9 +1,10 @@
 "use client";
 
-import { Checkbox } from "@moe/registry/components/ui/checkbox";
-import { Label } from "@moe/registry/components/ui/label";
 import React from "react";
 import { View } from "react-native";
+
+import { Checkbox } from "@moe/registry/components/ui/checkbox";
+import { Label } from "@moe/registry/components/ui/label";
 
 export const CheckboxPreview = () => {
   const [checked, setChecked] = React.useState(false);

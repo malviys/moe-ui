@@ -1,8 +1,7 @@
 "use client";
 
-import { Input } from "@moe/registry/ui/input";
+import { Input } from "@moe/registry/components/ui/input";
 
-export function InputPreview() {
+export const InputPreview = () => {
   return <Input placeholder="Email" />;
-}
-export default InputPreview;
+};

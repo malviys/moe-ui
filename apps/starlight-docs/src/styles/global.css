@@ -62,7 +62,33 @@
 }
 
 /* ─── Design Tokens (shadcn-style OKLCH) ─── */
-@layer theme {
+@theme {
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.145 0 89.9);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.145 0 89.9);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.145 0 89.9);
+  --color-primary: oklch(0.204 0 89.9);
+  --color-primary-foreground: oklch(0.985 0 89.9);
+  --color-secondary: oklch(0.97 0 89.9);
+  --color-secondary-foreground: oklch(0.204 0 89.9);
+  --color-muted: oklch(0.97 0 89.9);
+  --color-muted-foreground: oklch(0.556 0 89.9);
+  --color-accent: oklch(0.97 0 89.9);
+  --color-accent-foreground: oklch(0.204 0 89.9);
+  --color-destructive: oklch(0.637 0.208 25.3);
+  --color-border: oklch(0.922 0 89.9);
+  --color-input: oklch(0.922 0 89.9);
+  --color-ring: oklch(0.708 0 89.9);
+  --color-radius: 0.625rem;
+  --color-chart-1: oklch(0.677 0.157 35.2);
+  --color-chart-2: oklch(0.631 0.101 183.5);
+  --color-chart-3: oklch(0.379 0.044 225.5);
+  --color-chart-4: oklch(0.834 0.119 88.1);
+  --color-chart-5: oklch(0.783 0.126 58.7);
+}
+/* @layer theme {
   :root {
     @variant light {
       --color-background: oklch(100% 0 0);
@@ -107,7 +133,7 @@
       --radius: 0.625rem;
     }
   }
-}
+} */
 
 /* ─── Global Base Styles ─── */
 body {

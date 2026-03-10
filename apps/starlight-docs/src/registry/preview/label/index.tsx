@@ -1,7 +1,7 @@
 "use client";
 
-import { Label } from "@moe/registry/ui/label";
-import { Input } from "@moe/registry/ui/input";
+import { Label } from "@moe/registry/components/ui/label";
+import { Input } from "@moe/registry/components/ui/input";
 import { View } from "react-native";
 
 export function LabelPreview() {
