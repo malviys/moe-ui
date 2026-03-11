@@ -1,6 +1,6 @@
 "use client";
 
-import { Textarea } from "@moe/registry/ui/textarea";
+import { Textarea } from "@moe/registry/components/ui/textarea";
 
 export function TextareaPreview() {
   return <Textarea placeholder="Type your message here." />;

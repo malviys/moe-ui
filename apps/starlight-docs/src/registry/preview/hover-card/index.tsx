@@ -1,15 +1,19 @@
 "use client";
 
-import { Button } from "@moe/registry/ui/button";
+import { Button } from "@moe/registry/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@moe/registry/ui/hover-card";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe/registry/components/ui/hover-card";
+import { Text } from "@moe/registry/components/ui/text";
 import { View } from "react-native";
 import { CalendarDays } from "lucide-react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "@moe/registry/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@moe/registry/components/ui/avatar";
 
 export function HoverCardPreview() {
   return (
@@ -21,9 +25,9 @@ export function HoverCardPreview() {
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
         <View className="flex flex-row justify-between space-x-4">
-          <Avatar>
-            <AvatarImage src="https://github.com/vercel.png" />
-            <AvatarFallback>VC</AvatarFallback>
+          <Avatar alt="shadcn">
+            <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
+            <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <View className="space-y-1">
             <Text className="text-sm font-semibold">@nextjs</Text>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Toggle } from "@moe/registry/ui/toggle";
+import { Toggle } from "@moe/registry/components/ui/toggle";
 import { Bold } from "lucide-react-native";
 
 export function TogglePreview() {

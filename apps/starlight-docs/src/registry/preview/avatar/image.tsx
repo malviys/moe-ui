@@ -8,7 +8,7 @@ import {
 
 export const AvatarImageExamplePreview = () => {
   return (
-    <Avatar className="size-10">
+    <Avatar className="size-10" alt="shadcn">
       <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>

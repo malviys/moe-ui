@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@moe/registry/ui/button";
+import { Button } from "@moe/registry/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,11 +8,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@moe/registry/ui/card";
-import { Input } from "@moe/registry/ui/input";
-import { Label } from "@moe/registry/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@moe/registry/ui/tabs";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe/registry/components/ui/card";
+import { Input } from "@moe/registry/components/ui/input";
+import { Label } from "@moe/registry/components/ui/label";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@moe/registry/components/ui/tabs";
+import { Text } from "@moe/registry/components/ui/text";
 import { View } from "react-native";
 
 export function TabsPreview() {

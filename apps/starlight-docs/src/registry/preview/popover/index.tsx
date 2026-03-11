@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@moe/registry/ui/button";
-import { Input } from "@moe/registry/ui/input";
-import { Label } from "@moe/registry/ui/label";
+import { Button } from "@moe/registry/components/ui/button";
+import { Input } from "@moe/registry/components/ui/input";
+import { Label } from "@moe/registry/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@moe/registry/ui/popover";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe/registry/components/ui/popover";
+import { Text } from "@moe/registry/components/ui/text";
 import { View } from "react-native";
 
 export function PopoverPreview() {

@@ -1,7 +1,7 @@
 "use client";
 
-import { Switch } from "@moe/registry/ui/switch";
-import { Label } from "@moe/registry/ui/label";
+import { Switch } from "@moe/registry/components/ui/switch";
+import { Label } from "@moe/registry/components/ui/label";
 import { View } from "react-native";
 import * as React from "react";
 

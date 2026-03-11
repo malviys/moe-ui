@@ -13,7 +13,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Moe UI",
-      customCss: ["./src/styles/global.css"],
+      // customCss: ["./src/styles/global.css"],
       head: [
         {
           tag: "link",
@@ -78,18 +78,26 @@ export default defineConfig({
   ],
   vite: {
     ssr: {
-      external: [
+      noExternal: [
+        "@moe/registry",
         "react-native",
         "react-native-web",
-        "@moe/registry",
-        "lucide-react-native",
-        "react-native-reanimated",
-        "react-native-safe-area-context",
-        "react-native-svg",
+        "uniwind",
       ],
+
+      // external: [
+      //   "react-native",
+      //   "react-native-web",
+      //   "@moe/registry",
+      //   "lucide-react-native",
+      //   "react-native-reanimated",
+      //   "react-native-safe-area-context",
+      //   "react-native-svg",
+      // ],
     },
     resolve: {
       alias: {
+        "react-native": "react-native-web",
         "@": new URL("./src", import.meta.url).pathname,
         "@moe/registry": new URL("../../packages/registry/src", import.meta.url)
           .pathname,

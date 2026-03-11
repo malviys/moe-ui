@@ -8,9 +8,9 @@ import {
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
-} from "@moe/registry/ui/menubar";
+} from "@moe/registry/components/ui/menubar";
 import { View } from "react-native";
-import { Text } from "@moe/registry/ui/text";
+import { Text } from "@moe/registry/components/ui/text";
 
 export function MenubarPreview() {
   return (

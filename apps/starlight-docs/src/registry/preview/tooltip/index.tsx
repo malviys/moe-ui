@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@moe/registry/ui/button";
+import { Button } from "@moe/registry/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@moe/registry/ui/tooltip";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe/registry/components/ui/tooltip";
+import { Text } from "@moe/registry/components/ui/text";
 
 export function TooltipPreview() {
   return (

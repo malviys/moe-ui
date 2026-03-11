@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@moe/registry/ui/skeleton";
+import { Skeleton } from "@moe/registry/components/ui/skeleton";
 import { View } from "react-native";
 
 export function SkeletonPreview() {

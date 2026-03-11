@@ -1,6 +1,9 @@
 "use client";
 
-import { ToggleGroup, ToggleGroupItem } from "@moe/registry/ui/toggle-group";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@moe/registry/components/ui/toggle-group";
 import { Bold, Italic, Underline } from "lucide-react-native";
 
 export function ToggleGroupPreview() {

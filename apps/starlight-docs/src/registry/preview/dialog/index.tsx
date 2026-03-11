@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@moe/registry/ui/button";
+import { Button } from "@moe/registry/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@moe/registry/ui/dialog";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe/registry/components/ui/dialog";
+import { Text } from "@moe/registry/components/ui/text";
 import { View } from "react-native";
 
 export function DialogPreview() {
