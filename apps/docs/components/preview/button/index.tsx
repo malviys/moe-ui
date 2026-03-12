@@ -5,7 +5,7 @@ import { Text } from "@moe/registry/components/ui/text";
 
 export const ButtonPreview = () => {
   return (
-    <Button>
+    <Button className="bg-destructive">
       <Text>Button</Text>
     </Button>
   );

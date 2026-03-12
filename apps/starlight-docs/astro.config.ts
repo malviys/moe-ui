@@ -13,7 +13,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Moe UI",
-      // customCss: ["./src/styles/global.css"],
+      customCss: ["./src/styles/global.css", "./src/styles/starlight.css"],
       head: [
         {
           tag: "link",
@@ -41,6 +41,7 @@ export default defineConfig({
       plugins: [],
       components: {
         Hero: "./src/components/Hero.astro",
+        Pagination: "./src/components/Pagination.astro",
       },
       social: [
         {
@@ -76,7 +77,11 @@ export default defineConfig({
       remarkPlugins: [[remarkDocGen, { generators: [fileGenerator()] }]],
     }),
   ],
+
   vite: {
+    css: {
+      lightningcss: {},
+    },
     ssr: {
       noExternal: [
         "@moe/registry",

@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, lazy } from "react";
+import { ButtonPreview } from "./preview/button";
 
 type ComponentPreviewProps = {
   name: string;
@@ -257,6 +258,7 @@ export const Registry = ({ name }: ComponentPreviewProps) => {
 
   return (
     <div className="min-h-96 flex items-center justify-center">
+      {/* <ButtonPreview /> */}
       <Suspense
         fallback={
           <div className="text-muted-foreground text-sm">Loading preview…</div>

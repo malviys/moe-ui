@@ -42,8 +42,9 @@
         "react-native-screens": "^4.24.0",
         "react-native-svg": "15.15.3",
         "tailwind-merge": "^3.5.0",
+        "tailwind-variants": "^3.2.2",
         "tailwindcss": "^4.1.18",
-        "uniwind": "^1.2.7"
+        "uniwind": "^1.5.0"
     },
     "devDependencies": {
         "@types/react": "^19.2.10",
