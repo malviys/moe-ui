@@ -1,9 +1,77 @@
-@import 'tailwindcss';
-@import 'fumadocs-ui/css/neutral.css';
-@import 'fumadocs-ui/css/preset.css';
+@import "tailwindcss";
+@import "uniwind";
+
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+@layer theme {
+  :root {
+    @variant light {
+      --color-background: oklch(100% 0 0);
+      --color-foreground: oklch(14.5% 0 0);
+      --color-card: oklch(100% 0 0);
+      --color-card-foreground: oklch(14.5% 0 0);
+      --color-popover: oklch(100% 0 0);
+      --color-popover-foreground: oklch(14.5% 0 0);
+      --color-primary: oklch(20.5% 0 0);
+      --color-primary-foreground: oklch(98% 0 0);
+      --color-secondary: oklch(96.7% 0 0);
+      --color-secondary-foreground: oklch(20.5% 0 0);
+      --color-muted: oklch(96.7% 0 0);
+      --color-muted-foreground: oklch(55.5% 0 0);
+      --color-accent: oklch(96.7% 0 0);
+      --color-accent-foreground: oklch(20.5% 0 0);
+      --color-destructive: oklch(62.8% 0.258 29.23);
+      --color-border: oklch(91.7% 0 0);
+      --color-input: oklch(91.7% 0 0);
+      --color-ring: oklch(69.4% 0 0);
+      --color-chart-1: oklch(67.3% 0.173 35.6);
+      --color-chart-2: oklch(58.4% 0.117 172.6);
+      --color-chart-3: oklch(42.6% 0.075 218.9);
+      --color-chart-4: oklch(77.9% 0.128 75.4);
+      --color-chart-5: oklch(73.6% 0.17 55.3);
+
+      /* Radius */
+      --radius: 0.625rem;
+    }
+    @variant dark {
+      --color-background: oklch(14.5% 0 0);
+      --color-foreground: oklch(98% 0 0);
+      --color-card: oklch(14.5% 0 0);
+      --color-card-foreground: oklch(98% 0 0);
+      --color-popover: oklch(14.5% 0 0);
+      --color-popover-foreground: oklch(98% 0 0);
+      --color-primary: oklch(98% 0 0);
+      --color-primary-foreground: oklch(20.5% 0 0);
+      --color-secondary: oklch(28.5% 0 0);
+      --color-secondary-foreground: oklch(98% 0 0);
+      --color-muted: oklch(28.5% 0 0);
+      --color-muted-foreground: oklch(71.3% 0 0);
+      --color-accent: oklch(28.5% 0 0);
+      --color-accent-foreground: oklch(98% 0 0);
+      --color-destructive: oklch(62.1% 0.212 29.23);
+      --color-border: oklch(28.5% 0 0);
+      --color-input: oklch(28.5% 0 0);
+      --color-ring: oklch(55.5% 0 0);
+      --color-chart-1: oklch(54.3% 0.183 264.4);
+      --color-chart-2: oklch(62.4% 0.148 155.2);
+      --color-chart-3: oklch(68.7% 0.193 55.5);
+      --color-chart-4: oklch(60.1% 0.189 302.7);
+      --color-chart-5: oklch(61.8% 0.213 0.6);
+
+      /* Radius */
+      --radius: 0.625rem;
+    }
+  }
+}
 
 /* Hide the 'Docs' heading/toggle in the sidebar */
-.fd-sidebar :is(button[aria-haspopup="menu"], .fd-sidebar-title, [data-sidebar] > div:first-child) {
+.fd-sidebar
+  :is(
+    button[aria-haspopup="menu"],
+    .fd-sidebar-title,
+    [data-sidebar] > div:first-child
+  ) {
   display: none !important;
 }
 
@@ -21,7 +89,6 @@
 [data-sidebar] [data-folder] {
   @apply mt-1;
 }
-
 
 /* Grid background pattern for hero section */
 .bg-grid-print {
@@ -53,4 +120,3 @@
 .source-badge.nativewind {
   @apply bg-blue-500/10 text-blue-600 border-blue-500/20;
 }
-

@@ -1,0 +1,71 @@
+---
+title: Switch
+description: A control that allows the user to toggle between checked and not checked.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+
+<Tabs>
+  <Tab label="Preview">
+    <ComponentPreview name="switch"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/switch/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add switch ```</Tab>
+  <Tab label="Manual">
+
+### Install the following dependency:
+
+```bash
+npx expo install @rn-primitives/switch
+```
+
+### Copy/paste the following code to `@/components/ui/switch.tsx`
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/switch.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/switch.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+## Props
+
+| Prop              | Type                         | Default | Description                                         |
+| ----------------- | ---------------------------- | ------- | --------------------------------------------------- |
+| `checked`         | `boolean`                    | `false` | The controlled checked state                        |
+| `onCheckedChange` | `(checked: boolean) => void` | -       | Event handler called when the checked state changes |
+| `disabled`        | `boolean`                    | `false` | When true, prevents the user from interacting       |

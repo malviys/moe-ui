@@ -2,7 +2,7 @@ import * as SheetPrimitive from "@rn-primitives/dialog";
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { X } from "../../lib/icons/X";
+import { X } from "lucide-react-native";
 import { cn } from "../../lib/utils";
 
 const Sheet = SheetPrimitive.Root;

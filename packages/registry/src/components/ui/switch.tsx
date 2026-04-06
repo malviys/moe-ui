@@ -1,74 +1,37 @@
-import * as SwitchPrimitive from "@rn-primitives/switch";
-import * as React from "react";
-import { Platform } from "react-native";
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from "react-native-reanimated";
-import { useColorScheme } from "../../lib/useColorScheme";
 import { cn } from "../../lib/utils";
+import * as SwitchPrimitives from "@rn-primitives/switch";
+import { Platform } from "react-native";
 
-const RGB_COLORS = {
-  light: {
-    primary: "rgb(24, 24, 27)",
-    input: "rgb(228, 228, 231)",
-  },
-  dark: {
-    primary: "rgb(250, 250, 250)",
-    input: "rgb(39, 39, 42)",
-  },
-} as const; // Added as const for type safety
-
-const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>
->(({ className, ...props }, ref) => {
-  const { colorScheme } = useColorScheme();
-  const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
-  const animatedRootStyle = useAnimatedStyle(() => {
-    const currentTheme = colorScheme === "dark" ? "dark" : "light";
-    return {
-      backgroundColor: interpolateColor(
-        translateX.value,
-        [0, 18],
-        [RGB_COLORS[currentTheme].input, RGB_COLORS[currentTheme].primary],
-      ),
-    };
-  });
-  const animatedThumbStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: withTiming(translateX.value, { duration: 200 }) },
-    ],
-  }));
+function Switch({
+  className,
+  ...props
+}: SwitchPrimitives.RootProps & React.RefAttributes<SwitchPrimitives.RootRef>) {
   return (
-    <Animated.View
-      style={animatedRootStyle}
+    <SwitchPrimitives.Root
       className={cn(
-        "h-8 w-[46px] rounded-full",
+        "flex h-[1.15rem] w-8 shrink-0 flex-row items-center rounded-full border border-transparent shadow-sm shadow-black/5",
+        Platform.select({
+          web: "focus-visible:border-ring focus-visible:ring-ring/50 peer inline-flex outline-none transition-all focus-visible:ring-[3px] disabled:cursor-not-allowed",
+        }),
+        props.checked ? "bg-primary" : "bg-input dark:bg-input/80",
         props.disabled && "opacity-50",
+        className,
       )}
+      {...props}
     >
-      <SwitchPrimitive.Root
+      <SwitchPrimitives.Thumb
         className={cn(
-          "flex-row h-8 w-[46px] shrink-0 items-center rounded-full border-2 border-transparent",
-          className,
+          "bg-background size-4 rounded-full transition-transform",
+          Platform.select({
+            web: "pointer-events-none block ring-0",
+          }),
+          props.checked
+            ? "dark:bg-primary-foreground translate-x-3.5"
+            : "dark:bg-foreground translate-x-0",
         )}
-        {...props}
-        ref={ref}
-      >
-        <Animated.View style={animatedThumbStyle}>
-          <SwitchPrimitive.Thumb
-            className={cn(
-              "h-7 w-7 rounded-full bg-background shadow-md shadow-foreground/25 ring-0",
-            )}
-          />
-        </Animated.View>
-      </SwitchPrimitive.Root>
-    </Animated.View>
+      />
+    </SwitchPrimitives.Root>
   );
-});
-Switch.displayName = "Switch";
+}
 
 export { Switch };

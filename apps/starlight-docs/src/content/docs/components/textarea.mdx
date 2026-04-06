@@ -1,0 +1,66 @@
+---
+title: Textarea
+description: Displays a form textarea or a component that looks like a textarea.
+---
+
+import { Tabs, TabItem as Tab } from "@astrojs/starlight/components";
+import ComponentPreview from "@/components/component-preview.astro";
+
+<Tabs>
+  <Tab label="Preview">
+    <ComponentPreview name="textarea"/>
+  </Tab>
+  <Tab label="Code">
+    ```json doc-gen:file
+    {
+      "type": "code",
+      "file": "./src/registry/preview/textarea/index.tsx",
+      "codeblock": {
+        "lang": "tsx"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <Tab label="CLI">```bash npx @moe/cli add textarea ```</Tab>
+  <Tab label="Manual">
+
+### Copy/paste the following code to `@/components/ui/textarea.tsx`
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/textarea.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+  ```json doc-gen:file
+  {
+    "type": "code",
+    "file": "../../packages/registry/src/components/ui/textarea.tsx",
+    "codeblock": {
+      "lang": "tsx"
+    }
+  }
+  ```
+
+## Props
+
+| Prop           | Type                     | Default | Description                            |
+| -------------- | ------------------------ | ------- | -------------------------------------- |
+| `placeholder`  | `string`                 | -       | Placeholder text                       |
+| `value`        | `string`                 | -       | The controlled value                   |
+| `onChangeText` | `(text: string) => void` | -       | Event handler called when text changes |
+| `disabled`     | `boolean`                | `false` | Whether the textarea is disabled       |

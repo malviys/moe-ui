@@ -1,0 +1,80 @@
+{
+  "name": "@moe-ui/filters",
+  "version": "1.0.0",
+  "type": "module",
+  "private": false,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./react": "./src/react/index.ts",
+    "./react-native": "./src/react-native/index.ts",
+    "./vue": "./src/vue/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test tests/controller.test.ts tests/filter-draft-actions.test.ts tests/evaluate.test.ts tests/operators.test.ts tests/adapter-utils.test.ts",
+    "test:unit": "bun test tests/controller.test.ts tests/filter-draft-actions.test.ts tests/evaluate.test.ts tests/operators.test.ts tests/adapter-utils.test.ts",
+    "test:component": "vitest run",
+    "test:rn": "jest --config jest.config.js",
+    "test:e2e": "playwright test --config playwright.config.ts",
+    "test:all": "bun run test:unit && bun run test:component && bun run test:rn && bun run test:e2e",
+    "e2e:serve": "vite e2e-app --config e2e-app/vite.config.ts"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
+    "@jest/globals": "^30.3.0",
+    "@playwright/test": "^1.59.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/react-native": "^13.3.3",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/bun": "latest",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.4.1",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/test-utils": "^2.4.6",
+    "babel-jest": "^30.3.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "jsdom": "24",
+    "react": "^19.2.4",
+    "react-native": "0.83.1",
+    "react-test-renderer": "^19.2.4",
+    "vite": "^6.3.0",
+    "vitest": "^4.1.2",
+    "vue": "^3.5.22"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19",
+    "react-native": ">=0.80",
+    "vue": "^3.5.0",
+    "typescript": "^5"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}
