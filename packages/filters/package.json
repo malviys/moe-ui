@@ -1,5 +1,6 @@
 {
   "name": "@moe-ui/filters",
+  "version": "1.0.0",
   "type": "module",
   "private": false,
   "main": "./src/index.ts",
