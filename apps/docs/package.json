@@ -17,8 +17,6 @@
     "registry:check": "node --import tsx scripts/generate-registry.ts --check"
   },
   "dependencies": {
-    "@fontsource-variable/manrope": "^5.2.8",
-    "@fontsource-variable/newsreader": "^5.2.8",
     "@moe-ui/registry": "workspace:*",
     "@orama/orama": "^3.1.18",
     "class-variance-authority": "^0.7.1",
@@ -27,6 +25,7 @@
     "fumadocs-docgen": "^3.0.8",
     "fumadocs-mdx": "14.2.6",
     "fumadocs-ui": "16.5.1",
+    "geist": "^1.7.2",
     "lucide-react": "^0.563.0",
     "lucide-react-native": "0.563.0",
     "next": "16.1.6",

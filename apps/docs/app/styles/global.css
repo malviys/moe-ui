@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@import "./app.css";
+
+@theme {
+  --color-background: oklch(98.7% 0.014 83);
+  --color-foreground: oklch(18% 0.018 62);
+  --color-card: oklch(99.5% 0.009 83);
+  --color-card-foreground: oklch(18% 0.018 62);
+  --color-popover: oklch(99.5% 0.009 83);
+  --color-popover-foreground: oklch(18% 0.018 62);
+  --color-primary: oklch(24% 0.025 55);
+  --color-primary-foreground: oklch(98.7% 0.014 83);
+  --color-secondary: oklch(95.5% 0.026 83);
+  --color-secondary-foreground: oklch(24% 0.025 55);
+  --color-muted: oklch(95.5% 0.02 83);
+  --color-muted-foreground: oklch(50% 0.026 62);
+  --color-accent: oklch(93.5% 0.045 78);
+  --color-accent-foreground: oklch(24% 0.025 55);
+  --color-destructive: oklch(55% 0.22 29.23);
+  --color-border: oklch(88.5% 0.028 78);
+  --color-input: oklch(88.5% 0.028 78);
+  --color-ring: oklch(69% 0.17 62);
+  --radius: 0.75rem;
+}
+
+@layer theme {
+  .dark {
+    --color-background: oklch(18% 0.018 62);
+    --color-foreground: oklch(96.5% 0.014 83);
+    --color-card: oklch(21% 0.021 62);
+    --color-card-foreground: oklch(96.5% 0.014 83);
+    --color-popover: oklch(22% 0.022 62);
+    --color-popover-foreground: oklch(96.5% 0.014 83);
+    --color-primary: oklch(91% 0.075 78);
+    --color-primary-foreground: oklch(20% 0.02 62);
+    --color-secondary: oklch(27% 0.025 62);
+    --color-secondary-foreground: oklch(96.5% 0.014 83);
+    --color-muted: oklch(27% 0.022 62);
+    --color-muted-foreground: oklch(72% 0.024 78);
+    --color-accent: oklch(31% 0.045 62);
+    --color-accent-foreground: oklch(96.5% 0.014 83);
+    --color-destructive: oklch(52% 0.2 29.23);
+    --color-border: oklch(34% 0.03 62);
+    --color-input: oklch(34% 0.03 62);
+    --color-ring: oklch(75% 0.16 69);
+  }
+}

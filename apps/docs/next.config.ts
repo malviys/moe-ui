@@ -50,6 +50,15 @@ const config: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/docs/component-list",
+        destination: "/docs/components",
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     forceSwcTransforms: true,
   },
@@ -94,6 +103,6 @@ const config: NextConfig = {
 };
 
 export default withUniwind(withMDX(config), {
-  cssEntryFile: "./app/global.css",
+  cssEntryFile: "./app/styles/global.css",
   dtsFile: "./uniwind-types.d.ts",
 });

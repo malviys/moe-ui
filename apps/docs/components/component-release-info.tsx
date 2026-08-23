@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { Check, Copy, ExternalLink } from "lucide-react";
+import { Check, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { getComponent } from "@/lib/registry";
 
@@ -26,13 +26,13 @@ export function WebBetaStatus({ name }: { name: string }) {
   return (
     <ul
       aria-label="Web beta status"
-      className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0 text-xs"
+      className="web-beta-status m-0 flex list-none flex-wrap gap-2 p-0 text-xs"
       data-testid={`web-beta-status-${name}`}
     >
       {webBetaLabels.map((label) => (
         <li
           key={label}
-          className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/8 px-2 py-1 text-emerald-700 dark:text-emerald-300"
+          className="inline-flex items-center gap-1 rounded-full px-2 py-1"
         >
           <Check className="size-3" aria-hidden /> {label}
         </li>
@@ -51,35 +51,20 @@ export async function ComponentReleaseInfo({ name }: { name: string }) {
 
   return (
     <div
-      className="not-prose mb-8 space-y-4"
+      className="component-source not-prose mb-8 space-y-4"
       data-testid={`release-info-${name}`}
     >
-      <section
-        className="rounded-xl border border-fd-border bg-fd-card p-5"
-        data-testid={`install-source-${name}`}
-      >
-        <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-fd-muted-foreground">
-          Install source
-        </p>
-        <div className="flex items-center justify-between gap-3 rounded-lg border border-fd-border bg-fd-background px-3 py-2.5">
-          <code className="overflow-x-auto text-sm">
-            pnpm dlx @moe-ui/cli@beta add {name}
-          </code>
-          <Copy
-            className="size-4 shrink-0 text-fd-muted-foreground"
-            aria-hidden
-          />
-        </div>
-      </section>
-
-      <details className="group rounded-xl border border-fd-border bg-fd-card">
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-medium">
-          Canonical source and public exports
+      <details className="group source-disclosure">
+        <summary>
+          <span>
+            <span className="eyebrow">Nothing hidden</span>
+            Canonical source and public exports
+          </span>
           <span className="font-mono text-xs text-fd-muted-foreground">
             {exports.length} exports
           </span>
         </summary>
-        <div className="border-t border-fd-border p-5">
+        <div className="source-disclosure-body">
           <div className="mb-4 flex flex-wrap gap-2">
             {exports.map((name) => (
               <code
@@ -90,7 +75,7 @@ export async function ComponentReleaseInfo({ name }: { name: string }) {
               </code>
             ))}
           </div>
-          <pre className="max-h-[32rem] overflow-auto rounded-lg bg-neutral-950 p-4 text-xs leading-relaxed text-neutral-100">
+          <pre>
             <code>{source}</code>
           </pre>
           <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-fd-muted-foreground">

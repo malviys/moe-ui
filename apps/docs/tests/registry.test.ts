@@ -2,6 +2,8 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { componentCategories } from "../lib/component-accents";
+import { components } from "../lib/registry";
 import { webTestManifest } from "../lib/web-test-manifest";
 
 type RegistryIndex = {
@@ -21,6 +23,15 @@ type RegistryItem = {
 const publicRoot = path.resolve(import.meta.dirname, "../public");
 
 describe("generated registry", () => {
+  it("assigns every catalog item to a supported colour category", () => {
+    const supportedCategories = new Set<string>(componentCategories);
+    expect(
+      components.every((component) =>
+        supportedCategories.has(component.category),
+      ),
+    ).toBe(true);
+  });
+
   it("has one valid index entry and test route for every canonical component", async () => {
     const index = JSON.parse(
       await readFile(path.join(publicRoot, "r/index.json"), "utf8"),

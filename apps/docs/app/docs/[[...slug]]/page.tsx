@@ -25,22 +25,27 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
     page.slugs[0] === "components" ? page.slugs[1] : undefined;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription className="mb-0">
-        {page.data.description}
-      </DocsDescription>
-      <div className="border-b pb-6">
-        <div className="flex flex-row items-center gap-2">
+    <DocsPage
+      toc={page.data.toc}
+      full={page.data.full}
+      className={componentName ? "component-doc-page" : "docs-content-page"}
+    >
+      <div className="docs-page-heading">
+        <div>
+          <DocsTitle>{page.data.title}</DocsTitle>
+          <DocsDescription className="mb-0">
+            {page.data.description}
+          </DocsDescription>
+          {componentName ? <WebBetaStatus name={componentName} /> : null}
+        </div>
+        <div className="docs-page-actions">
           <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
           <ViewOptions
             markdownUrl={`${page.url}.mdx`}
             githubUrl={`https://github.com/moe-ui/moe-ui/blob/main/apps/docs/content/docs/${page.path}`}
           />
         </div>
-        {componentName ? <WebBetaStatus name={componentName} /> : null}
       </div>
-      {componentName ? <ComponentReleaseInfo name={componentName} /> : null}
       <DocsBody>
         <MDX
           components={getMDXComponents({
@@ -49,6 +54,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
           })}
         />
       </DocsBody>
+      {componentName ? <ComponentReleaseInfo name={componentName} /> : null}
     </DocsPage>
   );
 }
