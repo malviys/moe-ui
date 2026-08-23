@@ -32,8 +32,10 @@ The selection is stored in `components.json`. Rerunning `init` is idempotent, bu
 
 | Framework | Uniwind | NativeWind |
 | --- | --- | --- |
-| Next.js 16 App Router | Tailwind CSS 4 | Tailwind CSS 3.4 |
-| Expo / Expo Router | Tailwind CSS 4 | Tailwind CSS 3.4 |
+| Next.js 16 App Router | Tailwind CSS 4 | Tailwind CSS 4 |
+| Expo / Expo Router | Tailwind CSS 4 | Tailwind CSS 4 |
+
+NativeWind support targets the v5 preview. It requires React Native 0.81 or newer, the New Architecture for full support, and Reanimated 4. The initializer installs `react-native-css`, uses the CSS-first Tailwind 4 configuration, and pins Lightning CSS to the version required by NativeWind.
 
 Next.js uses the existing Webpack-based React Native Web helper. Expo uses Metro and supports `app/_layout.tsx`, `src/app/_layout.tsx`, `App.tsx`, or `src/App.tsx` entry points.
 
@@ -45,13 +47,13 @@ For Next.js, the CLI also:
 
 - Composes `next.config` with the React Native Web aliases and extensions.
 - Adds `suppressHydrationWarning` to the root App Router layout.
-- Configures Uniwind's Next plugin, or NativeWind's Tailwind/PostCSS and JSX import source.
+- Configures Uniwind's Next plugin, or NativeWind's Tailwind 4 PostCSS integration.
 
 For Expo, the CLI also:
 
 - Creates or composes Metro configuration.
 - Imports the generated root `global.css` from the detected application entry.
-- Configures Uniwind's Metro wrapper, or NativeWind's Metro and Babel presets.
+- Configures Uniwind's Metro wrapper or NativeWind 5's Metro wrapper.
 - Installs SDK-sensitive native packages through `expo install`.
 
 All required transformations are checked before files are changed. A custom config that cannot be composed safely produces an actionable error instead of a partial initialization.

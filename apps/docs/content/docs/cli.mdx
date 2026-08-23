@@ -22,7 +22,7 @@ Initializes an existing TypeScript Next.js App Router or Expo project. The frame
 
 In a non-interactive environment, pass `--styling` or `--yes`. If both Next.js and Expo appear in the same package, target the intended application with `--cwd`.
 
-Initialization preflights every required transformation. If an existing Next, Metro, Babel, PostCSS, root entry, CSS entry, or Moe UI configuration cannot be transformed safely, the command exits before writing project files.
+Initialization preflights every required transformation. If an existing Next, Metro, PostCSS, root entry, CSS entry, or Moe UI configuration cannot be transformed safely, the command exits before writing project files.
 
 The framework and styling engine are persisted in schema v2 of `components.json`. Schema v1 is read as Next.js + Uniwind and upgraded on the next initialization. Passing a different `--styling` value to an initialized project is rejected because automatic engine migration could discard local configuration.
 
@@ -59,6 +59,10 @@ If one package declares both `next` and `expo`, run the command with `--cwd` poi
 ### Config cannot be transformed
 
 The CLI only composes configurations it can recognize without discarding behavior. Follow the printed manual instructions or simplify the relevant export, then rerun `init`.
+
+### NativeWind preview requirements
+
+NativeWind initialization uses the v5 preview with Tailwind CSS 4 and `react-native-css`. Full native support requires React Native 0.81 or newer, the New Architecture, and Reanimated 4. NativeWind 5 no longer uses a Tailwind configuration file, Babel preset, or `jsxImportSource`; remove those v4 integrations before rerunning `init` in an existing project.
 
 ### Styling engine is locked
 

@@ -152,11 +152,13 @@ describe("CLI arguments and detection", () => {
     );
     for (const framework of ["next", "expo"] as const) {
       expect(dependenciesFor(framework, "nativewind")).toMatchObject({
-        nativewind: "^4.2.6",
-        "react-native-css-interop": "0.2.6",
-        tailwindcss: "^3.4.17",
-        "tailwind-merge": "^2.6.1",
-        "tailwindcss-animate": "^1.0.7",
+        nativewind: "preview",
+        "react-native-css": "latest",
+        "@tailwindcss/postcss": "^4.2.1",
+        lightningcss: "1.30.1",
+        tailwindcss: "^4.2.1",
+        "tailwind-merge": "^3.5.0",
+        "tw-animate-css": "^1.4.0",
       });
     }
   });
@@ -210,29 +212,33 @@ describe("project initialization", () => {
     });
   });
 
-  it("configures Next.js with NativeWind and Tailwind 3", async () => {
+  it("configures Next.js with NativeWind 5 and Tailwind 4", async () => {
     const cwd = await nextFixture();
     await writeFile(
       path.join(cwd, "postcss.config.mjs"),
       'const config = { plugins: { "@tailwindcss/postcss": {} } };\nexport default config;\n',
     );
     await initProject(options(cwd, "nativewind"));
+    await initProject(options(cwd, "nativewind"));
 
-    expect(await readFile(path.join(cwd, "tsconfig.json"), "utf8")).toContain(
-      '"jsxImportSource": "nativewind"',
-    );
+    expect(
+      await readFile(path.join(cwd, "tsconfig.json"), "utf8"),
+    ).not.toContain("jsxImportSource");
     expect(
       await readFile(path.join(cwd, "postcss.config.mjs"), "utf8"),
-    ).toContain("tailwindcss");
-    expect(
-      await readFile(path.join(cwd, "tailwind.config.cjs"), "utf8"),
-    ).toContain('require("nativewind/preset")');
+    ).toContain("@tailwindcss/postcss");
     expect(await readFile(path.join(cwd, "app/globals.css"), "utf8")).toContain(
-      "--radius: 0.625rem",
+      '@import "nativewind/theme"',
+    );
+    expect(await readFile(path.join(cwd, "app/globals.css"), "utf8")).toContain(
+      "@theme",
     );
     expect(
       await readFile(path.join(cwd, "lib/moe-ui-styling.ts"), "utf8"),
-    ).toContain("cssInterop");
+    ).toContain("styled");
+    await expect(
+      readFile(path.join(cwd, "tailwind.config.cjs"), "utf8"),
+    ).rejects.toThrow();
     expect(
       JSON.parse(await readFile(path.join(cwd, "components.json"), "utf8")),
     ).toMatchObject({
@@ -265,19 +271,26 @@ describe("project initialization", () => {
   it("configures a conventional Expo app with NativeWind", async () => {
     const cwd = await expoFixture(false);
     await initProject(options(cwd, "nativewind"));
+    await initProject(options(cwd, "nativewind"));
 
     expect(await readFile(path.join(cwd, "App.tsx"), "utf8")).toContain(
       'import "./global.css"',
     );
     expect(
       await readFile(path.join(cwd, "moe-ui.metro.cjs"), "utf8"),
-    ).toContain("withNativeWind");
-    expect(await readFile(path.join(cwd, "babel.config.js"), "utf8")).toContain(
-      "nativewind/babel",
+    ).toContain("withNativewind");
+    expect(await readFile(path.join(cwd, "global.css"), "utf8")).toContain(
+      '@import "tailwindcss/theme.css" layer(theme)',
     );
     expect(
+      await readFile(path.join(cwd, "postcss.config.mjs"), "utf8"),
+    ).toContain("@tailwindcss/postcss");
+    expect(
       await readFile(path.join(cwd, "nativewind-env.d.ts"), "utf8"),
-    ).toContain("nativewind/types");
+    ).toContain("react-native-css/types");
+    await expect(
+      readFile(path.join(cwd, "babel.config.js"), "utf8"),
+    ).rejects.toThrow();
   });
 
   it("migrates schema v1 as Next.js with Uniwind", async () => {
@@ -362,9 +375,9 @@ describe("project initialization", () => {
     expect(
       await readFile(path.join(cwd, "metro.config.cjs"), "utf8"),
     ).toContain("withMoeUI");
-    expect(
-      await readFile(path.join(cwd, "babel.config.cjs"), "utf8"),
-    ).toContain("nativewind/babel");
+    await expect(
+      readFile(path.join(cwd, "babel.config.cjs"), "utf8"),
+    ).rejects.toThrow();
   });
 });
 
@@ -388,7 +401,7 @@ describe("registry installation", () => {
     integrity: "sha256-EBCGwEqsBhLzSUi72HXE5yac0WG/UhGKiMJuLq/PWXU=",
   };
 
-  it("uses the stored styling engine for merge compatibility and icon peers", () => {
+  it("uses the stored styling engine for Tailwind 4 merge compatibility and icon peers", () => {
     const nativeConfig = {
       $schema: "https://moe-ui.vercel.app/schema/components.json",
       schemaVersion: 2 as const,
@@ -408,7 +421,7 @@ describe("registry installation", () => {
       },
     ]);
     expect(dependencies).toMatchObject({
-      "tailwind-merge": "^2.6.1",
+      "tailwind-merge": "^3.5.0",
       "react-native-svg": "15.15.3",
     });
   });

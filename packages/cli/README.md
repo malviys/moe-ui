@@ -9,4 +9,6 @@ pnpm dlx @moe-ui/cli@beta add button dialog
 
 `init` prompts for Uniwind or NativeWind. In automation, pass `--styling uniwind|nativewind` or use `--yes` to select Uniwind.
 
+NativeWind initialization targets the v5 preview and its Tailwind CSS 4 stack.
+
 The beta registry is hosted at `https://moe-ui.vercel.app/r`.

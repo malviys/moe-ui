@@ -20,7 +20,7 @@ Interactive initialization asks whether to use Uniwind or NativeWind. For automa
 - React 19.2
 - React Native 0.83 and React Native Web 0.21
 - Uniwind 1.11 with Tailwind CSS 4
-- NativeWind 4.2 with Tailwind CSS 3.4
+- NativeWind 5 preview with Tailwind CSS 4
 - Chromium, Firefox, and WebKit desktop engines
 
 ## Component catalog

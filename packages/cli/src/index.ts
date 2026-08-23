@@ -74,16 +74,21 @@ const UNIWIND_DEPENDENCIES: Record<string, string> = {
   "tw-animate-css": "^1.4.0",
 };
 const NATIVEWIND_DEPENDENCIES: Record<string, string> = {
-  nativewind: "^4.2.6",
-  "react-native-css-interop": "0.2.6",
+  nativewind: "preview",
+  "react-native-css": "latest",
   "react-native-reanimated": "latest",
   "react-native-safe-area-context": "latest",
-  tailwindcss: "^3.4.17",
-  "tailwind-merge": "^2.6.1",
-  "tailwindcss-animate": "^1.0.7",
+  "@tailwindcss/postcss": "^4.2.1",
+  lightningcss: "1.30.1",
+  postcss: "^8.5.6",
+  tailwindcss: "^4.2.1",
+  "tailwind-merge": "^3.5.0",
+  "tw-animate-css": "^1.4.0",
 };
 const EXPO_NATIVE_PACKAGES = new Set([
+  "nativewind",
   "react-native",
+  "react-native-css",
   "react-native-web",
   "react-native-reanimated",
   "react-native-screens",
@@ -219,9 +224,13 @@ async function installExpoDependencies(
   manager: PackageManager,
   dependencies: Record<string, string>,
 ) {
-  const nativePackages = Object.keys(dependencies).filter((name) =>
-    EXPO_NATIVE_PACKAGES.has(name),
-  );
+  const nativePackages = Object.entries(dependencies)
+    .filter(([name]) => EXPO_NATIVE_PACKAGES.has(name))
+    .map(([name, version]) =>
+      name === "nativewind" || name === "react-native-css"
+        ? `${name}@${version}`
+        : name,
+    );
   const regularDependencies = Object.fromEntries(
     Object.entries(dependencies).filter(
       ([name]) => !EXPO_NATIVE_PACKAGES.has(name),
@@ -411,7 +420,7 @@ function nextHelperSource(cssPath: string, styling: StylingEngine) {
   const stylingPackages =
     styling === "uniwind"
       ? '      "uniwind",\n'
-      : '      "nativewind",\n      "react-native-css-interop",\n';
+      : '      "nativewind",\n      "react-native-css",\n';
   const uniwindAlias =
     styling === "uniwind"
       ? '        "uniwind/components/index$": path.resolve(import.meta.dirname, "moe-ui.react-native.web.ts"),\n'
@@ -527,7 +536,7 @@ export function withMoeIcon<Props extends object>(
 `;
   }
   return `import type { ComponentType } from "react";
-import { cssInterop } from "nativewind";
+import { styled } from "nativewind";
 type MoeIconInteropProps = {
   className?: string;
   style?: object;
@@ -537,10 +546,9 @@ type MoeIconInteropProps = {
 export function withMoeIcon<Props extends object>(
   component: ComponentType<Props>,
 ): ComponentType<Props> {
-  cssInterop(component as unknown as ComponentType<MoeIconInteropProps>, {
+  return styled(component as unknown as ComponentType<MoeIconInteropProps>, {
     className: { target: "style", nativeStyleToProp: { width: "size", height: "size", color: true } },
-  });
-  return component;
+  }) as unknown as ComponentType<Props>;
 }
 `;
 }
@@ -554,8 +562,8 @@ function withMoeUI(config) {
 module.exports = { withMoeUI };
 `;
   }
-  return `const { withNativeWind } = require("nativewind/metro");
-function withMoeUI(config) { return withNativeWind(config, { input: "./${cssPath}" }); }
+  return `const { withNativewind } = require("nativewind/metro");
+function withMoeUI(config) { return withNativewind(config); }
 module.exports = { withMoeUI };
 `;
 }
@@ -619,22 +627,33 @@ const UNIWIND_THEME = `/* Moe UI theme */
 `;
 
 const NATIVEWIND_THEME = `/* Moe UI theme */
-@layer base {
-  :root {
-    --background: 0 0% 100%; --foreground: 0 0% 9%; --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%; --popover: 0 0% 100%; --popover-foreground: 0 0% 9%;
-    --primary: 0 0% 20%; --primary-foreground: 0 0% 98%; --secondary: 0 0% 97%;
-    --secondary-foreground: 0 0% 20%; --muted: 0 0% 97%; --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 97%; --accent-foreground: 0 0% 20%; --destructive: 0 72% 51%;
-    --border: 0 0% 92%; --input: 0 0% 92%; --ring: 0 0% 71%; --radius: 0.625rem;
-  }
+@theme {
+  --color-background: oklch(100% 0 0); --color-foreground: oklch(14.5% 0 0);
+  --color-card: oklch(100% 0 0); --color-card-foreground: oklch(14.5% 0 0);
+  --color-popover: oklch(100% 0 0); --color-popover-foreground: oklch(14.5% 0 0);
+  --color-primary: oklch(20.5% 0 0); --color-primary-foreground: oklch(98% 0 0);
+  --color-secondary: oklch(96.7% 0 0); --color-secondary-foreground: oklch(20.5% 0 0);
+  --color-muted: oklch(96.7% 0 0); --color-muted-foreground: oklch(55.5% 0 0);
+  --color-accent: oklch(96.7% 0 0); --color-accent-foreground: oklch(20.5% 0 0);
+  --color-destructive: oklch(55% 0.22 29.23); --color-border: oklch(91.7% 0 0);
+  --color-input: oklch(91.7% 0 0); --color-ring: oklch(69.4% 0 0);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+@layer theme {
+  :root { --radius: 0.625rem; }
   .dark {
-    --background: 0 0% 9%; --foreground: 0 0% 98%; --card: 0 0% 9%;
-    --card-foreground: 0 0% 98%; --popover: 0 0% 9%; --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%; --primary-foreground: 0 0% 20%; --secondary: 0 0% 29%;
-    --secondary-foreground: 0 0% 98%; --muted: 0 0% 29%; --muted-foreground: 0 0% 71%;
-    --accent: 0 0% 29%; --accent-foreground: 0 0% 98%; --destructive: 0 72% 45%;
-    --border: 0 0% 29%; --input: 0 0% 29%; --ring: 0 0% 56%;
+    --color-background: oklch(14.5% 0 0); --color-foreground: oklch(98% 0 0);
+    --color-card: oklch(14.5% 0 0); --color-card-foreground: oklch(98% 0 0);
+    --color-popover: oklch(14.5% 0 0); --color-popover-foreground: oklch(98% 0 0);
+    --color-primary: oklch(98% 0 0); --color-primary-foreground: oklch(20.5% 0 0);
+    --color-secondary: oklch(28.5% 0 0); --color-secondary-foreground: oklch(98% 0 0);
+    --color-muted: oklch(28.5% 0 0); --color-muted-foreground: oklch(71.3% 0 0);
+    --color-accent: oklch(28.5% 0 0); --color-accent-foreground: oklch(98% 0 0);
+    --color-destructive: oklch(52% 0.2 29.23); --color-border: oklch(28.5% 0 0);
+    --color-input: oklch(28.5% 0 0); --color-ring: oklch(55.5% 0 0);
   }
 }
 `;
@@ -655,7 +674,7 @@ function ensureUniwindCss(content: string) {
 function ensureNativewindCss(content: string) {
   const body = content
     .replace(
-      /^\s*@import\s+["'](?:tailwindcss|uniwind|tw-animate-css)["'];?\s*$/gm,
+      /^\s*@import\s+["'](?:tailwindcss|tailwindcss\/theme\.css|tailwindcss\/preflight\.css|tailwindcss\/utilities\.css|nativewind\/theme|uniwind|tw-animate-css)["'](?:\s+layer\([^)]+\))?;?\s*$/gm,
       "",
     )
     .replace(/^\s*@tailwind\s+(?:base|components|utilities);?\s*$/gm, "")
@@ -663,71 +682,12 @@ function ensureNativewindCss(content: string) {
   const theme = body.includes("/* Moe UI theme */")
     ? ""
     : `\n${NATIVEWIND_THEME}`;
-  return `@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n${body}${theme}`;
-}
-
-function nativewindTailwindConfig() {
-  const colors = [
-    "background",
-    "foreground",
-    "card",
-    "card-foreground",
-    "popover",
-    "popover-foreground",
-    "primary",
-    "primary-foreground",
-    "secondary",
-    "secondary-foreground",
-    "muted",
-    "muted-foreground",
-    "accent",
-    "accent-foreground",
-    "destructive",
-    "border",
-    "input",
-    "ring",
-  ];
-  const colorEntries = colors
-    .map((name) => `        "${name}": "hsl(var(--${name}))",`)
-    .join("\n");
-  return `/** @type {import("tailwindcss").Config} */
-module.exports = {
-  darkMode: "class",
-  content: ["./App.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx,mdx}", "./src/**/*.{js,jsx,ts,tsx,mdx}", "./components/**/*.{js,jsx,ts,tsx,mdx}"],
-  presets: [require("nativewind/preset")],
-  theme: { extend: {
-    colors: {
-${colorEntries}
-    },
-    borderRadius: { lg: "var(--radius)", md: "calc(var(--radius) - 2px)", sm: "calc(var(--radius) - 4px)" },
-  } },
-  plugins: [require("tailwindcss-animate")],
-};
-`;
-}
-
-function ensureJsxImportSource(content: string) {
-  const existing = content.match(/"jsxImportSource"\s*:\s*"([^"]+)"/);
-  if (existing?.[1] === "nativewind") return content;
-  if (existing)
-    throw new Error(
-      `tsconfig.json already sets jsxImportSource to ${existing[1]}. Reconcile it before running init.`,
-    );
-  if (/"compilerOptions"\s*:\s*{/.test(content)) {
-    return content.replace(
-      /"compilerOptions"\s*:\s*{/,
-      '"compilerOptions": {\n    "jsxImportSource": "nativewind",',
-    );
-  }
-  const opening = content.match(/{/);
-  if (!opening || opening.index === undefined)
-    throw new Error("tsconfig.json is not a recognizable JSON object.");
-  return `${content.slice(0, opening.index + 1)}\n  "compilerOptions": { "jsxImportSource": "nativewind" },${content.slice(opening.index + 1)}`;
+  return `@import "tailwindcss/theme.css" layer(theme);\n@import "tailwindcss/preflight.css" layer(base);\n@import "tailwindcss/utilities.css";\n@import "nativewind/theme";\n@import "tw-animate-css";\n\n${body}${theme}`;
 }
 
 function ensureNativewindPostcss(content: string | undefined) {
   if (content === undefined)
-    return `const config = { plugins: { tailwindcss: {} } };\nexport default config;\n`;
+    return `const config = { plugins: { "@tailwindcss/postcss": {} } };\nexport default config;\n`;
   const compact = content
     .replaceAll("'", '"')
     .replace(/\/\*[\s\S]*?\*\//g, "")
@@ -743,31 +703,11 @@ function ensureNativewindPostcss(content: string | undefined) {
   ]);
   if (canonical.has(compact)) {
     return content.includes("@tailwindcss/postcss")
-      ? content.replace("@tailwindcss/postcss", "tailwindcss")
-      : content;
+      ? content
+      : content.replace("tailwindcss", "@tailwindcss/postcss");
   }
   throw new Error(
     "Unsupported PostCSS config for NativeWind. Use the canonical Tailwind plugin configuration and run init again.",
-  );
-}
-
-function nativewindBabelConfig() {
-  return `module.exports = function (api) {
-  api.cache(true);
-  return { presets: [["babel-preset-expo", { jsxImportSource: "nativewind" }], "nativewind/babel"] };
-};
-`;
-}
-
-function ensureNativewindBabel(content: string | undefined) {
-  if (content === undefined) return nativewindBabelConfig();
-  if (
-    content.includes("nativewind/babel") &&
-    content.includes("jsxImportSource")
-  )
-    return content;
-  throw new Error(
-    "Existing Babel config cannot be transformed safely for NativeWind. Add the NativeWind preset manually and rerun init.",
   );
 }
 
@@ -927,8 +867,6 @@ async function planNextInitialization(
       },
     );
   } else {
-    const tsconfigFile = path.join(cwd, "tsconfig.json");
-    const tailwindFile = path.join(cwd, "tailwind.config.cjs");
     const postcssFile =
       (await findOptionalConfig(cwd, [
         "postcss.config.mjs",
@@ -938,25 +876,15 @@ async function planNextInitialization(
     const postcss = (await exists(postcssFile))
       ? await readFile(postcssFile, "utf8")
       : undefined;
-    generatedFiles.push(
-      {
-        file: tailwindFile,
-        content: nativewindTailwindConfig(),
-        generated: true,
-      },
-      {
-        file: path.join(cwd, "nativewind-env.d.ts"),
-        content: '/// <reference types="nativewind/types" />\n',
-        generated: true,
-      },
-    );
-    mutations.push(
-      {
-        file: tsconfigFile,
-        content: ensureJsxImportSource(await readFile(tsconfigFile, "utf8")),
-      },
-      { file: postcssFile, content: ensureNativewindPostcss(postcss) },
-    );
+    generatedFiles.push({
+      file: path.join(cwd, "nativewind-env.d.ts"),
+      content: '/// <reference types="react-native-css/types" />\n',
+      generated: true,
+    });
+    mutations.push({
+      file: postcssFile,
+      content: ensureNativewindPostcss(postcss),
+    });
   }
   if (legacy) {
     for (const output of generatedFiles) {
@@ -1032,32 +960,24 @@ async function planExpoInitialization(
       skipIfExists: true,
     });
   } else {
-    const tailwindFile = path.join(cwd, "tailwind.config.cjs");
-    const babelFile =
+    const postcssFile =
       (await findOptionalConfig(cwd, [
-        "babel.config.js",
-        "babel.config.cjs",
-      ])) ??
-      path.join(
-        cwd,
-        projectType === "module" ? "babel.config.cjs" : "babel.config.js",
-      );
-    const babel = (await exists(babelFile))
-      ? await readFile(babelFile, "utf8")
+        "postcss.config.mjs",
+        "postcss.config.js",
+        "postcss.config.cjs",
+      ])) ?? path.join(cwd, "postcss.config.mjs");
+    const postcss = (await exists(postcssFile))
+      ? await readFile(postcssFile, "utf8")
       : undefined;
-    generatedFiles.push(
-      {
-        file: tailwindFile,
-        content: nativewindTailwindConfig(),
-        generated: true,
-      },
-      {
-        file: path.join(cwd, "nativewind-env.d.ts"),
-        content: '/// <reference types="nativewind/types" />\n',
-        generated: true,
-      },
-    );
-    mutations.push({ file: babelFile, content: ensureNativewindBabel(babel) });
+    generatedFiles.push({
+      file: path.join(cwd, "nativewind-env.d.ts"),
+      content: '/// <reference types="react-native-css/types" />\n',
+      generated: true,
+    });
+    mutations.push({
+      file: postcssFile,
+      content: ensureNativewindPostcss(postcss),
+    });
   }
   return { paths, mutations, generatedFiles };
 }
@@ -1200,7 +1120,7 @@ async function confirmOverwrite(relativePath: string) {
 }
 
 export function registryDependenciesFor(
-  config: ComponentsConfig,
+  _config: ComponentsConfig,
   items: RegistryItem[],
 ) {
   const dependencies = Object.assign(
@@ -1208,8 +1128,7 @@ export function registryDependenciesFor(
     ...items.map((item) => item.dependencies),
   ) as Record<string, string>;
   if (dependencies["tailwind-merge"]) {
-    dependencies["tailwind-merge"] =
-      config.styling === "nativewind" ? "^2.6.1" : "^3.5.0";
+    dependencies["tailwind-merge"] = "^3.5.0";
   }
   if (dependencies["lucide-react-native"]) {
     dependencies["react-native-svg"] = "15.15.3";
