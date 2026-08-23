@@ -1,0 +1,23 @@
+{
+  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "schemaVersion": 1,
+  "name": "separator",
+  "title": "Separator",
+  "description": "A visual or semantic divider between content.",
+  "category": "foundation",
+  "type": "registry:ui",
+  "files": [
+    {
+      "path": "components/ui/separator.tsx",
+      "target": "components/ui/separator.tsx",
+      "content": "import { cn } from \"../../lib/utils\";\nimport * as SeparatorPrimitive from \"@rn-primitives/separator\";\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: SeparatorPrimitive.RootProps &\n  React.RefAttributes<SeparatorPrimitive.RootRef>) {\n  return (\n    <SeparatorPrimitive.Root\n      decorative={decorative}\n      orientation={orientation}\n      className={cn(\n        \"bg-border shrink-0\",\n        orientation === \"horizontal\" ? \"h-[1px] w-full\" : \"h-full w-[1px]\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Separator };\n"
+    }
+  ],
+  "dependencies": {
+    "@rn-primitives/separator": "1.5.2"
+  },
+  "registryDependencies": [
+    "utils"
+  ],
+  "integrity": "sha256-835WLMIla80eZrLJWe9WtapwjReJbWBx+bfzrKlXKIk="
+}

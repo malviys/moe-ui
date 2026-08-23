@@ -1,0 +1,19 @@
+{
+  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "schemaVersion": 1,
+  "name": "utils",
+  "title": "Utilities",
+  "description": "Class-name composition utility.",
+  "category": "internal",
+  "type": "registry:lib",
+  "files": [
+    {
+      "path": "lib/utils.ts",
+      "target": "lib/utils.ts",
+      "content": "export * from \"./cn\";\n"
+    }
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "integrity": "sha256-WybhA4hGPWORQ+dUaH/k+vL/x8YcknHXYOsivNjd8m8="
+}

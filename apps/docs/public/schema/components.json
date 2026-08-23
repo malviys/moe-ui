@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moe-ui.vercel.app/schema/components.json",
+  "title": "Moe UI project configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "registry",
+    "typescript",
+    "paths"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "registry": {
+      "type": "string",
+      "format": "uri"
+    },
+    "typescript": {
+      "const": true
+    },
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "components",
+        "lib",
+        "css"
+      ],
+      "properties": {
+        "components": {
+          "type": "string"
+        },
+        "lib": {
+          "type": "string"
+        },
+        "css": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

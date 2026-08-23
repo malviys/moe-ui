@@ -1,0 +1,225 @@
+{
+  "$schema": "https://moe-ui.vercel.app/schema/registry.json",
+  "schemaVersion": 1,
+  "name": "moe-ui",
+  "homepage": "https://moe-ui.vercel.app",
+  "items": [
+    {
+      "name": "accordion",
+      "title": "Accordion",
+      "description": "Vertically stacked, interactive headings that reveal content.",
+      "category": "navigation",
+      "integrity": "sha256-6y+4FzuSFFORdKQVtsWdW7wziKCE6I2XF70djjeR5Ns="
+    },
+    {
+      "name": "alert",
+      "title": "Alert",
+      "description": "A prominent message for important contextual information.",
+      "category": "feedback",
+      "integrity": "sha256-HRdh+Sj98Iv3smjjqtNUlumbgiSxEUtWWVgVj9hOQU0="
+    },
+    {
+      "name": "alert-dialog",
+      "title": "Alert Dialog",
+      "description": "A modal confirmation dialog that interrupts the user.",
+      "category": "overlay",
+      "integrity": "sha256-nw2c8geOGB3mUJx0KOVnO7qL3Q+BLrHg7qtrb2UaSgU="
+    },
+    {
+      "name": "aspect-ratio",
+      "title": "Aspect Ratio",
+      "description": "Keeps content within a consistent aspect ratio.",
+      "category": "media",
+      "integrity": "sha256-GR2GWrkuEeap8oOLp0jJxUrWX1Z1VfAwHvnlqCQktKI="
+    },
+    {
+      "name": "avatar",
+      "title": "Avatar",
+      "description": "An image with an accessible fallback for a person or entity.",
+      "category": "media",
+      "integrity": "sha256-cuZLmNpKWqzCnoPyDpq8PR/ry9gsheokPhwXbD3xXzo="
+    },
+    {
+      "name": "badge",
+      "title": "Badge",
+      "description": "A compact label for status or metadata.",
+      "category": "feedback",
+      "integrity": "sha256-iWScb5YA7O+12PQz8BOHfFTtrrd1OqbK9il3AKHWpAI="
+    },
+    {
+      "name": "button",
+      "title": "Button",
+      "description": "A pressable action with variants and sizes.",
+      "category": "foundation",
+      "integrity": "sha256-QQLjmNvPi3VWtdDIHKvVLGhOV/5Bddl5a9NVHfWbCMM="
+    },
+    {
+      "name": "card",
+      "title": "Card",
+      "description": "A composed container for related content and actions.",
+      "category": "foundation",
+      "integrity": "sha256-QzaHskt29/vo/KaDzFvbw3+DGDChnxCFHCKi7YBLQg8="
+    },
+    {
+      "name": "checkbox",
+      "title": "Checkbox",
+      "description": "A control for toggling a boolean choice.",
+      "category": "form",
+      "integrity": "sha256-aD6T6bVdwIKBBVrgSG7wQUwRnL7MmMI4d2N3XDlNVmc="
+    },
+    {
+      "name": "collapsible",
+      "title": "Collapsible",
+      "description": "An interactive region that expands and collapses content.",
+      "category": "navigation",
+      "integrity": "sha256-a17j8ednwIjAFVLVXHGzg4Jv2n3OMts9mvx3t8To5UY="
+    },
+    {
+      "name": "context-menu",
+      "title": "Context Menu",
+      "description": "A contextual action menu opened from a pointer gesture.",
+      "category": "overlay",
+      "integrity": "sha256-t0B3qllDRbyw2k5wnyYmTAgHDVja+ICOf+zyfURyBp4="
+    },
+    {
+      "name": "dialog",
+      "title": "Dialog",
+      "description": "A focus-managed modal window over the current page.",
+      "category": "overlay",
+      "integrity": "sha256-s9s1zUUniIjasbUkOy1nRbI8Nh6C9LNPCZ01lH+MsDU="
+    },
+    {
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "description": "A keyboard-navigable menu anchored to a trigger.",
+      "category": "overlay",
+      "integrity": "sha256-8hwYCY0SSW2WzYv/jWpd5MK5qg0IXs+l/0bBaLNZJaM="
+    },
+    {
+      "name": "hover-card",
+      "title": "Hover Card",
+      "description": "A preview card revealed by hover or keyboard focus.",
+      "category": "overlay",
+      "integrity": "sha256-OcCvUiCJbRxbjqUZME81BvQh93xEhk2/G5bRAtLpzFw="
+    },
+    {
+      "name": "input",
+      "title": "Input",
+      "description": "A styled single-line text input.",
+      "category": "form",
+      "integrity": "sha256-nUQft+Y6tiuj2NBuC5fhLAshlbO1P+M3QPnNlxIofyQ="
+    },
+    {
+      "name": "label",
+      "title": "Label",
+      "description": "An accessible label associated with a form control.",
+      "category": "form",
+      "integrity": "sha256-seqwWv2Z0S26LSFcr+xK/FPgfPlylRYxLj0AxH0Q0k8="
+    },
+    {
+      "name": "menubar",
+      "title": "Menubar",
+      "description": "A persistent application menu with nested actions.",
+      "category": "navigation",
+      "integrity": "sha256-9GaLjPzmO5rxIeRww+0Hi+6p05ek4BCoAbByGo3o80U="
+    },
+    {
+      "name": "popover",
+      "title": "Popover",
+      "description": "Floating content anchored to an interactive trigger.",
+      "category": "overlay",
+      "integrity": "sha256-efOE3SQPJHaRIcIYd/jLxBLrod8/7PyFrFUzYBTbx/s="
+    },
+    {
+      "name": "progress",
+      "title": "Progress",
+      "description": "A visual indicator for task completion.",
+      "category": "feedback",
+      "integrity": "sha256-pHCZkeKNQWoOXENNyimqCLDiO8BIHBp2F7DykpcWmDM="
+    },
+    {
+      "name": "radio-group",
+      "title": "Radio Group",
+      "description": "A mutually exclusive set of selectable options.",
+      "category": "form",
+      "integrity": "sha256-skIJossZh0SiPsdC/2ED04EMvJcovsFvQIiWwEdftBk="
+    },
+    {
+      "name": "select",
+      "title": "Select",
+      "description": "A trigger and listbox for choosing one option.",
+      "category": "form",
+      "integrity": "sha256-RLYzo773X+IH1bCPFFt9RHJFEc1UN3YU72+2HoZjryg="
+    },
+    {
+      "name": "separator",
+      "title": "Separator",
+      "description": "A visual or semantic divider between content.",
+      "category": "foundation",
+      "integrity": "sha256-835WLMIla80eZrLJWe9WtapwjReJbWBx+bfzrKlXKIk="
+    },
+    {
+      "name": "sheet",
+      "title": "Sheet",
+      "description": "A dialog that slides from an edge of the viewport.",
+      "category": "overlay",
+      "integrity": "sha256-oAu17W8iMIBpdFcFdYDfmE8g270OxfMtbMzAhq3dSxo="
+    },
+    {
+      "name": "skeleton",
+      "title": "Skeleton",
+      "description": "A placeholder representing content while it loads.",
+      "category": "feedback",
+      "integrity": "sha256-H53aF+eW8F3eiqOcibufXE4pNrUwJ/FPp+nNsHKsNEU="
+    },
+    {
+      "name": "switch",
+      "title": "Switch",
+      "description": "A control for toggling an immediate on or off setting.",
+      "category": "form",
+      "integrity": "sha256-5NSov8LAfHQrz9NL8APEDKJIVuQ9kXo7NqZfgAUVTzU="
+    },
+    {
+      "name": "tabs",
+      "title": "Tabs",
+      "description": "A keyboard-navigable set of layered content panels.",
+      "category": "navigation",
+      "integrity": "sha256-ip2hOHrB7kZ0C/zyTp2ets4P6EBmOYrFuft4QWrVPWo="
+    },
+    {
+      "name": "text",
+      "title": "Text",
+      "description": "Typography primitives with semantic web roles.",
+      "category": "foundation",
+      "integrity": "sha256-BwxJBBc/CYfpwaUBx8cHiYeIDuk5DeyXJMK+S8u/gzk="
+    },
+    {
+      "name": "textarea",
+      "title": "Textarea",
+      "description": "A styled multiline text input.",
+      "category": "form",
+      "integrity": "sha256-xszyZH6LGVDCBkb3vy/braH+mIHYmPKaZB8a/nyS3X8="
+    },
+    {
+      "name": "toggle",
+      "title": "Toggle",
+      "description": "A two-state button that can be on or off.",
+      "category": "form",
+      "integrity": "sha256-AQ8ofjQi/k2onFe2uksZzCSxsDVXXViVjxsoJI2i3YY="
+    },
+    {
+      "name": "toggle-group",
+      "title": "Toggle Group",
+      "description": "A coordinated set of single or multiple toggles.",
+      "category": "form",
+      "integrity": "sha256-iMHGEhZmAQEX1JzF73d1nNRybKs0ns7oFUJm3yuD/Uk="
+    },
+    {
+      "name": "tooltip",
+      "title": "Tooltip",
+      "description": "A short description shown on hover or keyboard focus.",
+      "category": "overlay",
+      "integrity": "sha256-GLqBxndnhzOrpU0wORLedr1V0/D4Bs6eAUl0bLI2u/k="
+    }
+  ]
+}

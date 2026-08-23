@@ -1,0 +1,23 @@
+{
+  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "schemaVersion": 1,
+  "name": "avatar",
+  "title": "Avatar",
+  "description": "An image with an accessible fallback for a person or entity.",
+  "category": "media",
+  "type": "registry:ui",
+  "files": [
+    {
+      "path": "components/ui/avatar.tsx",
+      "target": "components/ui/avatar.tsx",
+      "content": "import { cn } from \"../../lib/utils\";\nimport * as AvatarPrimitive from \"@rn-primitives/avatar\";\n\nfunction Avatar({\n  className,\n  ...props\n}: AvatarPrimitive.RootProps & React.RefAttributes<AvatarPrimitive.RootRef>) {\n  return (\n    <AvatarPrimitive.Root\n      className={cn(\n        \"relative flex size-8 shrink-0 overflow-hidden rounded-full\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nfunction AvatarImage({\n  className,\n  ...props\n}: AvatarPrimitive.ImageProps & React.RefAttributes<AvatarPrimitive.ImageRef>) {\n  return (\n    <AvatarPrimitive.Image\n      className={cn(\"aspect-square size-full\", className)}\n      {...props}\n    />\n  );\n}\n\nfunction AvatarFallback({\n  className,\n  ...props\n}: AvatarPrimitive.FallbackProps &\n  React.RefAttributes<AvatarPrimitive.FallbackRef>) {\n  return (\n    <AvatarPrimitive.Fallback\n      className={cn(\n        \"bg-muted flex size-full flex-row items-center justify-center rounded-full\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Avatar, AvatarFallback, AvatarImage };\n"
+    }
+  ],
+  "dependencies": {
+    "@rn-primitives/avatar": "1.5.2"
+  },
+  "registryDependencies": [
+    "utils"
+  ],
+  "integrity": "sha256-cuZLmNpKWqzCnoPyDpq8PR/ry9gsheokPhwXbD3xXzo="
+}

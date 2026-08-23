@@ -1,0 +1,24 @@
+{
+  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "schemaVersion": 1,
+  "name": "skeleton",
+  "title": "Skeleton",
+  "description": "A placeholder representing content while it loads.",
+  "category": "feedback",
+  "type": "registry:ui",
+  "files": [
+    {
+      "path": "components/ui/skeleton.tsx",
+      "target": "components/ui/skeleton.tsx",
+      "content": "import { cn } from \"../../lib/utils\";\nimport { View } from \"react-native\";\nimport Animated, {\n  useAnimatedStyle,\n  useSharedValue,\n  withRepeat,\n  withTiming,\n} from \"react-native-reanimated\";\nimport * as React from \"react\";\n\nconst duration = 1000;\n\nfunction Skeleton({\n  className,\n  ...props\n}: React.ComponentProps<typeof View> & React.RefAttributes<View>) {\n  const sv = useSharedValue(1);\n\n  React.useEffect(() => {\n    sv.value = withRepeat(withTiming(0.5, { duration }), -1, true);\n  }, []);\n\n  const style = useAnimatedStyle(\n    () => ({\n      opacity: sv.value,\n    }),\n    [sv],\n  );\n  return (\n    <Animated.View\n      style={style}\n      className={cn(\"bg-secondary dark:bg-muted rounded-md\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Skeleton };\n"
+    }
+  ],
+  "dependencies": {
+    "react-native": "0.83.1",
+    "react-native-reanimated": "4.2.1"
+  },
+  "registryDependencies": [
+    "utils"
+  ],
+  "integrity": "sha256-H53aF+eW8F3eiqOcibufXE4pNrUwJ/FPp+nNsHKsNEU="
+}

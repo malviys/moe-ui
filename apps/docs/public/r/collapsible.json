@@ -1,0 +1,21 @@
+{
+  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "schemaVersion": 1,
+  "name": "collapsible",
+  "title": "Collapsible",
+  "description": "An interactive region that expands and collapses content.",
+  "category": "navigation",
+  "type": "registry:ui",
+  "files": [
+    {
+      "path": "components/ui/collapsible.tsx",
+      "target": "components/ui/collapsible.tsx",
+      "content": "import * as CollapsiblePrimitive from \"@rn-primitives/collapsible\";\n\nconst Collapsible = CollapsiblePrimitive.Root;\n\nconst CollapsibleTrigger = CollapsiblePrimitive.Trigger;\n\nconst CollapsibleContent = CollapsiblePrimitive.Content;\n\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent };\n"
+    }
+  ],
+  "dependencies": {
+    "@rn-primitives/collapsible": "1.5.2"
+  },
+  "registryDependencies": [],
+  "integrity": "sha256-a17j8ednwIjAFVLVXHGzg4Jv2n3OMts9mvx3t8To5UY="
+}

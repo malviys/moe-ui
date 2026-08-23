@@ -1,0 +1,28 @@
+{
+  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "schemaVersion": 1,
+  "name": "tooltip",
+  "title": "Tooltip",
+  "description": "A short description shown on hover or keyboard focus.",
+  "category": "overlay",
+  "type": "registry:ui",
+  "files": [
+    {
+      "path": "components/ui/tooltip.tsx",
+      "target": "components/ui/tooltip.tsx",
+      "content": "import { NativeOnlyAnimatedView } from \"./native-only-animated-view\";\nimport { TextClassContext } from \"./text\";\nimport { cn } from \"../../lib/utils\";\nimport * as TooltipPrimitive from \"@rn-primitives/tooltip\";\nimport * as React from \"react\";\nimport { Platform, StyleSheet } from \"react-native\";\nimport { FadeInDown, FadeInUp, FadeOut } from \"react-native-reanimated\";\nimport { FullWindowOverlay as RNFullWindowOverlay } from \"react-native-screens\";\n\nconst Tooltip = TooltipPrimitive.Root;\n\nconst TooltipTrigger = TooltipPrimitive.Trigger;\n\nconst FullWindowOverlay =\n  Platform.OS === \"ios\" ? RNFullWindowOverlay : React.Fragment;\n\nfunction TooltipContent({\n  className,\n  sideOffset = 4,\n  portalHost,\n  side = \"top\",\n  ...props\n}: TooltipPrimitive.ContentProps &\n  React.RefAttributes<TooltipPrimitive.ContentRef> & {\n    portalHost?: string;\n  }) {\n  return (\n    <TooltipPrimitive.Portal hostName={portalHost}>\n      <FullWindowOverlay>\n        <TooltipPrimitive.Overlay\n          style={Platform.select({ native: StyleSheet.absoluteFill })}\n        >\n          <NativeOnlyAnimatedView\n            entering={\n              side === \"top\"\n                ? FadeInDown.withInitialValues({\n                    transform: [{ translateY: 3 }],\n                  }).duration(150)\n                : FadeInUp.withInitialValues({\n                    transform: [{ translateY: -5 }],\n                  })\n            }\n            exiting={FadeOut}\n          >\n            <TextClassContext.Provider value=\"text-xs text-primary-foreground\">\n              <TooltipPrimitive.Content\n                sideOffset={sideOffset}\n                className={cn(\n                  \"bg-primary z-50 rounded-md px-3 py-2 sm:py-1.5\",\n                  Platform.select({\n                    web: cn(\n                      \"animate-in fade-in-0 zoom-in-95 origin-(--radix-tooltip-content-transform-origin) w-fit text-balance\",\n                      side === \"bottom\" && \"slide-in-from-top-2\",\n                      side === \"left\" && \"slide-in-from-right-2\",\n                      side === \"right\" && \"slide-in-from-left-2\",\n                      side === \"top\" && \"slide-in-from-bottom-2\",\n                    ),\n                  }),\n                  className,\n                )}\n                side={side}\n                {...props}\n              />\n            </TextClassContext.Provider>\n          </NativeOnlyAnimatedView>\n        </TooltipPrimitive.Overlay>\n      </FullWindowOverlay>\n    </TooltipPrimitive.Portal>\n  );\n}\n\nexport { Tooltip, TooltipContent, TooltipTrigger };\n"
+    }
+  ],
+  "dependencies": {
+    "@rn-primitives/tooltip": "1.5.2",
+    "react-native": "0.83.1",
+    "react-native-reanimated": "4.2.1",
+    "react-native-screens": "^4.27.0"
+  },
+  "registryDependencies": [
+    "native-only-animated-view",
+    "text",
+    "utils"
+  ],
+  "integrity": "sha256-GLqBxndnhzOrpU0wORLedr1V0/D4Bs6eAUl0bLI2u/k="
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@moe-ui/cli",
+  "version": "0.1.0-beta.1",
+  "description": "Install Moe UI source components into Next.js applications.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "moe-ui": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.9"
+  },
+  "scripts": {
+    "build": "tsup",
+    "types:check": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moe-ui/moe-ui.git",
+    "directory": "packages/cli"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.2"
+  }
+}
