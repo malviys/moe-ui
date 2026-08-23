@@ -8,3 +8,27 @@ export default function BadgePreview() {
     </Badge>
   );
 }
+
+export function BadgeSecondaryPreview() {
+  return (
+    <Badge variant="secondary">
+      <Text>Secondary</Text>
+    </Badge>
+  );
+}
+
+export function BadgeDestructivePreview() {
+  return (
+    <Badge variant="destructive">
+      <Text>Destructive</Text>
+    </Badge>
+  );
+}
+
+export function BadgeOutlinePreview() {
+  return (
+    <Badge variant="outline">
+      <Text>Outline</Text>
+    </Badge>
+  );
+}

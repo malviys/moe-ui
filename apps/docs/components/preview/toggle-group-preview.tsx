@@ -23,3 +23,45 @@ export default function ToggleGroupPreview() {
     </ToggleGroup>
   );
 }
+
+function ToggleGroupExample({
+  variant,
+  size,
+}: {
+  variant?: "default" | "outline";
+  size?: "default" | "sm" | "lg";
+}) {
+  const [value, setValue] = React.useState<string[]>(["bold"]);
+  return (
+    <ToggleGroup
+      type="multiple"
+      value={value}
+      onValueChange={setValue}
+      variant={variant}
+      size={size}
+    >
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <Bold className="h-4 w-4 text-foreground" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <Italic className="h-4 w-4 text-foreground" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline" aria-label="Toggle underline">
+        <Underline className="h-4 w-4 text-foreground" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  );
+}
+
+export function ToggleGroupOutlinePreview() {
+  return <ToggleGroupExample variant="outline" />;
+}
+
+export function ToggleGroupSizesPreview() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <ToggleGroupExample size="sm" />
+      <ToggleGroupExample size="lg" />
+    </div>
+  );
+}

@@ -1,4 +1,5 @@
 import registry from "../../../packages/registry/registry.json";
+import { componentPreviewVariants } from "./component-preview-manifest";
 
 export const browserProjects = ["chromium", "firefox", "webkit"] as const;
 export const themes = ["light", "dark"] as const;
@@ -35,6 +36,10 @@ export const webTestManifest = registry.components.map((component) => ({
   ...component,
   route: `/docs/components/${component.name}`,
   selector: `[data-testid="preview-${component.name}"]`,
+  previewVariants:
+    componentPreviewVariants[
+      component.name as keyof typeof componentPreviewVariants
+    ] ?? [],
   behaviors:
     behaviorOverrides[component.name] ??
     behaviorByCategory[component.category as keyof typeof behaviorByCategory],

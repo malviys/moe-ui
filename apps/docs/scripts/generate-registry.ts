@@ -315,7 +315,7 @@ import { ${symbol} } from "@/components/ui/${component.name}";
 
 ## Variants and composition
 
-Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+Components with documented variants show them together in the live gallery above. Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
 ## Public API
 

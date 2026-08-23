@@ -26,6 +26,11 @@ test.describe("component documentation matrix", () => {
       await page.goto(component.route);
       const preview = page.locator(component.selector);
       await expect(preview).toBeVisible();
+      for (const variant of component.previewVariants) {
+        await expect(
+          preview.locator(`[data-preview-variant="${variant.id}"]`),
+        ).toBeVisible();
+      }
       await expect(
         page.locator(`[data-testid="release-info-${component.name}"]`),
       ).toBeVisible();
