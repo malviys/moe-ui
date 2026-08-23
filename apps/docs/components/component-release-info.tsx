@@ -33,37 +33,43 @@ export async function ComponentReleaseInfo({ name }: { name: string }) {
       className="not-prose mb-8 space-y-4"
       data-testid={`release-info-${name}`}
     >
-      <div className="grid gap-px overflow-hidden rounded-xl border border-fd-border bg-fd-border md:grid-cols-[1.4fr_1fr]">
-        <div className="bg-fd-card p-5">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-fd-muted-foreground">
-            Install source
-          </p>
-          <div className="flex items-center justify-between gap-3 rounded-lg border border-fd-border bg-fd-background px-3 py-2.5">
-            <code className="overflow-x-auto text-sm">
-              pnpm dlx @moe-ui/cli@beta add {name}
-            </code>
-            <Copy
-              className="size-4 shrink-0 text-fd-muted-foreground"
-              aria-hidden
-            />
-          </div>
+      <section className="rounded-xl border border-fd-border bg-fd-card p-5">
+        <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-fd-muted-foreground">
+          Install source
+        </p>
+        <div className="flex items-center justify-between gap-3 rounded-lg border border-fd-border bg-fd-background px-3 py-2.5">
+          <code className="overflow-x-auto text-sm">
+            pnpm dlx @moe-ui/cli@beta add {name}
+          </code>
+          <Copy
+            className="size-4 shrink-0 text-fd-muted-foreground"
+            aria-hidden
+          />
         </div>
-        <div className="bg-fd-card p-5">
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-fd-muted-foreground">
-            Web beta status
-          </p>
-          <div className="flex flex-wrap gap-2 text-xs">
-            {["Chromium", "Firefox", "WebKit", "WCAG 2.2 AA"].map((label) => (
-              <span
-                key={label}
-                className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/8 px-2 py-1 text-emerald-700 dark:text-emerald-300"
-              >
-                <Check className="size-3" aria-hidden /> {label}
-              </span>
-            ))}
-          </div>
+      </section>
+
+      <section
+        aria-labelledby={`web-beta-status-${name}`}
+        className="rounded-xl border border-fd-border bg-fd-card p-5"
+        data-testid={`web-beta-status-${name}`}
+      >
+        <p
+          className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-fd-muted-foreground"
+          id={`web-beta-status-${name}`}
+        >
+          Web beta status
+        </p>
+        <div className="flex flex-wrap gap-2 text-xs">
+          {["Chromium", "Firefox", "WebKit", "WCAG 2.2 AA"].map((label) => (
+            <span
+              key={label}
+              className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/8 px-2 py-1 text-emerald-700 dark:text-emerald-300"
+            >
+              <Check className="size-3" aria-hidden /> {label}
+            </span>
+          ))}
         </div>
-      </div>
+      </section>
 
       <details className="group rounded-xl border border-fd-border bg-fd-card">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-medium">

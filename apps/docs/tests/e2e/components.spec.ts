@@ -36,6 +36,9 @@ test.describe("component documentation matrix", () => {
       await expect(
         page.locator(`[data-testid="release-info-${component.name}"]`),
       ).toBeVisible();
+      await expect(
+        page.locator(`[data-testid="web-beta-status-${component.name}"]`),
+      ).toBeVisible();
 
       const accessibility = await new AxeBuilder({ page })
         .include(component.previewSelector)
