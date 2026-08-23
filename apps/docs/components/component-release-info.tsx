@@ -10,6 +10,8 @@ type RegistryItem = {
   registryDependencies: string[];
 };
 
+const webBetaLabels = ["Chromium", "Firefox", "WebKit", "WCAG 2.2 AA"] as const;
+
 function extractExports(source: string) {
   const block =
     [...source.matchAll(/export\s*\{([^}]+)\}/gs)].at(-1)?.[1] ?? "";
@@ -18,6 +20,25 @@ function extractExports(source: string) {
     .map((name) => name.trim())
     .filter(Boolean)
     .map((name) => name.split(/\s+as\s+/).at(-1) ?? name);
+}
+
+export function WebBetaStatus({ name }: { name: string }) {
+  return (
+    <ul
+      aria-label="Web beta status"
+      className="m-0 mt-4 flex list-none flex-wrap gap-2 p-0 text-xs"
+      data-testid={`web-beta-status-${name}`}
+    >
+      {webBetaLabels.map((label) => (
+        <li
+          key={label}
+          className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/8 px-2 py-1 text-emerald-700 dark:text-emerald-300"
+        >
+          <Check className="size-3" aria-hidden /> {label}
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export async function ComponentReleaseInfo({ name }: { name: string }) {
@@ -33,7 +54,10 @@ export async function ComponentReleaseInfo({ name }: { name: string }) {
       className="not-prose mb-8 space-y-4"
       data-testid={`release-info-${name}`}
     >
-      <section className="rounded-xl border border-fd-border bg-fd-card p-5">
+      <section
+        className="rounded-xl border border-fd-border bg-fd-card p-5"
+        data-testid={`install-source-${name}`}
+      >
         <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-fd-muted-foreground">
           Install source
         </p>
@@ -45,29 +69,6 @@ export async function ComponentReleaseInfo({ name }: { name: string }) {
             className="size-4 shrink-0 text-fd-muted-foreground"
             aria-hidden
           />
-        </div>
-      </section>
-
-      <section
-        aria-labelledby={`web-beta-status-${name}`}
-        className="rounded-xl border border-fd-border bg-fd-card p-5"
-        data-testid={`web-beta-status-${name}`}
-      >
-        <p
-          className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-fd-muted-foreground"
-          id={`web-beta-status-${name}`}
-        >
-          Web beta status
-        </p>
-        <div className="flex flex-wrap gap-2 text-xs">
-          {["Chromium", "Firefox", "WebKit", "WCAG 2.2 AA"].map((label) => (
-            <span
-              key={label}
-              className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/8 px-2 py-1 text-emerald-700 dark:text-emerald-300"
-            >
-              <Check className="size-3" aria-hidden /> {label}
-            </span>
-          ))}
         </div>
       </section>
 
