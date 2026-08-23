@@ -79,7 +79,7 @@
       "title": "Context Menu",
       "description": "A contextual action menu opened from a pointer gesture.",
       "category": "overlay",
-      "integrity": "sha256-G7pKzUC+1UCmTTEEBvWJO96bay/wx1CATjQQxOrsTbE="
+      "integrity": "sha256-RcXPxfdz3Qhulddv769vO4wAbM6BX0wIBUtLD0tWPhI="
     },
     {
       "name": "dialog",
@@ -93,7 +93,7 @@
       "title": "Dropdown Menu",
       "description": "A keyboard-navigable menu anchored to a trigger.",
       "category": "overlay",
-      "integrity": "sha256-tXQmRc1ypjnC6oVGhbzxQ84rJJax2ZzXs8FTinQJqpU="
+      "integrity": "sha256-UGtC2mnaVpqSFw692QMKQihO4pRQ3CA5QdkYOXb378w="
     },
     {
       "name": "hover-card",
@@ -121,14 +121,14 @@
       "title": "Menubar",
       "description": "A persistent application menu with nested actions.",
       "category": "navigation",
-      "integrity": "sha256-4iuwZ1qiVDTJEVVVowje6gozFhv0XK/29+20AsuaQq4="
+      "integrity": "sha256-9zX1PvgJVcGZX5Opw4lRbrOfbAKZkcufq2i+IHdBqng="
     },
     {
       "name": "popover",
       "title": "Popover",
       "description": "Floating content anchored to an interactive trigger.",
       "category": "overlay",
-      "integrity": "sha256-5Vd0txu8tcU0b39nREMqKmZYWGxKZLvCZ7+i167/dAU="
+      "integrity": "sha256-yjYyY1zqai6JuOXVfn2ot1zV5fh6+gTGekWLIsQxWCU="
     },
     {
       "name": "progress",
@@ -149,7 +149,7 @@
       "title": "Select",
       "description": "A trigger and listbox for choosing one option.",
       "category": "form",
-      "integrity": "sha256-3DHkNhrNNWVfzMtIdo/fCUOjVFWfXWuizgcmg7B0s78="
+      "integrity": "sha256-++mF8XXY+S7WUhdLmnS8hBOPNloT1aQluJWUDIMTwF8="
     },
     {
       "name": "separator",
@@ -219,7 +219,7 @@
       "title": "Tooltip",
       "description": "A short description shown on hover or keyboard focus.",
       "category": "overlay",
-      "integrity": "sha256-6rWGzOvSjzmW/veJYlksvsbR71zILv/RiZ+REDeF5cQ="
+      "integrity": "sha256-I0WBMGwCdu9Cj+j9mvYEnwH/B9dq7QFQhQZn6IbTiO4="
     }
   ]
 }

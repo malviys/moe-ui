@@ -18,16 +18,20 @@ Every item contains a schema version, name, type, destination files, full source
 ```json title="components.json"
 {
   "$schema": "https://moe-ui.vercel.app/schema/components.json",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "registry": "https://moe-ui.vercel.app/r",
   "typescript": true,
+  "framework": "next",
+  "styling": "uniwind",
   "paths": {
-    "components": "@/components/ui",
-    "lib": "@/lib",
+    "components": "components",
+    "lib": "lib",
     "css": "app/globals.css"
   }
 }
 ```
+
+`framework` is `next` or `expo`; `styling` is `uniwind` or `nativewind`. Schema v1 remains readable as the legacy Next.js + Uniwind shape and is upgraded by the next `init` run.
 
 ## Dependency resolution
 

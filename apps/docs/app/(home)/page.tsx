@@ -26,9 +26,9 @@ export default function HomePage() {
               </em>
             </h1>
             <p className="mt-8 max-w-2xl text-balance text-lg leading-8 text-fd-muted-foreground md:text-xl">
-              Moe UI brings a source-owned component workflow to Next.js.
-              Thirty-one accessible React components, tuned for the web and
-              handed to you as editable code.
+              Moe UI is a source-owned component system for React. Accessible,
+              cross-platform components for Next.js, Expo, and beyond—copied
+              into your project as code you can own, adapt, and evolve.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <Link

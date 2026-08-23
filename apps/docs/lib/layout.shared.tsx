@@ -22,8 +22,7 @@ export function baseOptions(): BaseLayoutProps {
 export const banner = {
   content: (
     <>
-      <strong>v0.1 web beta:</strong> source-owned components for Next.js 16 App
-      Router.
+      <strong>v0.1 beta:</strong> source-owned components for Next.js and Expo.
     </>
   ),
 };

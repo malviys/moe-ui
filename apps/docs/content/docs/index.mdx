@@ -1,16 +1,16 @@
 ---
 title: Introduction
-description: Own the source for accessible React Native Web components in Next.js.
+description: Own the source for accessible React components across Next.js and Expo.
 icon: Album
 ---
 
-Moe UI is a source-copy component registry for **Next.js 16 App Router** projects. The CLI installs complete component source into your application, where it becomes yours to inspect, style, and evolve.
+Moe UI is a source-copy component registry for **Next.js and Expo** projects. The CLI installs complete React Native component source into your application, where it becomes yours to inspect, style, and evolve.
 
-> Web first, native next. The `v0.1.0-beta.1` contract covers React 19 and modern desktop browsers. iOS and Android are part of the future architecture, not this release guarantee.
+> The initializer supports both frameworks today. The `v0.1.0-beta.1` release matrix still publishes browser verification while native device coverage expands.
 
 ## Why source ownership?
 
-There is no runtime `@moe-ui/components` dependency. Components are built from React Native primitives, rendered through React Native Web, and styled with Uniwind. You can change every line while retaining an accessible behavioral foundation.
+There is no runtime `@moe-ui/components` dependency. Components are built from React Native primitives and work with either Uniwind or NativeWind. You can change every line while retaining an accessible behavioral foundation.
 
 - **Auditable:** implementation and dependencies are visible in your repository.
 - **Adaptable:** variants, spacing, and product-specific behavior live beside your app.
@@ -19,10 +19,11 @@ There is no runtime `@moe-ui/components` dependency. Components are built from R
 
 ## Beta contract
 
-| Included | Not included |
+| Included | Current boundary |
 | --- | --- |
 | 31 source-owned components | iOS or Android release support |
-| Next.js 16 App Router | Pages Router or JavaScript projects |
+| Next.js 16 App Router and Expo | Pages Router or JavaScript projects |
+| Uniwind and NativeWind initialization | Automatic styling-engine migration after init |
 | React 19 and React Native Web 0.21 | New components such as Command, Toast, or Form |
 | Chromium, Firefox, and WebKit verification | A traditional component runtime package |
 

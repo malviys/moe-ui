@@ -1,8 +1,8 @@
 # Moe UI
 
-Moe UI is a web-first, source-copy component registry for TypeScript Next.js 16 App Router projects. The CLI installs accessible React Native Web component source into your app—you own the files, styling, and product decisions.
+Moe UI is a source-copy component registry for TypeScript React projects. The CLI configures Next.js or Expo with Uniwind or NativeWind, then installs accessible React Native component source into your app—you own the files, styling, and product decisions.
 
-> `v0.1.0-beta.1` targets React 19 and modern desktop browsers. Native iOS and Android support is next, not part of this beta contract.
+> `v0.1.0-beta.1` includes initializer support for Next.js and Expo. The published verification matrix still targets React 19 and modern desktop browsers while native device coverage expands.
 
 ## Quick start
 
@@ -11,15 +11,16 @@ pnpm dlx @moe-ui/cli@beta init
 pnpm dlx @moe-ui/cli@beta add button dialog
 ```
 
-The initializer detects pnpm, npm, or yarn and `src/` layouts, then configures React Native Web, Uniwind, theme CSS, and source aliases. The `add` command validates checksums, resolves source dependencies recursively, and protects local changes.
+Interactive initialization asks whether to use Uniwind or NativeWind. For automation, pass `--styling uniwind|nativewind`; `--yes` keeps the backwards-compatible Uniwind default. The initializer detects Next.js or Expo, the package manager, and supported application layouts before configuring the selected stack.
 
 ## Supported stack
 
 - Node.js 20.9+
-- Next.js 16.1 App Router with Webpack
+- Next.js 16.1 App Router with Webpack or Expo with Metro
 - React 19.2
 - React Native 0.83 and React Native Web 0.21
-- Uniwind 1.11 and Tailwind CSS 4
+- Uniwind 1.11 with Tailwind CSS 4
+- NativeWind 4.2 with Tailwind CSS 3.4
 - Chromium, Firefox, and WebKit desktop engines
 
 ## Component catalog
@@ -71,8 +72,8 @@ pnpm registry:generate
 
 ## Roadmap
 
-- Stabilize the Next.js web beta and source ownership workflow.
-- Validate and document React Native iOS and Android behavior.
+- Stabilize the Next.js and Expo source ownership workflow.
+- Expand React Native iOS and Android device verification.
 - Add new components only after the existing catalog clears release gates.
 
 The experimental filters package is not part of this release.

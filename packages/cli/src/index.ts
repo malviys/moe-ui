@@ -4,24 +4,26 @@ import { access, mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { createInterface } from "node:readline/promises";
-import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 export const DEFAULT_REGISTRY = "https://moe-ui.vercel.app/r";
 
 export type PackageManager = "pnpm" | "npm" | "yarn" | "bun";
+export type Framework = "next" | "expo";
+export type StylingEngine = "uniwind" | "nativewind";
+
+type ConfigPaths = { components: string; lib: string; css: string };
 
 export type ComponentsConfig = {
   $schema: string;
-  schemaVersion: 1;
+  schemaVersion: 2;
   registry: string;
   typescript: true;
-  paths: {
-    components: string;
-    lib: string;
-    css: string;
-  };
+  framework: Framework;
+  styling: StylingEngine;
+  paths: ConfigPaths;
 };
 
 export type RegistryItem = {
@@ -43,35 +45,75 @@ export type CliOptions = {
   overwrite: boolean;
   install: boolean;
   packageManager?: PackageManager;
+  styling?: StylingEngine;
 };
 
-const SHARED_DEPENDENCIES: Record<string, string> = {
+type ProjectPackage = {
+  type?: string;
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+};
+
+type PlannedFile = {
+  file: string;
+  content: string;
+  generated?: boolean;
+  skipIfExists?: boolean;
+};
+
+const COMMON_NEXT_DEPENDENCIES: Record<string, string> = {
   "react-native": "0.83.1",
   "react-native-web": "^0.21.2",
   "lucide-react": "^0.563.0",
-  tailwindcss: "^4.1.18",
-  "@tailwindcss/postcss": "^4.2.1",
-  uniwind: "^1.11.0",
-  "uniwind-plugin-next": "1.4.2",
   clsx: "^2.1.1",
-  "tailwind-merge": "^3.5.0",
 };
+const UNIWIND_DEPENDENCIES: Record<string, string> = {
+  uniwind: "^1.11.0",
+  tailwindcss: "^4.1.18",
+  "tailwind-merge": "^3.5.0",
+  "tw-animate-css": "^1.4.0",
+};
+const NATIVEWIND_DEPENDENCIES: Record<string, string> = {
+  nativewind: "^4.2.6",
+  "react-native-css-interop": "0.2.6",
+  "react-native-reanimated": "latest",
+  "react-native-safe-area-context": "latest",
+  tailwindcss: "^3.4.17",
+  "tailwind-merge": "^2.6.1",
+  "tailwindcss-animate": "^1.0.7",
+};
+const EXPO_NATIVE_PACKAGES = new Set([
+  "react-native",
+  "react-native-web",
+  "react-native-reanimated",
+  "react-native-screens",
+  "react-native-svg",
+  "react-native-safe-area-context",
+]);
 
 function usage() {
-  return `Moe UI v0.1 beta\n\nUsage:\n  moe-ui init [--cwd <path>] [--yes] [--package-manager <pnpm|npm|yarn|bun>] [--no-install]\n  moe-ui add <components...> [--cwd <path>] [--overwrite] [--no-install]\n`;
+  return `Moe UI v0.1 beta\n\nUsage:\n  moe-ui init [--cwd <path>] [--styling <uniwind|nativewind>] [--yes] [--package-manager <pnpm|npm|yarn|bun>] [--no-install]\n  moe-ui add <components...> [--cwd <path>] [--overwrite] [--no-install]\n`;
 }
 
 export function parseArguments(argv: string[]) {
   const [command, ...rest] = argv;
-  if (!command || command === "help" || command === "--help" || command === "-h") {
-    return { command: "help" as const, components: [], options: defaultOptions() };
+  if (
+    !command ||
+    command === "help" ||
+    command === "--help" ||
+    command === "-h"
+  ) {
+    return {
+      command: "help" as const,
+      components: [],
+      options: defaultOptions(),
+    };
   }
-
-  if (command !== "init" && command !== "add") throw new Error(`Unknown command: ${command}\n\n${usage()}`);
-
+  if (command !== "init" && command !== "add") {
+    throw new Error(`Unknown command: ${command}\n\n${usage()}`);
+  }
   const options = defaultOptions();
   const components: string[] = [];
-
   for (let index = 0; index < rest.length; index += 1) {
     const argument = rest[index];
     if (argument === "--cwd") {
@@ -84,6 +126,14 @@ export function parseArguments(argv: string[]) {
         throw new Error("--package-manager must be pnpm, npm, yarn, or bun");
       }
       options.packageManager = value;
+    } else if (argument === "--styling") {
+      if (command !== "init")
+        throw new Error("--styling is only valid with `moe-ui init`.");
+      const value = rest[++index] as StylingEngine | undefined;
+      if (!value || !["uniwind", "nativewind"].includes(value)) {
+        throw new Error("--styling must be uniwind or nativewind");
+      }
+      options.styling = value;
     } else if (argument === "--yes" || argument === "-y") {
       options.yes = true;
     } else if (argument === "--overwrite") {
@@ -96,8 +146,9 @@ export function parseArguments(argv: string[]) {
       components.push(argument);
     }
   }
-
-  if (command === "add" && components.length === 0) throw new Error("Add at least one component name.");
+  if (command === "add" && components.length === 0) {
+    throw new Error("Add at least one component name.");
+  }
   return { command, components, options };
 }
 
@@ -114,7 +165,9 @@ async function exists(file: string) {
   }
 }
 
-export async function detectPackageManager(cwd: string): Promise<PackageManager> {
+export async function detectPackageManager(
+  cwd: string,
+): Promise<PackageManager> {
   const locks: Array<[string, PackageManager]> = [
     ["pnpm-lock.yaml", "pnpm"],
     ["bun.lock", "bun"],
@@ -122,39 +175,257 @@ export async function detectPackageManager(cwd: string): Promise<PackageManager>
     ["yarn.lock", "yarn"],
     ["package-lock.json", "npm"],
   ];
-  for (const [lock, manager] of locks) if (await exists(path.join(cwd, lock))) return manager;
+  for (const [lock, manager] of locks) {
+    if (await exists(path.join(cwd, lock))) return manager;
+  }
   return "pnpm";
 }
 
-function dependencyArguments(manager: PackageManager, dependencies: Record<string, string>) {
-  const packages = Object.entries(dependencies).map(([name, version]) => `${name}@${version}`);
+function dependencyArguments(
+  manager: PackageManager,
+  dependencies: Record<string, string>,
+) {
+  const packages = Object.entries(dependencies).map(
+    ([name, version]) => `${name}@${version}`,
+  );
   if (manager === "npm") return ["install", ...packages];
   if (manager === "yarn") return ["add", ...packages];
   return ["add", ...packages];
 }
 
-async function installDependencies(cwd: string, manager: PackageManager, dependencies: Record<string, string>) {
+async function installDependencies(
+  cwd: string,
+  manager: PackageManager,
+  dependencies: Record<string, string>,
+) {
   if (Object.keys(dependencies).length === 0) return;
-  await execFileAsync(manager, dependencyArguments(manager, dependencies), { cwd });
+  await execFileAsync(manager, dependencyArguments(manager, dependencies), {
+    cwd,
+  });
 }
 
-function nextHelperSource(cssPath: string) {
+function expoInstallCommand(manager: PackageManager, packages: string[]) {
+  if (manager === "pnpm")
+    return { command: "pnpm", args: ["exec", "expo", "install", ...packages] };
+  if (manager === "yarn")
+    return { command: "yarn", args: ["expo", "install", ...packages] };
+  if (manager === "bun")
+    return { command: "bunx", args: ["expo", "install", ...packages] };
+  return { command: "npx", args: ["expo", "install", ...packages] };
+}
+
+async function installExpoDependencies(
+  cwd: string,
+  manager: PackageManager,
+  dependencies: Record<string, string>,
+) {
+  const nativePackages = Object.keys(dependencies).filter((name) =>
+    EXPO_NATIVE_PACKAGES.has(name),
+  );
+  const regularDependencies = Object.fromEntries(
+    Object.entries(dependencies).filter(
+      ([name]) => !EXPO_NATIVE_PACKAGES.has(name),
+    ),
+  );
+  await installDependencies(cwd, manager, regularDependencies);
+  if (nativePackages.length > 0) {
+    const { command, args } = expoInstallCommand(manager, nativePackages);
+    await execFileAsync(command, args, { cwd });
+  }
+}
+
+export function dependenciesFor(framework: Framework, styling: StylingEngine) {
+  return {
+    ...(framework === "next" ? COMMON_NEXT_DEPENDENCIES : {}),
+    ...(styling === "uniwind" ? UNIWIND_DEPENDENCIES : NATIVEWIND_DEPENDENCIES),
+    ...(framework === "next" && styling === "uniwind"
+      ? { "@tailwindcss/postcss": "^4.2.1", "uniwind-plugin-next": "1.4.2" }
+      : {}),
+  };
+}
+
+function normalizeConfig(value: unknown): ComponentsConfig {
+  if (!value || typeof value !== "object")
+    throw new Error("Unsupported components.json schema.");
+  const config = value as {
+    $schema?: string;
+    schemaVersion?: number;
+    registry?: string;
+    typescript?: boolean;
+    framework?: Framework;
+    styling?: StylingEngine;
+    paths?: Partial<ConfigPaths>;
+  };
+  if (
+    config.typescript !== true ||
+    !config.registry ||
+    !config.paths ||
+    typeof config.paths.components !== "string" ||
+    typeof config.paths.lib !== "string" ||
+    typeof config.paths.css !== "string"
+  ) {
+    throw new Error("Unsupported components.json schema.");
+  }
+  if (config.schemaVersion === 1) {
+    return {
+      $schema:
+        config.$schema ?? "https://moe-ui.vercel.app/schema/components.json",
+      schemaVersion: 2,
+      registry: config.registry,
+      typescript: true,
+      framework: "next",
+      styling: "uniwind",
+      paths: config.paths as ConfigPaths,
+    };
+  }
+  if (
+    config.schemaVersion !== 2 ||
+    !["next", "expo"].includes(config.framework ?? "") ||
+    !["uniwind", "nativewind"].includes(config.styling ?? "")
+  ) {
+    throw new Error("Unsupported components.json schema.");
+  }
+  return config as ComponentsConfig;
+}
+
+async function readExistingConfig(cwd: string) {
+  const file = path.join(cwd, "components.json");
+  if (!(await exists(file))) return undefined;
+  try {
+    const value = JSON.parse(await readFile(file, "utf8")) as {
+      schemaVersion?: number;
+    };
+    return {
+      config: normalizeConfig(value),
+      legacy: value.schemaVersion === 1,
+    };
+  } catch (error) {
+    throw new Error(
+      `Existing components.json cannot be transformed safely. ${
+        error instanceof Error
+          ? error.message
+          : "Reconcile it before running init."
+      }`,
+    );
+  }
+}
+
+async function selectStyling(
+  options: CliOptions,
+  existing: ComponentsConfig | undefined,
+) {
+  if (existing) {
+    if (options.styling && options.styling !== existing.styling) {
+      throw new Error(
+        `This project is already initialized with ${existing.styling}. Automatic styling-engine switching is not supported.`,
+      );
+    }
+    return existing.styling;
+  }
+  if (options.styling) return options.styling;
+  if (options.yes) return "uniwind" as const;
+  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+    throw new Error(
+      "A styling engine is required in non-interactive mode. Pass --styling uniwind|nativewind or --yes to accept Uniwind.",
+    );
+  }
+  const prompt = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  try {
+    const answer = await prompt.question(
+      "Choose a styling engine:\n  1. Uniwind (recommended)\n  2. NativeWind\nSelection [1]: ",
+    );
+    return parseStylingSelection(answer);
+  } finally {
+    prompt.close();
+  }
+}
+
+export function parseStylingSelection(answer: string): StylingEngine {
+  if (answer.trim() === "" || answer.trim() === "1") return "uniwind";
+  if (answer.trim() === "2") return "nativewind";
+  throw new Error(
+    "Invalid styling selection. Enter 1 for Uniwind or 2 for NativeWind.",
+  );
+}
+
+async function readProjectPackage(cwd: string) {
+  const file = path.join(cwd, "package.json");
+  if (!(await exists(file))) throw new Error("No package.json was found.");
+  return JSON.parse(await readFile(file, "utf8")) as ProjectPackage;
+}
+
+export function detectFramework(projectPackage: ProjectPackage): Framework {
+  const dependencies = {
+    ...projectPackage.devDependencies,
+    ...projectPackage.dependencies,
+  };
+  const hasNext = Boolean(dependencies.next);
+  const hasExpo = Boolean(dependencies.expo);
+  if (hasNext && hasExpo) {
+    throw new Error(
+      "Both Next.js and Expo were detected. Run init with --cwd pointing at one application package.",
+    );
+  }
+  if (hasNext) return "next";
+  if (hasExpo) return "expo";
+  throw new Error(
+    "Moe UI supports Next.js and Expo projects. Neither framework was detected.",
+  );
+}
+
+const OPTIONAL_TRANSPILE_PACKAGES = [
+  "@rn-primitives/accordion",
+  "@rn-primitives/alert-dialog",
+  "@rn-primitives/aspect-ratio",
+  "@rn-primitives/avatar",
+  "@rn-primitives/checkbox",
+  "@rn-primitives/collapsible",
+  "@rn-primitives/context-menu",
+  "@rn-primitives/dialog",
+  "@rn-primitives/dropdown-menu",
+  "@rn-primitives/hover-card",
+  "@rn-primitives/label",
+  "@rn-primitives/menubar",
+  "@rn-primitives/popover",
+  "@rn-primitives/portal",
+  "@rn-primitives/progress",
+  "@rn-primitives/radio-group",
+  "@rn-primitives/select",
+  "@rn-primitives/separator",
+  "@rn-primitives/slot",
+  "@rn-primitives/switch",
+  "@rn-primitives/tabs",
+  "@rn-primitives/toggle",
+  "@rn-primitives/toggle-group",
+  "@rn-primitives/tooltip",
+] as const;
+
+function nextHelperSource(cssPath: string, styling: StylingEngine) {
+  const stylingImport =
+    styling === "uniwind"
+      ? 'import { withUniwind } from "uniwind-plugin-next";\n'
+      : "";
+  const stylingPackages =
+    styling === "uniwind"
+      ? '      "uniwind",\n'
+      : '      "nativewind",\n      "react-native-css-interop",\n';
+  const uniwindAlias =
+    styling === "uniwind"
+      ? '        "uniwind/components/index$": path.resolve(import.meta.dirname, "moe-ui.react-native.web.ts"),\n'
+      : "";
+  const result =
+    styling === "uniwind"
+      ? `return withUniwind(configured, { cssEntryFile: "./${cssPath}", dtsFile: "./uniwind-types.d.ts" });`
+      : "return configured;";
   return `import type { NextConfig } from "next";
 import { createRequire } from "node:module";
 import path from "node:path";
-import { withUniwind } from "uniwind-plugin-next";
-
+${stylingImport}
 const require = createRequire(import.meta.url);
-const optionalTranspilePackages = [
-  "@rn-primitives/accordion", "@rn-primitives/alert-dialog", "@rn-primitives/aspect-ratio",
-  "@rn-primitives/avatar", "@rn-primitives/checkbox", "@rn-primitives/collapsible",
-  "@rn-primitives/context-menu", "@rn-primitives/dialog", "@rn-primitives/dropdown-menu",
-  "@rn-primitives/hover-card", "@rn-primitives/label", "@rn-primitives/menubar",
-  "@rn-primitives/popover", "@rn-primitives/portal", "@rn-primitives/progress",
-  "@rn-primitives/radio-group", "@rn-primitives/select", "@rn-primitives/separator",
-  "@rn-primitives/slot", "@rn-primitives/switch", "@rn-primitives/tabs",
-  "@rn-primitives/toggle", "@rn-primitives/toggle-group", "@rn-primitives/tooltip",
-].filter((packageName) => {
+const optionalTranspilePackages = ${JSON.stringify(OPTIONAL_TRANSPILE_PACKAGES, null, 2)}.filter((packageName) => {
   try { require.resolve(packageName); return true; } catch { return false; }
 });
 
@@ -165,14 +436,9 @@ export function withMoeUI(nextConfig: NextConfig): NextConfig {
     transpilePackages: Array.from(new Set([
       ...(nextConfig.transpilePackages ?? []),
       ...optionalTranspilePackages,
-      "react-native",
-      "react-native-web",
-      "react-native-reanimated",
-      "react-native-screens",
-      "react-native-svg",
-      "lucide-react-native",
-      "uniwind",
-    ])),
+      "react-native", "react-native-web", "react-native-reanimated",
+      "react-native-screens", "react-native-svg", "lucide-react-native",
+${stylingPackages}    ])),
     experimental: { ...nextConfig.experimental, forceSwcTransforms: true },
     webpack(config, options) {
       config.plugins.push(new options.webpack.DefinePlugin({ __DEV__: JSON.stringify(false) }));
@@ -183,8 +449,7 @@ export function withMoeUI(nextConfig: NextConfig): NextConfig {
         "react-native$": "react-native-web",
         "react-native-reanimated$": path.resolve(import.meta.dirname, "moe-ui.reanimated.web.tsx"),
         "react-native-screens$": path.resolve(import.meta.dirname, "moe-ui.screens.web.tsx"),
-        "uniwind/components/index$": path.resolve(import.meta.dirname, "moe-ui.react-native.web.ts"),
-        "react-native/Libraries/EventEmitter/RCTDeviceEventEmitter$": "react-native-web/dist/vendor/react-native/NativeEventEmitter/RCTDeviceEventEmitter",
+${uniwindAlias}        "react-native/Libraries/EventEmitter/RCTDeviceEventEmitter$": "react-native-web/dist/vendor/react-native/NativeEventEmitter/RCTDeviceEventEmitter",
         "react-native/Libraries/vendor/emitter/EventEmitter$": "react-native-web/dist/vendor/react-native/emitter/EventEmitter",
         "react-native/Libraries/EventEmitter/NativeEventEmitter$": "react-native-web/dist/vendor/react-native/NativeEventEmitter",
       };
@@ -192,15 +457,13 @@ export function withMoeUI(nextConfig: NextConfig): NextConfig {
       return previousWebpack ? previousWebpack(config, options) : config;
     },
   };
-
-  return withUniwind(configured, { cssEntryFile: "./${cssPath}", dtsFile: "./uniwind-types.d.ts" });
+  ${result}
 }
 `;
 }
 
 function screensWebSource() {
   return `import { Fragment, type PropsWithChildren } from "react";
-
 export function FullWindowOverlay({ children }: PropsWithChildren) {
   return <Fragment>{children}</Fragment>;
 }
@@ -221,15 +484,10 @@ export { Platform, StyleSheet, useColorScheme } from "react-native-web";
 function reanimatedWebSource() {
   return `import { Fragment, type PropsWithChildren } from "react";
 import { View } from "react-native";
-
 const transition = {
-  duration: () => transition,
-  damping: () => transition,
-  springify: () => transition,
-  stiffness: () => transition,
-  withInitialValues: () => transition,
+  duration: () => transition, damping: () => transition, springify: () => transition,
+  stiffness: () => transition, withInitialValues: () => transition,
 };
-
 export const FadeIn = transition;
 export const FadeOut = transition;
 export const FadeInDown = transition;
@@ -254,29 +512,279 @@ export default { View };
 `;
 }
 
+function stylingAdapterSource(styling: StylingEngine) {
+  if (styling === "uniwind") {
+    return `import type { ComponentType } from "react";
+import { withUniwind } from "uniwind";
+export function withMoeIcon<Props extends object>(
+  component: ComponentType<Props>,
+): ComponentType<Props> {
+  return withUniwind(component, {
+    size: { fromClassName: "className", styleProperty: "width" },
+    color: { fromClassName: "className", styleProperty: "color" },
+  }) as ComponentType<Props>;
+}
+`;
+  }
+  return `import type { ComponentType } from "react";
+import { cssInterop } from "nativewind";
+type MoeIconInteropProps = {
+  className?: string;
+  style?: object;
+  size?: number | string;
+  color?: string;
+};
+export function withMoeIcon<Props extends object>(
+  component: ComponentType<Props>,
+): ComponentType<Props> {
+  cssInterop(component as unknown as ComponentType<MoeIconInteropProps>, {
+    className: { target: "style", nativeStyleToProp: { width: "size", height: "size", color: true } },
+  });
+  return component;
+}
+`;
+}
+
+function metroHelperSource(styling: StylingEngine, cssPath: string) {
+  if (styling === "uniwind") {
+    return `const { withUniwindConfig } = require("uniwind/metro");
+function withMoeUI(config) {
+  return withUniwindConfig(config, { cssEntryFile: "./${cssPath}", dtsFile: "./uniwind-types.d.ts" });
+}
+module.exports = { withMoeUI };
+`;
+  }
+  return `const { withNativeWind } = require("nativewind/metro");
+function withMoeUI(config) { return withNativeWind(config, { input: "./${cssPath}" }); }
+module.exports = { withMoeUI };
+`;
+}
+
 function transformNextConfig(content: string) {
   if (content.includes("withMoeUI(")) return content;
   const match = content.match(/export\s+default\s+([A-Za-z_$][\w$]*)\s*;?/);
-  if (!match) {
-    throw new Error("Unsupported next.config export. Use `export default nextConfig` and run init again.");
-  }
+  if (!match)
+    throw new Error(
+      "Unsupported next.config export. Use `export default nextConfig` and run init again.",
+    );
   return `import { withMoeUI } from "./moe-ui.next";\n${content.replace(match[0], `export default withMoeUI(${match[1]});`)}`;
 }
 
-function ensureCss(content: string) {
-  const withoutImports = content
-    .replace(/^\s*@import\s+["']tailwindcss["'];?\s*$/m, "")
-    .replace(/^\s*@import\s+["']uniwind["'];?\s*$/m, "")
+function transformMetroConfig(content: string) {
+  if (content.includes("withMoeUI(")) return content;
+  const match = content.match(/module\.exports\s*=\s*([A-Za-z_$][\w$]*)\s*;?/);
+  if (!match)
+    throw new Error(
+      "Unsupported Metro config. Export a named config with `module.exports = config` and run init again.",
+    );
+  return `const { withMoeUI } = require("./moe-ui.metro.cjs");\n${content.replace(match[0], `module.exports = withMoeUI(${match[1]});`)}`;
+}
+
+function defaultMetroConfig() {
+  return `const { getDefaultConfig } = require("expo/metro-config");
+const { withMoeUI } = require("./moe-ui.metro.cjs");
+const config = getDefaultConfig(__dirname);
+module.exports = withMoeUI(config);
+`;
+}
+
+const UNIWIND_THEME = `/* Moe UI theme */
+@layer theme {
+  :root {
+    @variant light {
+      --color-background: oklch(100% 0 0); --color-foreground: oklch(14.5% 0 0);
+      --color-card: oklch(100% 0 0); --color-card-foreground: oklch(14.5% 0 0);
+      --color-popover: oklch(100% 0 0); --color-popover-foreground: oklch(14.5% 0 0);
+      --color-primary: oklch(20.5% 0 0); --color-primary-foreground: oklch(98% 0 0);
+      --color-secondary: oklch(96.7% 0 0); --color-secondary-foreground: oklch(20.5% 0 0);
+      --color-muted: oklch(96.7% 0 0); --color-muted-foreground: oklch(55.5% 0 0);
+      --color-accent: oklch(96.7% 0 0); --color-accent-foreground: oklch(20.5% 0 0);
+      --color-destructive: oklch(55% 0.22 29.23); --color-border: oklch(91.7% 0 0);
+      --color-input: oklch(91.7% 0 0); --color-ring: oklch(69.4% 0 0);
+    }
+    @variant dark {
+      --color-background: oklch(14.5% 0 0); --color-foreground: oklch(98% 0 0);
+      --color-card: oklch(14.5% 0 0); --color-card-foreground: oklch(98% 0 0);
+      --color-popover: oklch(14.5% 0 0); --color-popover-foreground: oklch(98% 0 0);
+      --color-primary: oklch(98% 0 0); --color-primary-foreground: oklch(20.5% 0 0);
+      --color-secondary: oklch(28.5% 0 0); --color-secondary-foreground: oklch(98% 0 0);
+      --color-muted: oklch(28.5% 0 0); --color-muted-foreground: oklch(71.3% 0 0);
+      --color-accent: oklch(28.5% 0 0); --color-accent-foreground: oklch(98% 0 0);
+      --color-destructive: oklch(52% 0.2 29.23); --color-border: oklch(28.5% 0 0);
+      --color-input: oklch(28.5% 0 0); --color-ring: oklch(55.5% 0 0);
+    }
+    --radius: 0.625rem;
+  }
+}
+`;
+
+const NATIVEWIND_THEME = `/* Moe UI theme */
+@layer base {
+  :root {
+    --background: 0 0% 100%; --foreground: 0 0% 9%; --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%; --popover: 0 0% 100%; --popover-foreground: 0 0% 9%;
+    --primary: 0 0% 20%; --primary-foreground: 0 0% 98%; --secondary: 0 0% 97%;
+    --secondary-foreground: 0 0% 20%; --muted: 0 0% 97%; --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 97%; --accent-foreground: 0 0% 20%; --destructive: 0 72% 51%;
+    --border: 0 0% 92%; --input: 0 0% 92%; --ring: 0 0% 71%; --radius: 0.625rem;
+  }
+  .dark {
+    --background: 0 0% 9%; --foreground: 0 0% 98%; --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%; --popover: 0 0% 9%; --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%; --primary-foreground: 0 0% 20%; --secondary: 0 0% 29%;
+    --secondary-foreground: 0 0% 98%; --muted: 0 0% 29%; --muted-foreground: 0 0% 71%;
+    --accent: 0 0% 29%; --accent-foreground: 0 0% 98%; --destructive: 0 72% 45%;
+    --border: 0 0% 29%; --input: 0 0% 29%; --ring: 0 0% 56%;
+  }
+}
+`;
+
+function ensureUniwindCss(content: string) {
+  const body = content
+    .replace(/^\s*@import\s+["']tailwindcss["'];?\s*$/gm, "")
+    .replace(/^\s*@import\s+["']uniwind["'];?\s*$/gm, "")
+    .replace(/^\s*@import\s+["']tw-animate-css["'];?\s*$/gm, "")
     .trimStart();
-  const theme = withoutImports.includes("--color-background")
+  const theme =
+    body.includes("--color-background") || body.includes("/* Moe UI theme */")
+      ? ""
+      : `\n${UNIWIND_THEME}`;
+  return `@import "tailwindcss";\n@import "uniwind";\n@import "tw-animate-css";\n\n${body}${theme}`;
+}
+
+function ensureNativewindCss(content: string) {
+  const body = content
+    .replace(
+      /^\s*@import\s+["'](?:tailwindcss|uniwind|tw-animate-css)["'];?\s*$/gm,
+      "",
+    )
+    .replace(/^\s*@tailwind\s+(?:base|components|utilities);?\s*$/gm, "")
+    .trimStart();
+  const theme = body.includes("/* Moe UI theme */")
     ? ""
-    : `\n@theme inline {\n  --color-background: var(--background);\n  --color-foreground: var(--foreground);\n  --color-primary: var(--primary);\n  --color-primary-foreground: var(--primary-foreground);\n  --color-border: var(--border);\n  --color-ring: var(--ring);\n}\n\n:root {\n  --background: oklch(1 0 0);\n  --foreground: oklch(0.145 0 0);\n  --primary: oklch(0.205 0 0);\n  --primary-foreground: oklch(0.985 0 0);\n  --border: oklch(0.922 0 0);\n  --ring: oklch(0.708 0 0);\n}\n\n.dark {\n  --background: oklch(0.145 0 0);\n  --foreground: oklch(0.985 0 0);\n  --primary: oklch(0.985 0 0);\n  --primary-foreground: oklch(0.205 0 0);\n  --border: oklch(1 0 0 / 10%);\n  --ring: oklch(0.556 0 0);\n}\n`;
-  return `@import "tailwindcss";\n@import "uniwind";\n\n${withoutImports}${theme}`;
+    : `\n${NATIVEWIND_THEME}`;
+  return `@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n${body}${theme}`;
+}
+
+function nativewindTailwindConfig() {
+  const colors = [
+    "background",
+    "foreground",
+    "card",
+    "card-foreground",
+    "popover",
+    "popover-foreground",
+    "primary",
+    "primary-foreground",
+    "secondary",
+    "secondary-foreground",
+    "muted",
+    "muted-foreground",
+    "accent",
+    "accent-foreground",
+    "destructive",
+    "border",
+    "input",
+    "ring",
+  ];
+  const colorEntries = colors
+    .map((name) => `        "${name}": "hsl(var(--${name}))",`)
+    .join("\n");
+  return `/** @type {import("tailwindcss").Config} */
+module.exports = {
+  darkMode: "class",
+  content: ["./App.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx,mdx}", "./src/**/*.{js,jsx,ts,tsx,mdx}", "./components/**/*.{js,jsx,ts,tsx,mdx}"],
+  presets: [require("nativewind/preset")],
+  theme: { extend: {
+    colors: {
+${colorEntries}
+    },
+    borderRadius: { lg: "var(--radius)", md: "calc(var(--radius) - 2px)", sm: "calc(var(--radius) - 4px)" },
+  } },
+  plugins: [require("tailwindcss-animate")],
+};
+`;
+}
+
+function ensureJsxImportSource(content: string) {
+  const existing = content.match(/"jsxImportSource"\s*:\s*"([^"]+)"/);
+  if (existing?.[1] === "nativewind") return content;
+  if (existing)
+    throw new Error(
+      `tsconfig.json already sets jsxImportSource to ${existing[1]}. Reconcile it before running init.`,
+    );
+  if (/"compilerOptions"\s*:\s*{/.test(content)) {
+    return content.replace(
+      /"compilerOptions"\s*:\s*{/,
+      '"compilerOptions": {\n    "jsxImportSource": "nativewind",',
+    );
+  }
+  const opening = content.match(/{/);
+  if (!opening || opening.index === undefined)
+    throw new Error("tsconfig.json is not a recognizable JSON object.");
+  return `${content.slice(0, opening.index + 1)}\n  "compilerOptions": { "jsxImportSource": "nativewind" },${content.slice(opening.index + 1)}`;
+}
+
+function ensureNativewindPostcss(content: string | undefined) {
+  if (content === undefined)
+    return `const config = { plugins: { tailwindcss: {} } };\nexport default config;\n`;
+  const compact = content
+    .replaceAll("'", '"')
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/.*$/gm, "")
+    .replace(/\s+/g, "")
+    .replace(/;/g, "")
+    .replace(/,}/g, "}");
+  const canonical = new Set([
+    'constconfig={plugins:{"@tailwindcss/postcss":{}}}exportdefaultconfig',
+    'module.exports={plugins:{"@tailwindcss/postcss":{}}}',
+    "constconfig={plugins:{tailwindcss:{}}}exportdefaultconfig",
+    "module.exports={plugins:{tailwindcss:{}}}",
+  ]);
+  if (canonical.has(compact)) {
+    return content.includes("@tailwindcss/postcss")
+      ? content.replace("@tailwindcss/postcss", "tailwindcss")
+      : content;
+  }
+  throw new Error(
+    "Unsupported PostCSS config for NativeWind. Use the canonical Tailwind plugin configuration and run init again.",
+  );
+}
+
+function nativewindBabelConfig() {
+  return `module.exports = function (api) {
+  api.cache(true);
+  return { presets: [["babel-preset-expo", { jsxImportSource: "nativewind" }], "nativewind/babel"] };
+};
+`;
+}
+
+function ensureNativewindBabel(content: string | undefined) {
+  if (content === undefined) return nativewindBabelConfig();
+  if (
+    content.includes("nativewind/babel") &&
+    content.includes("jsxImportSource")
+  )
+    return content;
+  throw new Error(
+    "Existing Babel config cannot be transformed safely for NativeWind. Add the NativeWind preset manually and rerun init.",
+  );
+}
+
+function addCssImport(content: string, importPath: string) {
+  const statement = `import "${importPath}";`;
+  if (
+    content.includes(statement) ||
+    content.includes(`import '${importPath}';`)
+  )
+    return content;
+  return `${statement}\n${content}`;
 }
 
 function addHydrationSuppression(content: string) {
   if (content.includes("suppressHydrationWarning")) return content;
-  if (!content.includes("<html")) throw new Error("Root layout does not contain an <html> element.");
+  if (!content.includes("<html"))
+    throw new Error("Root layout does not contain an <html> element.");
   return content.replace(/<html(\s|>)/, "<html suppressHydrationWarning$1");
 }
 
@@ -285,128 +793,365 @@ async function findNextConfig(cwd: string) {
     const file = path.join(cwd, name);
     if (await exists(file)) return file;
   }
-  throw new Error("No next.config.ts, next.config.mjs, or next.config.js was found.");
+  throw new Error(
+    "No next.config.ts, next.config.mjs, or next.config.js was found.",
+  );
 }
 
-async function readProjectPackage(cwd: string) {
-  const file = path.join(cwd, "package.json");
-  if (!(await exists(file))) throw new Error("No package.json was found.");
-  return JSON.parse(await readFile(file, "utf8")) as { dependencies?: Record<string, string>; devDependencies?: Record<string, string> };
-}
-
-export async function initProject(options: CliOptions) {
-  const cwd = path.resolve(options.cwd);
-  const projectPackage = await readProjectPackage(cwd);
-  if (!projectPackage.dependencies?.next && !projectPackage.devDependencies?.next) {
-    throw new Error("Moe UI v0.1 supports Next.js App Router projects only.");
+async function findOptionalConfig(cwd: string, names: string[]) {
+  for (const name of names) {
+    const file = path.join(cwd, name);
+    if (await exists(file)) return file;
   }
-  if (!(await exists(path.join(cwd, "tsconfig.json")))) throw new Error("Moe UI v0.1 requires TypeScript.");
+  return undefined;
+}
 
+async function findExpoEntry(cwd: string) {
+  for (const name of [
+    "src/app/_layout.tsx",
+    "app/_layout.tsx",
+    "App.tsx",
+    "src/App.tsx",
+  ]) {
+    const file = path.join(cwd, name);
+    if (await exists(file)) return { file, relative: name };
+  }
+  throw new Error(
+    "Expected an Expo Router _layout.tsx or conventional App.tsx entry file.",
+  );
+}
+
+function relativeImport(fromFile: string, targetFile: string) {
+  let value = path
+    .relative(path.dirname(fromFile), targetFile)
+    .replaceAll(path.sep, "/");
+  if (!value.startsWith(".")) value = `./${value}`;
+  return value;
+}
+
+async function assertGeneratedFiles(planned: PlannedFile[]) {
+  for (const output of planned) {
+    if (!output.generated || !(await exists(output.file))) continue;
+    if ((await readFile(output.file, "utf8")) !== output.content) {
+      throw new Error(
+        `Existing ${path.basename(output.file)} contains local changes. Reconcile it before running init.`,
+      );
+    }
+  }
+}
+
+async function writePlannedFiles(planned: PlannedFile[]) {
+  await Promise.all(
+    planned.map(async (output) => {
+      if (output.skipIfExists && (await exists(output.file))) return;
+      await mkdir(path.dirname(output.file), { recursive: true });
+      await writeFile(output.file, output.content);
+    }),
+  );
+}
+
+async function planNextInitialization(
+  cwd: string,
+  styling: StylingEngine,
+  existing: ComponentsConfig | undefined,
+  legacy: boolean,
+) {
   const usesSrc = await exists(path.join(cwd, "src/app/layout.tsx"));
   const appRoot = usesSrc ? "src/app" : "app";
   const layoutFile = path.join(cwd, appRoot, "layout.tsx");
-  const cssRelative = `${appRoot}/globals.css`;
+  const cssRelative = existing?.paths.css ?? `${appRoot}/globals.css`;
   const cssFile = path.join(cwd, cssRelative);
   const nextConfigFile = await findNextConfig(cwd);
-  if (!(await exists(layoutFile)) || !(await exists(cssFile))) {
+  if (!(await exists(layoutFile)) || !(await exists(cssFile)))
     throw new Error("Expected an App Router layout.tsx and globals.css file.");
-  }
-
   const [nextConfig, layout, css] = await Promise.all([
     readFile(nextConfigFile, "utf8"),
     readFile(layoutFile, "utf8"),
     readFile(cssFile, "utf8"),
   ]);
-  const transformedConfig = transformNextConfig(nextConfig);
-  const transformedLayout = addHydrationSuppression(layout);
-  const transformedCss = ensureCss(css);
-  const manager = options.packageManager ?? (await detectPackageManager(cwd));
-
   const prefix = usesSrc ? "src/" : "";
-  const config: ComponentsConfig = {
-    $schema: "https://moe-ui.vercel.app/schema/components.json",
-    schemaVersion: 1,
-    registry: DEFAULT_REGISTRY,
-    typescript: true,
-    paths: {
-      components: `${prefix}components`,
-      lib: `${prefix}lib`,
-      css: cssRelative,
-    },
+  const paths = existing?.paths ?? {
+    components: `${prefix}components`,
+    lib: `${prefix}lib`,
+    css: cssRelative,
   };
-
-  const configFile = path.join(cwd, "components.json");
-  if (await exists(configFile)) {
-    const existing = JSON.parse(await readFile(configFile, "utf8")) as Partial<ComponentsConfig>;
-    if (JSON.stringify(existing) !== JSON.stringify(config)) {
-      throw new Error("Existing components.json cannot be transformed safely. Reconcile it before running init.");
-    }
-  }
-
-  const helperFile = path.join(cwd, "moe-ui.next.ts");
-  const helperSource = nextHelperSource(cssRelative);
-  const generatedFiles = [
-    { file: helperFile, content: helperSource },
-    { file: path.join(cwd, "moe-ui.reanimated.web.tsx"), content: reanimatedWebSource() },
-    { file: path.join(cwd, "moe-ui.screens.web.tsx"), content: screensWebSource() },
-    { file: path.join(cwd, "moe-ui.react-native.web.ts"), content: reactNativeWebSource() },
+  const generatedFiles: PlannedFile[] = [
     {
-      file: path.join(cwd, "uniwind-types.d.ts"),
-      content: '/// <reference types="uniwind/types" />\n',
+      file: path.join(cwd, "moe-ui.next.ts"),
+      content: nextHelperSource(cssRelative, styling),
+      generated: true,
+    },
+    {
+      file: path.join(cwd, "moe-ui.reanimated.web.tsx"),
+      content: reanimatedWebSource(),
+      generated: true,
+    },
+    {
+      file: path.join(cwd, "moe-ui.screens.web.tsx"),
+      content: screensWebSource(),
+      generated: true,
+    },
+    {
+      file: path.join(cwd, paths.lib, "moe-ui-styling.ts"),
+      content: stylingAdapterSource(styling),
+      generated: true,
     },
     {
       file: path.join(cwd, "moe-ui.react-native-web.d.ts"),
       content: 'declare module "react-native-web";\n',
+      generated: true,
     },
   ];
-  for (const generatedFile of generatedFiles) {
-    const isUniwindOutput = path.basename(generatedFile.file) === "uniwind-types.d.ts";
-    if (
-      !isUniwindOutput &&
-      (await exists(generatedFile.file)) &&
-      (await readFile(generatedFile.file, "utf8")) !== generatedFile.content
-    ) {
-      throw new Error(`Existing ${path.basename(generatedFile.file)} contains local changes. Reconcile it before running init.`);
+  const mutations: PlannedFile[] = [
+    { file: nextConfigFile, content: transformNextConfig(nextConfig) },
+    { file: layoutFile, content: addHydrationSuppression(layout) },
+    {
+      file: cssFile,
+      content:
+        styling === "uniwind"
+          ? ensureUniwindCss(css)
+          : ensureNativewindCss(css),
+    },
+  ];
+  if (styling === "uniwind") {
+    generatedFiles.push(
+      {
+        file: path.join(cwd, "moe-ui.react-native.web.ts"),
+        content: reactNativeWebSource(),
+        generated: true,
+      },
+      {
+        file: path.join(cwd, "uniwind-types.d.ts"),
+        content: '/// <reference types="uniwind/types" />\n',
+        skipIfExists: true,
+      },
+    );
+  } else {
+    const tsconfigFile = path.join(cwd, "tsconfig.json");
+    const tailwindFile = path.join(cwd, "tailwind.config.cjs");
+    const postcssFile =
+      (await findOptionalConfig(cwd, [
+        "postcss.config.mjs",
+        "postcss.config.js",
+        "postcss.config.cjs",
+      ])) ?? path.join(cwd, "postcss.config.mjs");
+    const postcss = (await exists(postcssFile))
+      ? await readFile(postcssFile, "utf8")
+      : undefined;
+    generatedFiles.push(
+      {
+        file: tailwindFile,
+        content: nativewindTailwindConfig(),
+        generated: true,
+      },
+      {
+        file: path.join(cwd, "nativewind-env.d.ts"),
+        content: '/// <reference types="nativewind/types" />\n',
+        generated: true,
+      },
+    );
+    mutations.push(
+      {
+        file: tsconfigFile,
+        content: ensureJsxImportSource(await readFile(tsconfigFile, "utf8")),
+      },
+      { file: postcssFile, content: ensureNativewindPostcss(postcss) },
+    );
+  }
+  if (legacy) {
+    for (const output of generatedFiles) {
+      if (
+        path.basename(output.file) !== "moe-ui-styling.ts" &&
+        (await exists(output.file))
+      ) {
+        output.content = await readFile(output.file, "utf8");
+      }
     }
   }
+  return { paths, mutations, generatedFiles };
+}
 
-  if (options.install) await installDependencies(cwd, manager, SHARED_DEPENDENCIES);
+async function planExpoInitialization(
+  cwd: string,
+  styling: StylingEngine,
+  existing: ComponentsConfig | undefined,
+  projectType: ProjectPackage["type"],
+) {
+  const entry = await findExpoEntry(cwd);
+  const cssRelative = existing?.paths.css ?? "global.css";
+  const cssFile = path.join(cwd, cssRelative);
+  const css = (await exists(cssFile)) ? await readFile(cssFile, "utf8") : "";
+  const metroFile =
+    (await findOptionalConfig(cwd, ["metro.config.js", "metro.config.cjs"])) ??
+    path.join(
+      cwd,
+      projectType === "module" ? "metro.config.cjs" : "metro.config.js",
+    );
+  const metro = (await exists(metroFile))
+    ? transformMetroConfig(await readFile(metroFile, "utf8"))
+    : defaultMetroConfig();
+  const prefix = entry.relative.startsWith("src/") ? "src/" : "";
+  const paths = existing?.paths ?? {
+    components: `${prefix}components`,
+    lib: `${prefix}lib`,
+    css: cssRelative,
+  };
+  const mutations: PlannedFile[] = [
+    {
+      file: entry.file,
+      content: addCssImport(
+        await readFile(entry.file, "utf8"),
+        relativeImport(entry.file, cssFile),
+      ),
+    },
+    {
+      file: cssFile,
+      content:
+        styling === "uniwind"
+          ? ensureUniwindCss(css)
+          : ensureNativewindCss(css),
+    },
+    { file: metroFile, content: metro },
+  ];
+  const generatedFiles: PlannedFile[] = [
+    {
+      file: path.join(cwd, "moe-ui.metro.cjs"),
+      content: metroHelperSource(styling, cssRelative),
+      generated: true,
+    },
+    {
+      file: path.join(cwd, paths.lib, "moe-ui-styling.ts"),
+      content: stylingAdapterSource(styling),
+      generated: true,
+    },
+  ];
+  if (styling === "uniwind") {
+    generatedFiles.push({
+      file: path.join(cwd, "uniwind-types.d.ts"),
+      content: '/// <reference types="uniwind/types" />\n',
+      skipIfExists: true,
+    });
+  } else {
+    const tailwindFile = path.join(cwd, "tailwind.config.cjs");
+    const babelFile =
+      (await findOptionalConfig(cwd, [
+        "babel.config.js",
+        "babel.config.cjs",
+      ])) ??
+      path.join(
+        cwd,
+        projectType === "module" ? "babel.config.cjs" : "babel.config.js",
+      );
+    const babel = (await exists(babelFile))
+      ? await readFile(babelFile, "utf8")
+      : undefined;
+    generatedFiles.push(
+      {
+        file: tailwindFile,
+        content: nativewindTailwindConfig(),
+        generated: true,
+      },
+      {
+        file: path.join(cwd, "nativewind-env.d.ts"),
+        content: '/// <reference types="nativewind/types" />\n',
+        generated: true,
+      },
+    );
+    mutations.push({ file: babelFile, content: ensureNativewindBabel(babel) });
+  }
+  return { paths, mutations, generatedFiles };
+}
 
-  await Promise.all([
-    writeFile(nextConfigFile, transformedConfig),
-    writeFile(layoutFile, transformedLayout),
-    writeFile(cssFile, transformedCss),
-    ...generatedFiles.map(async (generatedFile) => {
-      const isUniwindOutput =
-        path.basename(generatedFile.file) === "uniwind-types.d.ts";
-      if (isUniwindOutput && (await exists(generatedFile.file))) return;
-      await writeFile(generatedFile.file, generatedFile.content);
-    }),
-    writeFile(configFile, `${JSON.stringify(config, null, 2)}\n`),
-  ]);
-
+export async function initProject(options: CliOptions) {
+  const cwd = path.resolve(options.cwd);
+  const projectPackage = await readProjectPackage(cwd);
+  const framework = detectFramework(projectPackage);
+  if (!(await exists(path.join(cwd, "tsconfig.json"))))
+    throw new Error("Moe UI requires TypeScript.");
+  const existingState = await readExistingConfig(cwd);
+  const existing = existingState?.config;
+  if (existing && existing.framework !== framework) {
+    throw new Error(
+      `components.json targets ${existing.framework}, but this package was detected as ${framework}.`,
+    );
+  }
+  const styling = await selectStyling(options, existing);
+  const manager = options.packageManager ?? (await detectPackageManager(cwd));
+  const plan =
+    framework === "next"
+      ? await planNextInitialization(
+          cwd,
+          styling,
+          existing,
+          existingState?.legacy ?? false,
+        )
+      : await planExpoInitialization(
+          cwd,
+          styling,
+          existing,
+          projectPackage.type,
+        );
+  const config: ComponentsConfig = {
+    $schema: "https://moe-ui.vercel.app/schema/components.json",
+    schemaVersion: 2,
+    registry: existing?.registry ?? DEFAULT_REGISTRY,
+    typescript: true,
+    framework,
+    styling,
+    paths: plan.paths,
+  };
+  await assertGeneratedFiles(plan.generatedFiles);
+  if (options.install) {
+    const dependencies = dependenciesFor(framework, styling);
+    if (framework === "expo")
+      await installExpoDependencies(cwd, manager, dependencies);
+    else await installDependencies(cwd, manager, dependencies);
+  }
+  await writePlannedFiles([...plan.mutations, ...plan.generatedFiles]);
+  await writeFile(
+    path.join(cwd, "components.json"),
+    `${JSON.stringify(config, null, 2)}\n`,
+  );
   return config;
 }
 
 export function validateRegistryItem(value: unknown): RegistryItem {
-  if (!value || typeof value !== "object") throw new Error("Registry response is not an object.");
+  if (!value || typeof value !== "object")
+    throw new Error("Registry response is not an object.");
   const item = value as Partial<RegistryItem>;
-  if (item.schemaVersion !== 1 || !item.name || !Array.isArray(item.files) || !Array.isArray(item.registryDependencies)) {
+  if (
+    item.schemaVersion !== 1 ||
+    !item.name ||
+    !Array.isArray(item.files) ||
+    !Array.isArray(item.registryDependencies)
+  ) {
     throw new Error("Registry item does not match schema version 1.");
   }
-  if (!item.dependencies || typeof item.dependencies !== "object" || !item.integrity) {
-    throw new Error("Registry item is missing dependency or integrity metadata.");
+  if (
+    !item.dependencies ||
+    typeof item.dependencies !== "object" ||
+    !item.integrity
+  ) {
+    throw new Error(
+      "Registry item is missing dependency or integrity metadata.",
+    );
   }
   return item as RegistryItem;
 }
 
 async function fetchItem(registry: string, name: string) {
-  const response = await fetch(`${registry.replace(/\/$/, "")}/${encodeURIComponent(name)}.json`);
-  if (!response.ok) throw new Error(`Unable to fetch ${name}: ${response.status} ${response.statusText}`);
+  const response = await fetch(
+    `${registry.replace(/\/$/, "")}/${encodeURIComponent(name)}.json`,
+  );
+  if (!response.ok)
+    throw new Error(
+      `Unable to fetch ${name}: ${response.status} ${response.statusText}`,
+    );
   const item = validateRegistryItem(await response.json());
   for (const file of item.files) {
     const actual = `sha256-${createHash("sha256").update(file.content).digest("base64")}`;
-    if (item.files.length === 1 && actual !== item.integrity) throw new Error(`Integrity check failed for ${name}.`);
+    if (item.files.length === 1 && actual !== item.integrity)
+      throw new Error(`Integrity check failed for ${name}.`);
   }
   return item;
 }
@@ -415,7 +1160,8 @@ async function resolveItems(registry: string, requested: string[]) {
   const items = new Map<string, RegistryItem>();
   const queue = [...requested];
   while (queue.length > 0) {
-    const name = queue.shift()!;
+    const name = queue.shift();
+    if (!name) continue;
     if (items.has(name)) continue;
     const item = await fetchItem(registry, name);
     items.set(name, item);
@@ -426,61 +1172,97 @@ async function resolveItems(registry: string, requested: string[]) {
 
 function targetPath(cwd: string, config: ComponentsConfig, target: string) {
   if (target.startsWith("components/")) {
-    return path.join(cwd, config.paths.components, target.slice("components/".length));
+    return path.join(
+      cwd,
+      config.paths.components,
+      target.slice("components/".length),
+    );
   }
-  if (target.startsWith("lib/")) return path.join(cwd, config.paths.lib, target.slice("lib/".length));
+  if (target.startsWith("lib/"))
+    return path.join(cwd, config.paths.lib, target.slice("lib/".length));
   throw new Error(`Unsupported registry target: ${target}`);
 }
 
 async function confirmOverwrite(relativePath: string) {
-  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+  if (!process.stdin.isTTY || !process.stdout.isTTY)
     throw new Error(`${relativePath} already exists. Re-run with --overwrite.`);
-  }
-
-  const prompt = createInterface({ input: process.stdin, output: process.stdout });
+  const prompt = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
   try {
     const answer = await prompt.question(`Overwrite ${relativePath}? (y/N) `);
-    if (!/^y(es)?$/i.test(answer.trim())) {
+    if (!/^y(es)?$/i.test(answer.trim()))
       throw new Error(`Kept local changes in ${relativePath}.`);
-    }
   } finally {
     prompt.close();
   }
 }
 
+export function registryDependenciesFor(
+  config: ComponentsConfig,
+  items: RegistryItem[],
+) {
+  const dependencies = Object.assign(
+    {},
+    ...items.map((item) => item.dependencies),
+  ) as Record<string, string>;
+  if (dependencies["tailwind-merge"]) {
+    dependencies["tailwind-merge"] =
+      config.styling === "nativewind" ? "^2.6.1" : "^3.5.0";
+  }
+  if (dependencies["lucide-react-native"]) {
+    dependencies["react-native-svg"] = "15.15.3";
+  }
+  return dependencies;
+}
+
 export async function addComponents(names: string[], options: CliOptions) {
   const cwd = path.resolve(options.cwd);
   const configFile = path.join(cwd, "components.json");
-  if (!(await exists(configFile))) throw new Error("Run `moe-ui init` before adding components.");
-  const config = JSON.parse(await readFile(configFile, "utf8")) as ComponentsConfig;
-  if (config.schemaVersion !== 1 || config.typescript !== true) throw new Error("Unsupported components.json schema.");
-
+  if (!(await exists(configFile)))
+    throw new Error("Run `moe-ui init` before adding components.");
+  const config = normalizeConfig(
+    JSON.parse(await readFile(configFile, "utf8")),
+  );
+  const adapterFile = path.join(cwd, config.paths.lib, "moe-ui-styling.ts");
   const items = await resolveItems(config.registry, names);
   const writes: Array<{ file: string; content: string }> = [];
+  if (!(await exists(adapterFile))) {
+    writes.push({
+      file: adapterFile,
+      content: stylingAdapterSource(config.styling),
+    });
+  }
   for (const item of items) {
     for (const registryFile of item.files) {
       const file = targetPath(cwd, config, registryFile.target);
       if (await exists(file)) {
         const current = await readFile(file, "utf8");
         if (current === registryFile.content) continue;
-        if (!options.overwrite) await confirmOverwrite(path.relative(cwd, file));
+        if (!options.overwrite)
+          await confirmOverwrite(path.relative(cwd, file));
       }
       writes.push({ file, content: registryFile.content });
     }
   }
-
-  const dependencies = Object.assign({}, ...items.map((item) => item.dependencies)) as Record<string, string>;
+  const dependencies = registryDependenciesFor(config, items);
   const manager = options.packageManager ?? (await detectPackageManager(cwd));
-  if (options.install) await installDependencies(cwd, manager, dependencies);
-
+  if (options.install) {
+    if (config.framework === "expo")
+      await installExpoDependencies(cwd, manager, dependencies);
+    else await installDependencies(cwd, manager, dependencies);
+  }
   for (const write of writes) {
     await mkdir(path.dirname(write.file), { recursive: true });
     const temporary = `${write.file}.moe-ui-tmp`;
     await writeFile(temporary, write.content);
     await rename(temporary, write.file);
   }
-
-  return { items: items.map((item) => item.name), files: writes.map((write) => write.file) };
+  return {
+    items: items.map((item) => item.name),
+    files: writes.map((write) => write.file),
+  };
 }
 
 export async function run(argv = process.argv.slice(2)) {
@@ -490,15 +1272,19 @@ export async function run(argv = process.argv.slice(2)) {
     return;
   }
   if (parsed.command === "init") {
-    await initProject(parsed.options);
-    console.log("Moe UI initialized. Add a component with `moe-ui add button`.");
+    const config = await initProject(parsed.options);
+    console.log(
+      `Moe UI initialized for ${config.framework} with ${config.styling}. Add a component with \`moe-ui add button\`.`,
+    );
     return;
   }
   const result = await addComponents(parsed.components, parsed.options);
   console.log(`Installed ${result.items.join(", ")}.`);
 }
 
-const isEntry = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+const isEntry =
+  process.argv[1] &&
+  fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 if (isEntry) {
   run().catch((error) => {
     console.error(error instanceof Error ? error.message : error);

@@ -4,17 +4,27 @@ description: Initialize projects and install source-owned components.
 icon: SquareTerminal
 ---
 
-`@moe-ui/cli@0.1.0-beta.1` is a Node.js 20+ executable. Use the npm `beta` tag while the web release is in prerelease.
+`@moe-ui/cli@0.1.0-beta.1` is a Node.js 20+ executable. Use the npm `beta` tag while the release is in prerelease.
 
 ## `init`
 
 ```bash
-moe-ui init [--cwd <path>] [--yes] [--package-manager pnpm|npm|yarn]
+moe-ui init [--cwd <path>] [--styling uniwind|nativewind] [--yes] [--package-manager pnpm|npm|yarn|bun] [--no-install]
 ```
 
-Initializes an existing TypeScript Next.js App Router project. Package manager and `src/` layout are detected automatically. `--cwd` targets a different project, `--package-manager` overrides detection, and `--yes` accepts non-destructive defaults.
+Initializes an existing TypeScript Next.js App Router or Expo project. The framework, package manager, `src/` layout, and supported entry point are detected automatically.
 
-The command preflights every required transformation. If an existing Next config, root layout, CSS entry, or Moe UI configuration cannot be transformed safely, it exits before partial edits are made.
+- `--styling` bypasses the interactive Uniwind or NativeWind selection.
+- `--yes` accepts the non-destructive Uniwind default.
+- `--cwd` targets a different application package.
+- `--package-manager` overrides lockfile detection.
+- `--no-install` writes configuration without installing dependencies.
+
+In a non-interactive environment, pass `--styling` or `--yes`. If both Next.js and Expo appear in the same package, target the intended application with `--cwd`.
+
+Initialization preflights every required transformation. If an existing Next, Metro, Babel, PostCSS, root entry, CSS entry, or Moe UI configuration cannot be transformed safely, the command exits before writing project files.
+
+The framework and styling engine are persisted in schema v2 of `components.json`. Schema v1 is read as Next.js + Uniwind and upgraded on the next initialization. Passing a different `--styling` value to an initialized project is rejected because automatic engine migration could discard local configuration.
 
 ## `add`
 
@@ -22,14 +32,15 @@ The command preflights every required transformation. If an existing Next config
 moe-ui add <components...> [--cwd <path>] [--overwrite] [--no-install]
 ```
 
-Fetches metadata from the configured registry, validates its schema and integrity, resolves registry dependencies recursively, and writes owned source to configured aliases. Package dependencies are installed using the detected manager unless `--no-install` is set.
+Fetches metadata from the configured registry, validates its schema and integrity, resolves registry dependencies recursively, and writes owned source to configured paths. The stored framework controls dependency installation: Expo-native packages use `expo install`, while ordinary dependencies use the detected package manager.
 
 Without `--overwrite`, a file with different local content is protected and the command exits with the exact conflict. Re-running against unchanged installed source performs no write.
 
 ## Examples
 
 ```bash
-pnpm dlx @moe-ui/cli@beta init --package-manager pnpm
+pnpm dlx @moe-ui/cli@beta init --styling uniwind
+pnpm dlx @moe-ui/cli@beta init --styling nativewind --no-install
 pnpm dlx @moe-ui/cli@beta add button input
 pnpm dlx @moe-ui/cli@beta add dialog --no-install
 pnpm dlx @moe-ui/cli@beta add button --overwrite
@@ -39,11 +50,19 @@ pnpm dlx @moe-ui/cli@beta add button --overwrite
 
 ### Unsupported project
 
-The beta requires `app/` or `src/app/`, TypeScript, and a supported Next.js version. Pages Router and JavaScript-only projects are rejected intentionally.
+The beta requires TypeScript and either a Next.js App Router layout or an Expo application entry. Next.js Pages Router and JavaScript-only projects are rejected intentionally.
 
-### Next config cannot be transformed
+### Ambiguous framework
 
-The CLI only composes configurations it can recognize without discarding behavior. Follow the printed manual instructions or simplify the export, then rerun `init`.
+If one package declares both `next` and `expo`, run the command with `--cwd` pointing at the individual Next.js or Expo app. The initializer does not guess which bundler configuration to edit.
+
+### Config cannot be transformed
+
+The CLI only composes configurations it can recognize without discarding behavior. Follow the printed manual instructions or simplify the relevant export, then rerun `init`.
+
+### Styling engine is locked
+
+Moe UI will not rewrite a configured Uniwind project into NativeWind, or the reverse. Preserve your source, migrate the bundler and theme configuration using the styling engine's guide, then update `components.json` deliberately.
 
 ### Registry or network failure
 

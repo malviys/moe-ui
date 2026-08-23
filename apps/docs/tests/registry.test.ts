@@ -62,7 +62,12 @@ describe("generated registry", () => {
       readFile(path.join(publicRoot, "schema/components.json"), "utf8"),
       readFile(path.join(publicRoot, "schema/registry-item.json"), "utf8"),
     ]);
-    expect(JSON.parse(componentsSchema).properties.schemaVersion.const).toBe(1);
+    expect(
+      JSON.parse(componentsSchema).oneOf.map(
+        (schema: { properties: { schemaVersion: { const: number } } }) =>
+          schema.properties.schemaVersion.const,
+      ),
+    ).toEqual([1, 2]);
     expect(JSON.parse(itemSchema).properties.schemaVersion.const).toBe(1);
   });
 });

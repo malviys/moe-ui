@@ -1,43 +1,60 @@
 ---
 title: Installation
-description: Initialize Moe UI in a TypeScript Next.js App Router project.
+description: Initialize Moe UI in a TypeScript Next.js or Expo project.
 icon: Terminal
 ---
 
-Moe UI's initializer supports TypeScript Next.js 16 App Router projects. Run it from the application root:
+Run the initializer from a Next.js or Expo application root:
 
 ```bash
 pnpm dlx @moe-ui/cli@beta init
 ```
 
-The initializer detects pnpm, npm, or yarn and whether the project uses `src/`. It then performs a safety preflight before writing anything.
+In an interactive terminal, choose a styling engine:
+
+```text
+Choose a styling engine:
+  1. Uniwind (recommended)
+  2. NativeWind
+Selection [1]:
+```
+
+For automation, select it explicitly. `--yes` selects Uniwind for backwards compatibility.
+
+```bash
+pnpm dlx @moe-ui/cli@beta init --styling nativewind
+pnpm dlx @moe-ui/cli@beta init --yes
+```
+
+The selection is stored in `components.json`. Rerunning `init` is idempotent, but the CLI does not automatically migrate an initialized project between styling engines.
+
+## Supported combinations
+
+| Framework | Uniwind | NativeWind |
+| --- | --- | --- |
+| Next.js 16 App Router | Tailwind CSS 4 | Tailwind CSS 3.4 |
+| Expo / Expo Router | Tailwind CSS 4 | Tailwind CSS 3.4 |
+
+Next.js uses the existing Webpack-based React Native Web helper. Expo uses Metro and supports `app/_layout.tsx`, `src/app/_layout.tsx`, `App.tsx`, or `src/App.tsx` entry points.
 
 ## What init changes
 
-`init` creates `components.json`, installs the tested web dependencies, adds theme CSS and Uniwind declarations, and writes a small Next configuration helper containing the React Native Web aliases and extensions.
+Every initialization creates `components.json`, the complete Moe UI light/dark token theme, and a small styling adapter used by shared registry source.
 
-Apply the helper in `next.config.ts` as instructed by the CLI. Moe UI uses Webpack because the Uniwind Next plugin does not support Turbopack yet.
+For Next.js, the CLI also:
 
-```ts title="next.config.ts"
-import type { NextConfig } from "next";
-import { withMoeUI } from "./moe-ui.next";
+- Composes `next.config` with the React Native Web aliases and extensions.
+- Adds `suppressHydrationWarning` to the root App Router layout.
+- Configures Uniwind's Next plugin, or NativeWind's Tailwind/PostCSS and JSX import source.
 
-const nextConfig: NextConfig = {};
+For Expo, the CLI also:
 
-export default withMoeUI(nextConfig);
-```
+- Creates or composes Metro configuration.
+- Imports the generated root `global.css` from the detected application entry.
+- Configures Uniwind's Metro wrapper, or NativeWind's Metro and Babel presets.
+- Installs SDK-sensitive native packages through `expo install`.
 
-Add the root attributes used by React Native Web and theme switching:
-
-```tsx title="app/layout.tsx"
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body>{children}</body>
-    </html>
-  );
-}
-```
+All required transformations are checked before files are changed. A custom config that cannot be composed safely produces an actionable error instead of a partial initialization.
 
 ## Add a component
 
@@ -45,13 +62,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 pnpm dlx @moe-ui/cli@beta add button dialog
 ```
 
-The CLI resolves component and helper dependencies recursively, installs package dependencies, and writes source beneath the aliases in `components.json`. Running the same command again is idempotent. Existing files are never silently replaced; review the conflict and rerun with `--overwrite` only when that is intentional.
+The CLI resolves component and helper dependencies recursively, installs package dependencies, and writes source beneath the paths in `components.json`. Running the same command again is idempotent. Existing files are never silently replaced; review the conflict and rerun with `--overwrite` only when that is intentional.
 
 ## Requirements
 
 - Node.js 20.9 or newer
 - TypeScript
-- Next.js 16 App Router
+- Next.js 16 App Router or Expo
 - React 19
 
-See [CLI reference](/docs/cli) for flags and [troubleshooting](/docs/cli#troubleshooting) for safe-transform failures.
+Other React Native bundlers can consume the same component source, but their bundler integration remains manual. See the [CLI reference](/docs/cli) for flags and troubleshooting guidance.

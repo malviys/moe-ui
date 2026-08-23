@@ -42,7 +42,7 @@ const helperItems = new Map([
     {
       name: "icon",
       title: "Icon",
-      description: "Uniwind-aware Lucide icon helper.",
+      description: "Styling-engine-aware Lucide icon helper.",
       category: "internal",
     },
   ],
@@ -202,14 +202,7 @@ const componentsSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
   $id: "https://moe-ui.vercel.app/schema/components.json",
   title: "Moe UI project configuration",
-  type: "object",
-  additionalProperties: false,
-  required: ["schemaVersion", "registry", "typescript", "paths"],
-  properties: {
-    $schema: { type: "string", format: "uri" },
-    schemaVersion: { const: 1 },
-    registry: { type: "string", format: "uri" },
-    typescript: { const: true },
+  $defs: {
     paths: {
       type: "object",
       additionalProperties: false,
@@ -221,6 +214,43 @@ const componentsSchema = {
       },
     },
   },
+  oneOf: [
+    {
+      title: "Legacy Next.js and Uniwind configuration",
+      type: "object",
+      additionalProperties: false,
+      required: ["schemaVersion", "registry", "typescript", "paths"],
+      properties: {
+        $schema: { type: "string", format: "uri" },
+        schemaVersion: { const: 1 },
+        registry: { type: "string", format: "uri" },
+        typescript: { const: true },
+        paths: { $ref: "#/$defs/paths" },
+      },
+    },
+    {
+      title: "Framework and styling-aware configuration",
+      type: "object",
+      additionalProperties: false,
+      required: [
+        "schemaVersion",
+        "registry",
+        "typescript",
+        "framework",
+        "styling",
+        "paths",
+      ],
+      properties: {
+        $schema: { type: "string", format: "uri" },
+        schemaVersion: { const: 2 },
+        registry: { type: "string", format: "uri" },
+        typescript: { const: true },
+        framework: { enum: ["next", "expo"] },
+        styling: { enum: ["uniwind", "nativewind"] },
+        paths: { $ref: "#/$defs/paths" },
+      },
+    },
+  ],
 };
 
 async function emit(file: string, value: unknown) {
