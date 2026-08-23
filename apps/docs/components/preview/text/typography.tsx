@@ -1,7 +1,7 @@
 "use client";
 
+import { Text } from "@moe-ui/registry/components/ui/text";
 import { ScrollView, View } from "react-native";
-import { Text } from "@moe/registry/components/ui/text";
 
 export function TypographyPreview() {
   return (

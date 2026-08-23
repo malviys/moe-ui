@@ -1,9 +1,9 @@
 "use client";
 
-import { View } from "react-native";
-import { Button } from "@moe/registry/components/ui/button";
-import { Text } from "@moe/registry/components/ui/text";
+import { Button } from "@moe-ui/registry/components/ui/button";
+import { Text } from "@moe-ui/registry/components/ui/text";
 import { Plus } from "lucide-react-native";
+import { View } from "react-native";
 
 export const ButtonSizesPreview = () => {
   return (

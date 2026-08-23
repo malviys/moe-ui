@@ -11,10 +11,13 @@
     "lint": "turbo lint",
     "format": "turbo format",
     "types:check": "turbo types:check",
+    "test": "turbo test",
+    "test:e2e": "turbo test:e2e",
+    "registry:generate": "pnpm --filter docs registry:generate",
+    "registry:check": "pnpm --filter docs registry:check",
     "dev:docs": "turbo dev --filter=docs",
     "build:docs": "turbo build --filter=docs",
-    "preview:docs": "turbo preview --filter=docs",
-    "deploy:docs": "turbo deploy --filter=docs"
+    "start:docs": "pnpm --filter docs start"
   },
   "peerDependencies": {},
   "dependencies": {},

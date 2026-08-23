@@ -1,10 +1,10 @@
-import { Button } from "@moe/registry/ui/button";
+import { Button } from "@moe-ui/registry/components/ui/button";
+import { Text } from "@moe-ui/registry/components/ui/text";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@moe/registry/ui/tooltip";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe-ui/registry/components/ui/tooltip";
 
 export default function TooltipPreview() {
   return (

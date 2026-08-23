@@ -18,7 +18,7 @@
     "paths": {
       "@/*": ["./*"],
       "fumadocs-mdx-collections/*": [".source/*"],
-      "@moe/registry": ["../packages/registry/src/*"]
+      "@moe-ui/registry/*": ["../../packages/registry/src/*"]
     },
     "plugins": [
       {
@@ -32,7 +32,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "uniwind-types.d.ts"
+    "uniwind-types.d.ts",
+    "scripts/**/*.ts",
+    "tests/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

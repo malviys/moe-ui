@@ -1,24 +1,24 @@
 "use client";
 
-import { View } from "react-native";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@moe/registry/components/ui/avatar";
+} from "@moe-ui/registry/components/ui/avatar";
+import { View } from "react-native";
 
 export const AvatarSizesExamplePreview = () => {
   return (
     <View className="flex-row items-center gap-4">
-      <Avatar className="size-8">
+      <Avatar alt="Small profile avatar" className="size-8">
         <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <Avatar className="size-10">
+      <Avatar alt="Medium profile avatar" className="size-10">
         <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <Avatar className="size-14">
+      <Avatar alt="Large profile avatar" className="size-14">
         <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>

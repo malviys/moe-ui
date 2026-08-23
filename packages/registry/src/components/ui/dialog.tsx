@@ -21,10 +21,7 @@ const DialogOverlay = React.forwardRef<
     <DialogPrimitive.Overlay
       style={StyleSheet.absoluteFill}
       className={cn(
-        "z-50 bg-black/80 flex justify-center items-center p-2",
-        props.open
-          ? "web:animate-in web:fade-in-0"
-          : "web:animate-out web:fade-out-0",
+        "z-50 bg-black/80 flex justify-center items-center p-2 web:data-[state=open]:animate-in web:data-[state=open]:fade-in-0 web:data-[state=closed]:animate-out web:data-[state=closed]:fade-out-0",
         className,
       )}
       {...props}
@@ -51,10 +48,7 @@ const DialogContent = React.forwardRef<
         <DialogPrimitive.Content
           ref={ref}
           className={cn(
-            "z-50 grid w-full max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg web:cursor-default",
-            props.open
-              ? "web:animate-in web:fade-in-0 web:zoom-in-95"
-              : "web:animate-out web:fade-out-0 web:zoom-out-95",
+            "z-50 grid w-full max-w-lg gap-4 border border-border bg-background p-6 shadow-lg sm:rounded-lg web:cursor-default web:data-[state=open]:animate-in web:data-[state=open]:fade-in-0 web:data-[state=open]:zoom-in-95 web:data-[state=closed]:animate-out web:data-[state=closed]:fade-out-0 web:data-[state=closed]:zoom-out-95",
             className,
           )}
           {...props}

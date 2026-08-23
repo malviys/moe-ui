@@ -1,5 +1,5 @@
-import { Checkbox } from "@moe/registry/ui/checkbox";
-import { Label } from "@moe/registry/ui/label";
+import { Checkbox } from "@moe-ui/registry/components/ui/checkbox";
+import { Label } from "@moe-ui/registry/components/ui/label";
 import { View } from "react-native";
 
 export default function CheckboxPreview() {

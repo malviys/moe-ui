@@ -1,4 +1,4 @@
-import { Button } from "@moe/registry/ui/button";
+import { Button } from "@moe-ui/registry/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +12,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@moe/registry/ui/dropdown-menu";
-import { Text } from "@moe/registry/ui/text";
-import { View } from "react-native";
+} from "@moe-ui/registry/components/ui/dropdown-menu";
+import { Text } from "@moe-ui/registry/components/ui/text";
 
 export default function DropdownMenuPreview() {
   return (

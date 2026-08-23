@@ -1,5 +1,5 @@
-import { Label } from "@moe/registry/ui/label";
-import { Input } from "@moe/registry/ui/input";
+import { Input } from "@moe-ui/registry/components/ui/input";
+import { Label } from "@moe-ui/registry/components/ui/label";
 import { View } from "react-native";
 
 export default function LabelPreview() {

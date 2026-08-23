@@ -1,14 +1,32 @@
 import { cn } from "../../lib/utils";
 import * as RadioGroupPrimitive from "@rn-primitives/radio-group";
+import * as React from "react";
 import { Platform } from "react-native";
 
 function RadioGroup({
   className,
+  value: valueProp,
+  defaultValue,
+  onValueChange,
   ...props
-}: RadioGroupPrimitive.RootProps &
-  React.RefAttributes<RadioGroupPrimitive.RootRef>) {
+}: Omit<RadioGroupPrimitive.RootProps, "value" | "onValueChange"> &
+  React.RefAttributes<RadioGroupPrimitive.RootRef> & {
+    value?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
+  }) {
+  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue);
+  const value = valueProp ?? uncontrolledValue;
   return (
-    <RadioGroupPrimitive.Root className={cn("gap-3", className)} {...props} />
+    <RadioGroupPrimitive.Root
+      className={cn("gap-3", className)}
+      value={value}
+      onValueChange={(nextValue) => {
+        if (valueProp === undefined) setUncontrolledValue(nextValue);
+        onValueChange?.(nextValue);
+      }}
+      {...props}
+    />
   );
 }
 

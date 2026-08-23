@@ -42,7 +42,11 @@ function Menubar({
   value: valueProp,
   onValueChange: onValueChangeProp,
   ...props
-}: MenubarPrimitive.RootProps & React.RefAttributes<MenubarPrimitive.RootRef>) {
+}: Omit<MenubarPrimitive.RootProps, "value" | "onValueChange"> &
+  React.RefAttributes<MenubarPrimitive.RootRef> & {
+    value?: string;
+    onValueChange?: (value: string | undefined) => void;
+  }) {
   const id = React.useId();
   const [value, setValue] = React.useState<string | undefined>(undefined);
 

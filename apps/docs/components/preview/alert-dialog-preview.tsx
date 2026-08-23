@@ -10,9 +10,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@moe/registry/ui/alert-dialog";
-import { Button } from "@moe/registry/ui/button";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe-ui/registry/components/ui/alert-dialog";
+import { Button } from "@moe-ui/registry/components/ui/button";
+import { Text } from "@moe-ui/registry/components/ui/text";
 
 export default function AlertDialogPreview() {
   return (

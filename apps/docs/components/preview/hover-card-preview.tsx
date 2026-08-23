@@ -1,13 +1,17 @@
-import { Button } from "@moe/registry/ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@moe-ui/registry/components/ui/avatar";
+import { Button } from "@moe-ui/registry/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@moe/registry/ui/hover-card";
-import { Text } from "@moe/registry/ui/text";
-import { View } from "react-native";
+} from "@moe-ui/registry/components/ui/hover-card";
+import { Text } from "@moe-ui/registry/components/ui/text";
 import { CalendarDays } from "lucide-react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "@moe/registry/ui/avatar";
+import { View } from "react-native";
 
 export default function HoverCardPreview() {
   return (
@@ -19,8 +23,8 @@ export default function HoverCardPreview() {
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
         <View className="flex flex-row justify-between space-x-4">
-          <Avatar>
-            <AvatarImage src="https://github.com/vercel.png" />
+          <Avatar alt="Vercel profile">
+            <AvatarImage source={{ uri: "https://github.com/vercel.png" }} />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
           <View className="space-y-1">

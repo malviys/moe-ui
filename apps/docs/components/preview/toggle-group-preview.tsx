@@ -1,9 +1,16 @@
-import { ToggleGroup, ToggleGroupItem } from "@moe/registry/ui/toggle-group";
+"use client";
+
+import * as React from "react";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@moe-ui/registry/components/ui/toggle-group";
 import { Bold, Italic, Underline } from "lucide-react-native";
 
 export default function ToggleGroupPreview() {
+  const [value, setValue] = React.useState<string[]>([]);
   return (
-    <ToggleGroup type="multiple">
+    <ToggleGroup type="multiple" value={value} onValueChange={setValue}>
       <ToggleGroupItem value="bold" aria-label="Toggle bold">
         <Bold className="h-4 w-4 text-foreground" />
       </ToggleGroupItem>

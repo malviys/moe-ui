@@ -5,7 +5,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@moe/registry/components/ui/accordion";
+} from "@moe-ui/registry/components/ui/accordion";
 
 export const AccordionSingleTypePreview = () => {
   return (

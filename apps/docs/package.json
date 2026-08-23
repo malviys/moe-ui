@@ -3,25 +3,27 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prebuild": "pnpm registry:generate",
     "build": "next build --webpack",
     "dev": "next dev --webpack",
-    "start": "next start --webpack",
+    "start": "next start",
     "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
     "postinstall": "fumadocs-mdx",
-    "lint": "biome check",
-    "format": "biome format --write",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "lint": "biome check app components lib tests scripts mdx-components.tsx next.config.ts source.config.ts playwright.config.ts vitest.config.ts",
+    "format": "biome format --write app components lib tests scripts mdx-components.tsx next.config.ts source.config.ts playwright.config.ts vitest.config.ts",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "registry:generate": "node --import tsx scripts/generate-registry.ts",
+    "registry:check": "node --import tsx scripts/generate-registry.ts --check"
   },
   "dependencies": {
-    "@expo/next-adapter": "^6.0.0",
-    "@moe/registry": "workspace:*",
-    "@opennextjs/cloudflare": "1.16.3",
+    "@moe-ui/registry": "workspace:*",
     "@orama/orama": "^3.1.18",
     "@tailwindcss/postcss": "^4.2.1",
-    "cookies-next": "6.1.1",
-    "expo": "^54.0.33",
+    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource-variable/newsreader": "^5.2.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "fumadocs-core": "16.5.1",
     "fumadocs-docgen": "^3.0.8",
     "fumadocs-mdx": "14.2.6",
@@ -33,19 +35,22 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-native": "0.83.1",
-    "react-native-safe-area-context": "^5.7.0",
     "react-native-web": "^0.21.2",
-    "uniwind": "^1.4.1",
-    "uniwind-plugin-next": "^1.4.2"
+    "tailwind-merge": "^3.5.0",
+    "uniwind": "^1.11.0",
+    "uniwind-plugin-next": "1.4.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@biomejs/biome": "^2.3.13",
+    "@playwright/test": "^1.59.1",
     "@types/mdx": "^2.0.13",
     "@types/node": "^25.1.0",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "tailwindcss": "^4.1.18",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "wrangler": "4.63.0"
+    "vitest": "^4.1.2"
   }
 }

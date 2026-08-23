@@ -1,15 +1,31 @@
 import { TextClassContext } from "./text";
 import { cn } from "../../lib/utils";
 import * as TabsPrimitive from "@rn-primitives/tabs";
+import * as React from "react";
 import { Platform } from "react-native";
 
 function Tabs({
   className,
+  value: valueProp,
+  defaultValue,
+  onValueChange,
   ...props
-}: TabsPrimitive.RootProps & React.RefAttributes<TabsPrimitive.RootRef>) {
+}: Omit<TabsPrimitive.RootProps, "value" | "onValueChange"> &
+  React.RefAttributes<TabsPrimitive.RootRef> & {
+    value?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
+  }) {
+  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? "");
+  const value = valueProp ?? uncontrolledValue;
   return (
     <TabsPrimitive.Root
       className={cn("flex flex-col gap-2", className)}
+      value={value}
+      onValueChange={(nextValue) => {
+        if (valueProp === undefined) setUncontrolledValue(nextValue);
+        onValueChange?.(nextValue);
+      }}
       {...props}
     />
   );

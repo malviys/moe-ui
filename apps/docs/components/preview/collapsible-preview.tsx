@@ -1,10 +1,10 @@
+import { Button } from "@moe-ui/registry/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@moe/registry/ui/collapsible";
-import { Button } from "@moe/registry/ui/button";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe-ui/registry/components/ui/collapsible";
+import { Text } from "@moe-ui/registry/components/ui/text";
 import { ChevronsUpDown } from "lucide-react-native";
 import * as React from "react";
 import { View } from "react-native";

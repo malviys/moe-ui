@@ -1,4 +1,4 @@
-import { Skeleton } from "@moe/registry/ui/skeleton";
+import { Skeleton } from "@moe-ui/registry/components/ui/skeleton";
 import { View } from "react-native";
 
 export default function SkeletonPreview() {

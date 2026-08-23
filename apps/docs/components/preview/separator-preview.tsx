@@ -1,6 +1,6 @@
-import { Separator } from "@moe/registry/ui/separator";
+import { Separator } from "@moe-ui/registry/components/ui/separator";
+import { Text } from "@moe-ui/registry/components/ui/text";
 import { View } from "react-native";
-import { Text } from "@moe/registry/ui/text";
 
 export default function SeparatorPreview() {
   return (

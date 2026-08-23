@@ -1,4 +1,4 @@
-import { Badge } from "@moe/registry/ui/badge";
+import { Badge } from "@moe-ui/registry/components/ui/badge";
 
 export default function BadgePreview() {
   return <Badge>Badge</Badge>;

@@ -1,4 +1,4 @@
-import { Button } from "@moe/registry/ui/button";
+import { Button } from "@moe-ui/registry/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,11 +6,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@moe/registry/ui/card";
-import { Input } from "@moe/registry/ui/input";
-import { Label } from "@moe/registry/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@moe/registry/ui/tabs";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe-ui/registry/components/ui/card";
+import { Input } from "@moe-ui/registry/components/ui/input";
+import { Label } from "@moe-ui/registry/components/ui/label";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@moe-ui/registry/components/ui/tabs";
+import { Text } from "@moe-ui/registry/components/ui/text";
 import { View } from "react-native";
 
 export default function TabsPreview() {
@@ -56,11 +61,11 @@ export default function TabsPreview() {
           <CardContent className="space-y-2">
             <View className="space-y-1">
               <Label htmlFor="current">Current password</Label>
-              <Input id="current" type="password" />
+              <Input id="current" secureTextEntry />
             </View>
             <View className="space-y-1">
               <Label htmlFor="new">New password</Label>
-              <Input id="new" type="password" />
+              <Input id="new" secureTextEntry />
             </View>
           </CardContent>
           <CardFooter>

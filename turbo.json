@@ -36,15 +36,21 @@
             ],
             "outputs": []
         },
-        "preview": {
-            "cache": false,
-            "persistent": true
+        "test": {
+            "dependsOn": [
+                "^build"
+            ],
+            "outputs": [],
+            "cache": false
         },
-        "deploy": {
+        "test:e2e": {
             "dependsOn": [
                 "build"
             ],
-            "outputs": [],
+            "outputs": [
+                "test-results/**",
+                "playwright-report/**"
+            ],
             "cache": false
         }
     }

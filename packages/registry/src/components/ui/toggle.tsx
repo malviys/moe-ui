@@ -41,15 +41,24 @@ function Toggle({
   className,
   variant,
   size,
+  pressed: pressedProp,
+  defaultPressed = false,
+  onPressedChange,
   ...props
-}: TogglePrimitive.RootProps &
+}: Omit<TogglePrimitive.RootProps, "pressed" | "onPressedChange"> &
   VariantProps<typeof toggleVariants> &
-  React.RefAttributes<TogglePrimitive.RootRef>) {
+  React.RefAttributes<TogglePrimitive.RootRef> & {
+    pressed?: boolean;
+    defaultPressed?: boolean;
+    onPressedChange?: (pressed: boolean) => void;
+  }) {
+  const [uncontrolledPressed, setUncontrolledPressed] = React.useState(defaultPressed);
+  const pressed = pressedProp ?? uncontrolledPressed;
   return (
     <TextClassContext.Provider
       value={cn(
         "text-sm text-foreground font-medium",
-        props.pressed
+        pressed
           ? "text-accent-foreground"
           : Platform.select({ web: "group-hover:text-muted-foreground" }),
         className,
@@ -59,9 +68,14 @@ function Toggle({
         className={cn(
           toggleVariants({ variant, size }),
           props.disabled && "opacity-50",
-          props.pressed && "bg-accent",
+          pressed && "bg-accent",
           className,
         )}
+        pressed={pressed}
+        onPressedChange={(nextPressed) => {
+          if (pressedProp === undefined) setUncontrolledPressed(nextPressed);
+          onPressedChange?.(nextPressed);
+        }}
         {...props}
       />
     </TextClassContext.Provider>

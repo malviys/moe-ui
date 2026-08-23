@@ -1,6 +1,6 @@
 "use client";
 
-import { AspectRatio } from "@moe/registry/ui/aspect-ratio";
+import { AspectRatio } from "@moe-ui/registry/components/ui/aspect-ratio";
 import { Image, View } from "react-native";
 
 export default function AspectRatioPreview() {

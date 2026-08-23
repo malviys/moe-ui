@@ -1,4 +1,4 @@
-import { Toggle } from "@moe/registry/ui/toggle";
+import { Toggle } from "@moe-ui/registry/components/ui/toggle";
 import { Bold } from "lucide-react-native";
 
 export default function TogglePreview() {

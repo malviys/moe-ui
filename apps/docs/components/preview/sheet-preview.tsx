@@ -1,6 +1,6 @@
-import { Button } from "@moe/registry/ui/button";
-import { Input } from "@moe/registry/ui/input";
-import { Label } from "@moe/registry/ui/label";
+import { Button } from "@moe-ui/registry/components/ui/button";
+import { Input } from "@moe-ui/registry/components/ui/input";
+import { Label } from "@moe-ui/registry/components/ui/label";
 import {
   Sheet,
   SheetClose,
@@ -10,8 +10,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@moe/registry/ui/sheet";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe-ui/registry/components/ui/sheet";
+import { Text } from "@moe-ui/registry/components/ui/text";
 import { View } from "react-native";
 
 export default function SheetPreview() {
@@ -53,7 +53,7 @@ export default function SheetPreview() {
         </View>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">
+            <Button>
               <Text>Save changes</Text>
             </Button>
           </SheetClose>

@@ -5,8 +5,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@moe/registry/ui/card";
-import { Text } from "@moe/registry/ui/text";
+} from "@moe-ui/registry/components/ui/card";
+import { Text } from "@moe-ui/registry/components/ui/text";
 
 export default function CardPreview() {
   return (

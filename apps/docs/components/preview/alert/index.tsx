@@ -1,6 +1,10 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@moe/registry/components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@moe-ui/registry/components/ui/alert";
 import { AlertCircle } from "lucide-react-native";
 
 export const AlertPreview = () => {

@@ -1,7 +1,7 @@
 import { Icon } from "./icon";
 import { NativeOnlyAnimatedView } from "./native-only-animated-view";
 import { TextClassContext } from "./text";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
 import * as ContextMenuPrimitive from "@rn-primitives/context-menu";
 import {
   Check,

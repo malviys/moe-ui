@@ -1,4 +1,4 @@
-import { Progress } from "@moe/registry/ui/progress";
+import { Progress } from "@moe-ui/registry/components/ui/progress";
 import * as React from "react";
 import { View } from "react-native";
 
