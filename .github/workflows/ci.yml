@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm registry:generate
+      - name: Require deterministic generated assets
+        run: git diff --exit-code -- apps/docs/public apps/docs/content/docs/components
+      - run: pnpm lint
+      - run: pnpm types:check
+      - run: pnpm test
+      - run: pnpm build
+
+  browsers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter docs exec playwright install --with-deps chromium firefox webkit
+      - run: pnpm --filter docs test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: |
+            apps/docs/playwright-report
+            apps/docs/test-results
+          retention-days: 14
+
+  cli-fixture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @moe-ui/cli build
+      - run: pnpm --filter docs build
+      - name: Start local registry
+        run: |
+          pnpm --filter docs start &
+          for attempt in {1..30}; do
+            curl --fail --silent http://127.0.0.1:3000/r/index.json && exit 0
+            sleep 1
+          done
+          exit 1
+      - name: Initialize, add representative components, typecheck, and build
+        run: |
+          fixture="$RUNNER_TEMP/moe-ui-next-fixture"
+          cp -R packages/cli/fixtures/next-app "$fixture"
+          node packages/cli/dist/index.js init --cwd "$fixture" --yes --package-manager pnpm
+          node -e 'const fs=require("node:fs"); const p=process.argv[1]; const c=JSON.parse(fs.readFileSync(p)); c.registry="http://127.0.0.1:3000/r"; fs.writeFileSync(p, JSON.stringify(c,null,2)+"\n")' "$fixture/components.json"
+          node packages/cli/dist/index.js add button input dialog --cwd "$fixture" --package-manager pnpm
+          pnpm --dir "$fixture" types:check
+          pnpm --dir "$fixture" build
