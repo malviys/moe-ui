@@ -7,6 +7,11 @@
 :root {
   --font-sans: "Manrope Variable", sans-serif;
   --font-display: "Newsreader Variable", serif;
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 body {

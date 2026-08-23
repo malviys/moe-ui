@@ -2,6 +2,10 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export function baseOptions(): BaseLayoutProps {
   return {
+    themeSwitch: {
+      enabled: true,
+      mode: "light-dark-system",
+    },
     nav: {
       title: "Moe UI",
       url: "/",

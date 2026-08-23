@@ -53,7 +53,17 @@ export default function Layout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <RootProvider>{children}</RootProvider>
+        <RootProvider
+          theme={{
+            attribute: "class",
+            defaultTheme: "system",
+            enableColorScheme: true,
+            enableSystem: true,
+            storageKey: "moe-ui-docs-theme",
+          }}
+        >
+          {children}
+        </RootProvider>
       </body>
     </html>
   );
