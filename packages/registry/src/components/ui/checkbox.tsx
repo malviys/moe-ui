@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "./icon";
 import { cn } from "../../lib/utils";
 import * as CheckboxPrimitive from "@rn-primitives/checkbox";

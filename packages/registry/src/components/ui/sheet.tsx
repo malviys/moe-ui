@@ -1,6 +1,8 @@
+"use client";
+
 import * as SheetPrimitive from "@rn-primitives/dialog";
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { X } from "lucide-react-native";
 import { cn } from "../../lib/utils";
@@ -21,16 +23,22 @@ const SheetOverlay = React.forwardRef<
     <SheetPrimitive.Overlay
       style={StyleSheet.absoluteFill}
       className={cn(
-        "z-50 bg-black/80 flex justify-center items-center p-2",
+        "z-50 flex items-stretch justify-start bg-black/80 p-0",
         className,
       )}
       {...props}
       ref={ref}
     >
-      <Animated.View
-        entering={FadeIn.duration(150)}
-        exiting={FadeOut.duration(150)}
-      />
+      {Platform.OS === "web" ? (
+        (props.children as React.ReactNode)
+      ) : (
+        <Animated.View
+          entering={FadeIn.duration(150)}
+          exiting={FadeOut.duration(150)}
+        >
+          {props.children as React.ReactNode}
+        </Animated.View>
+      )}
     </SheetPrimitive.Overlay>
   );
 });
@@ -49,9 +57,9 @@ const SheetContent = React.forwardRef<
         <SheetPrimitive.Content
           ref={ref}
           className={cn(
-            "z-50 gap-4 border-l border-border bg-background p-6 shadow-lg web:cursor-default absolute h-full w-3/4  sm:max-w-sm",
-            side === "right" && "right-0 top-0 border-l",
-            side === "bottom" && "bottom-0 left-0 right-0 border-t h-auto",
+            "border-border bg-background z-50 ml-auto h-screen w-3/4 gap-4 border-l p-6 shadow-lg sm:max-w-sm web:cursor-default",
+            side === "right" && "border-l",
+            side === "bottom" && "mt-auto h-auto w-full border-t",
             className,
           )}
           {...props}

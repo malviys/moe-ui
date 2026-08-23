@@ -1,3 +1,5 @@
+"use client";
+
 import * as AlertDialogPrimitive from "@rn-primitives/alert-dialog";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";

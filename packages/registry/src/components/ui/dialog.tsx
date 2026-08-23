@@ -1,3 +1,5 @@
+"use client";
+
 import * as DialogPrimitive from "@rn-primitives/dialog";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
@@ -27,10 +29,16 @@ const DialogOverlay = React.forwardRef<
       {...props}
       ref={ref}
     >
-      <Animated.View
-        entering={FadeIn.duration(150)}
-        exiting={FadeOut.duration(150)}
-      />
+      {Platform.OS === "web" ? (
+        (props.children as React.ReactNode)
+      ) : (
+        <Animated.View
+          entering={FadeIn.duration(150)}
+          exiting={FadeOut.duration(150)}
+        >
+          {props.children as React.ReactNode}
+        </Animated.View>
+      )}
     </DialogPrimitive.Overlay>
   );
 });

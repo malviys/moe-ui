@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "../../lib/utils";
 import type { LucideIcon, LucideProps } from "lucide-react-native";
 import { withUniwind } from "uniwind";

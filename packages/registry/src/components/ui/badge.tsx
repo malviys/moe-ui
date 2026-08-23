@@ -1,3 +1,5 @@
+"use client";
+
 import { TextClassContext } from "./text";
 import { cn } from "../../lib/utils";
 import * as Slot from "@rn-primitives/slot";

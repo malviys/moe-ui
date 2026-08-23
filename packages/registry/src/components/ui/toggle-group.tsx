@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "./icon";
 import { TextClassContext } from "./text";
 import { toggleVariants } from "./toggle";

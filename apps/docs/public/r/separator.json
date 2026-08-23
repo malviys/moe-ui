@@ -10,7 +10,7 @@
     {
       "path": "components/ui/separator.tsx",
       "target": "components/ui/separator.tsx",
-      "content": "import { cn } from \"../../lib/utils\";\nimport * as SeparatorPrimitive from \"@rn-primitives/separator\";\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: SeparatorPrimitive.RootProps &\n  React.RefAttributes<SeparatorPrimitive.RootRef>) {\n  return (\n    <SeparatorPrimitive.Root\n      decorative={decorative}\n      orientation={orientation}\n      className={cn(\n        \"bg-border shrink-0\",\n        orientation === \"horizontal\" ? \"h-[1px] w-full\" : \"h-full w-[1px]\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Separator };\n"
+      "content": "\"use client\";\n\nimport { cn } from \"../../lib/utils\";\nimport * as SeparatorPrimitive from \"@rn-primitives/separator\";\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: SeparatorPrimitive.RootProps &\n  React.RefAttributes<SeparatorPrimitive.RootRef>) {\n  return (\n    <SeparatorPrimitive.Root\n      decorative={decorative}\n      orientation={orientation}\n      className={cn(\n        \"bg-border shrink-0\",\n        orientation === \"horizontal\" ? \"h-[1px] w-full\" : \"h-full w-[1px]\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Separator };\n"
     }
   ],
   "dependencies": {
@@ -19,5 +19,5 @@
   "registryDependencies": [
     "utils"
   ],
-  "integrity": "sha256-835WLMIla80eZrLJWe9WtapwjReJbWBx+bfzrKlXKIk="
+  "integrity": "sha256-fgyGCTVHLZGsL3YOU3XJkwqaPr27LjCU9DMGNKvEALE="
 }

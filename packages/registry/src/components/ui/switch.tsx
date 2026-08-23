@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "../../lib/utils";
 import * as SwitchPrimitives from "@rn-primitives/switch";
 import { Platform } from "react-native";

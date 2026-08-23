@@ -1,3 +1,5 @@
+"use client";
+
 import { TextClassContext } from "./text";
 import { cn } from "../../lib/utils";
 import * as TabsPrimitive from "@rn-primitives/tabs";

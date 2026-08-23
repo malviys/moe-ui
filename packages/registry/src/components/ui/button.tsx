@@ -1,3 +1,5 @@
+"use client";
+
 import { TextClassContext } from "./text";
 import { cn } from "../../lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";

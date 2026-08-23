@@ -1,3 +1,5 @@
+"use client";
+
 import * as HoverCardPrimitive from "@rn-primitives/hover-card";
 import * as React from "react";
 import { Platform, StyleSheet } from "react-native";

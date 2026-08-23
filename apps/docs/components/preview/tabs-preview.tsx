@@ -22,8 +22,12 @@ export default function TabsPreview() {
   return (
     <Tabs defaultValue="account" className="w-[400px]">
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
+        <TabsTrigger value="account">
+          <Text>Account</Text>
+        </TabsTrigger>
+        <TabsTrigger value="password">
+          <Text>Password</Text>
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card>

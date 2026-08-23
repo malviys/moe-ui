@@ -13,7 +13,7 @@ export default function SelectPreview() {
   return (
     <View className="w-[180px]">
       <Select>
-        <SelectTrigger>
+        <SelectTrigger accessibilityLabel="Fruit">
           <SelectValue placeholder="Select a fruit" />
         </SelectTrigger>
         <SelectContent>

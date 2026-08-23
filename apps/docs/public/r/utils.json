@@ -10,10 +10,12 @@
     {
       "path": "lib/utils.ts",
       "target": "lib/utils.ts",
-      "content": "export * from \"./cn\";\n"
+      "content": "export { twMerge as cn } from 'tailwind-merge';\n"
     }
   ],
-  "dependencies": {},
+  "dependencies": {
+    "tailwind-merge": "^3.5.0"
+  },
   "registryDependencies": [],
-  "integrity": "sha256-WybhA4hGPWORQ+dUaH/k+vL/x8YcknHXYOsivNjd8m8="
+  "integrity": "sha256-11oSUQMDzAndu78KJpTpXrL9qKy583f3A7SYH/3VtHU="
 }

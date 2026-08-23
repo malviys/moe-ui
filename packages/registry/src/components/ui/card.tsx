@@ -1,3 +1,5 @@
+"use client";
+
 import { Text, TextClassContext } from "./text";
 import { cn } from "../../lib/utils";
 import { View, type ViewProps } from "react-native";

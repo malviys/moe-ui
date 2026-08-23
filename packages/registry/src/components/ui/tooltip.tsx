@@ -1,3 +1,5 @@
+"use client";
+
 import { NativeOnlyAnimatedView } from "./native-only-animated-view";
 import { TextClassContext } from "./text";
 import { cn } from "../../lib/utils";

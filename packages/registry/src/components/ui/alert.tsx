@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "./icon";
 import { Text, TextClassContext } from "./text";
 import { cn } from "../../lib/utils";

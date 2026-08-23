@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "./icon";
 import { NativeOnlyAnimatedView } from "./native-only-animated-view";
 import { TextClassContext } from "./text";
@@ -66,6 +68,7 @@ function SelectTrigger({
         className,
       )}
       {...props}
+      aria-autocomplete={undefined}
     >
       <>{children}</>
       <Icon

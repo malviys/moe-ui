@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Abstract amber landscape">
+  <rect width="800" height="450" fill="#171717"/>
+  <circle cx="610" cy="105" r="58" fill="#f5b942"/>
+  <path d="M0 350 205 155l145 132 112-105 338 268H0Z" fill="#5b4a2d"/>
+  <path d="m0 405 260-166 154 119 111-72 275 164H0Z" fill="#d89a2b"/>
+</svg>

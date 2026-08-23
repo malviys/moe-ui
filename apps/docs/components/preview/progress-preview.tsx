@@ -12,7 +12,7 @@ export default function ProgressPreview() {
 
   return (
     <View className="w-full max-w-sm">
-      <Progress value={progress} />
+      <Progress accessibilityLabel="Upload progress" value={progress} />
     </View>
   );
 }

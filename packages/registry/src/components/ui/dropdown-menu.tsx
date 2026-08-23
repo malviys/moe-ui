@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "./icon";
 import { NativeOnlyAnimatedView } from "./native-only-animated-view";
 import { TextClassContext } from "./text";

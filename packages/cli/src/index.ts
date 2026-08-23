@@ -352,12 +352,20 @@ export async function initProject(options: CliOptions) {
     { file: path.join(cwd, "moe-ui.react-native.web.ts"), content: reactNativeWebSource() },
     {
       file: path.join(cwd, "uniwind-types.d.ts"),
-      content:
-        '/// <reference types="uniwind/types" />\n\ndeclare module "react-native-web" {\n  export { Platform, StyleSheet, useColorScheme } from "react-native";\n}\n',
+      content: '/// <reference types="uniwind/types" />\n',
+    },
+    {
+      file: path.join(cwd, "moe-ui.react-native-web.d.ts"),
+      content: 'declare module "react-native-web";\n',
     },
   ];
   for (const generatedFile of generatedFiles) {
-    if ((await exists(generatedFile.file)) && (await readFile(generatedFile.file, "utf8")) !== generatedFile.content) {
+    const isUniwindOutput = path.basename(generatedFile.file) === "uniwind-types.d.ts";
+    if (
+      !isUniwindOutput &&
+      (await exists(generatedFile.file)) &&
+      (await readFile(generatedFile.file, "utf8")) !== generatedFile.content
+    ) {
       throw new Error(`Existing ${path.basename(generatedFile.file)} contains local changes. Reconcile it before running init.`);
     }
   }
@@ -368,7 +376,12 @@ export async function initProject(options: CliOptions) {
     writeFile(nextConfigFile, transformedConfig),
     writeFile(layoutFile, transformedLayout),
     writeFile(cssFile, transformedCss),
-    ...generatedFiles.map((generatedFile) => writeFile(generatedFile.file, generatedFile.content)),
+    ...generatedFiles.map(async (generatedFile) => {
+      const isUniwindOutput =
+        path.basename(generatedFile.file) === "uniwind-types.d.ts";
+      if (isUniwindOutput && (await exists(generatedFile.file))) return;
+      await writeFile(generatedFile.file, generatedFile.content);
+    }),
     writeFile(configFile, `${JSON.stringify(config, null, 2)}\n`),
   ]);
 

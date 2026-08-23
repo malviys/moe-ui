@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "../../lib/utils";
 import * as RadioGroupPrimitive from "@rn-primitives/radio-group";
 import * as React from "react";

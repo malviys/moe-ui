@@ -24,7 +24,7 @@ export default function HoverCardPreview() {
       <HoverCardContent className="w-80">
         <View className="flex flex-row justify-between space-x-4">
           <Avatar alt="Vercel profile">
-            <AvatarImage source={{ uri: "https://github.com/vercel.png" }} />
+            <AvatarImage source={{ uri: "/media/avatar.svg" }} />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
           <View className="space-y-1">

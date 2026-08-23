@@ -82,7 +82,7 @@ function extractImports(content: string) {
 function sourceFor(name: string) {
   if (name === "utils") {
     return {
-      source: path.join(registryRoot, "lib/utils.ts"),
+      source: path.join(registryRoot, "lib/cn.ts"),
       target: "lib/utils.ts",
       type: "registry:lib" as const,
     };

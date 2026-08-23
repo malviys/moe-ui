@@ -9,7 +9,7 @@ export default function AspectRatioPreview() {
       <AspectRatio ratio={16 / 9}>
         <Image
           source={{
-            uri: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80",
+            uri: "/media/preview-landscape.svg",
           }}
           style={{ width: "100%", height: "100%", borderRadius: 8 }}
           resizeMode="cover"

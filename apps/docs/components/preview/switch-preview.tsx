@@ -8,7 +8,11 @@ export default function SwitchPreview() {
 
   return (
     <View className="flex-row items-center gap-2">
-      <Switch checked={enabled} onCheckedChange={setEnabled} />
+      <Switch
+        accessibilityLabel="Airplane Mode"
+        checked={enabled}
+        onCheckedChange={setEnabled}
+      />
       <Label>Airplane Mode</Label>
     </View>
   );
