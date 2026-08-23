@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
 import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@moe-ui/registry/components/ui/toggle-group";
 import { Bold, Italic, Underline } from "lucide-react-native";
+import * as React from "react";
 
 export default function ToggleGroupPreview() {
   const [value, setValue] = React.useState<string[]>([]);

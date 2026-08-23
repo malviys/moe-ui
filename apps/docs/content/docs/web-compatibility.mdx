@@ -1,0 +1,21 @@
+---
+title: Web compatibility
+description: The executable browser and accessibility matrix for the web beta.
+icon: MonitorCheck
+---
+
+import { WebCompatibilityMatrix } from "@/components/web-compatibility-matrix";
+
+The web beta is blocked until every registry component passes the same manifest consumed by Playwright in Chromium, Firefox, and WebKit. Each route is checked in light and dark themes, at desktop and narrow viewports, with automated axe coverage for the applicable WCAG 2.2 AA interaction baseline.
+
+<WebCompatibilityMatrix />
+
+## What the gate covers
+
+- Stable rendering and hydration in every supported browser.
+- Keyboard entry, arrow-key behavior, visible focus, Escape dismissal, and focus return where applicable.
+- Outside interaction, disabled controls, form names, values, and validation semantics.
+- Focus containment, nested menus, and portal dismissal for complex overlays.
+- Responsive visual snapshots at desktop and narrow widths.
+
+The matrix is generated from `lib/web-test-manifest.ts`; adding a registry component without a documentation route and test selector fails CI.

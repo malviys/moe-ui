@@ -4,6 +4,35 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 
+:root {
+  --font-sans: "Manrope Variable", sans-serif;
+  --font-display: "Newsreader Variable", serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-fd-background);
+}
+
+.home-display {
+  font-family: var(--font-display);
+}
+
+.home-grid {
+  background-image:
+    linear-gradient(
+      color-mix(in oklab, var(--color-fd-border) 72%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--color-fd-border) 72%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, black 12%, transparent 90%);
+}
+
 @layer theme {
   :root {
     @variant light {
@@ -67,12 +96,12 @@
 
 /* Hide the 'Docs' heading/toggle in the sidebar */
 .fd-sidebar
-  :is(
-    button[aria-haspopup="menu"],
-    .fd-sidebar-title,
-    [data-sidebar] > div:first-child
-  ) {
-  display: none !important;
+:is(
+  button[aria-haspopup="menu"],
+  .fd-sidebar-title,
+  [data-sidebar] > div:first-child
+) {
+  display: none;
 }
 
 /* Sidebar spacing customization */

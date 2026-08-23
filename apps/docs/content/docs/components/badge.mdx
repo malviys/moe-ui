@@ -1,102 +1,36 @@
 ---
 title: Badge
-description: Displays a badge or a component that looks like a badge.
+description: A compact label for status or metadata.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="badge-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add badge ```</Tab>
-  <Tab value="Manual">
-
-### Copy/paste the following code to `@/components/ui/badge.tsx`
-
-```tsx
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
-import { View } from "react-native";
-import { cn } from "@/lib/utils";
-import { TextClassContext } from "@/components/ui/text";
-
-const badgeVariants = cva(
-  "web:inline-flex items-center rounded-full border border-border px-2.5 py-0.5 web:transition-colors web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2",
-  {
-    variants: {
-      variant: {
-        default:
-          "border-transparent bg-primary web:hover:opacity-80 active:opacity-80",
-        secondary:
-          "border-transparent bg-secondary web:hover:opacity-80 active:opacity-80",
-        destructive:
-          "border-transparent bg-destructive web:hover:opacity-80 active:opacity-80",
-        outline: "text-foreground",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-);
-
-const badgeTextVariants = cva("text-xs font-semibold", {
-  variants: {
-    variant: {
-      default: "text-primary-foreground",
-      secondary: "text-secondary-foreground",
-      destructive: "text-destructive-foreground",
-      outline: "text-foreground",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
-
-function Badge({
-  className,
-  variant,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof View> &
-  VariantProps<typeof badgeVariants>) {
-  return (
-    <TextClassContext.Provider value={badgeTextVariants({ variant })}>
-      <View className={cn(badgeVariants({ variant }), className)} {...props} />
-    </TextClassContext.Provider>
-  );
-}
-
-export { Badge, badgeTextVariants, badgeVariants };
-export type { VariantProps };
+```bash
+pnpm dlx @moe-ui/cli@beta add badge
 ```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { Badge } from "@moe/registry/ui/badge";
-
-export function BadgeDemo() {
-  return <Badge>Badge</Badge>;
-}
-```
-
-## Variants
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
 ```tsx
-<Badge variant="default">Default</Badge>
-<Badge variant="secondary">Secondary</Badge>
-<Badge variant="destructive">Destructive</Badge>
-<Badge variant="outline">Outline</Badge>
+import { Badge } from "@/components/ui/badge";
 ```
 
-## Props
+## Variants and composition
 
-| Prop      | Type                                                     | Default     | Description                   |
-| --------- | -------------------------------------------------------- | ----------- | ----------------------------- |
-| `variant` | `'default' \| 'secondary' \| 'destructive' \| 'outline'` | `'default'` | The visual style of the badge |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Status is not communicated by color alone. Add an accessible label or live-region behavior when the message changes dynamically.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

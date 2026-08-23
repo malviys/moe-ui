@@ -1,46 +1,44 @@
 ---
 title: Changelog
-description: All notable changes to Moe UI will be documented here.
+description: Notable Moe UI release changes and beta API corrections.
 icon: History
 ---
 
 # Changelog
 
-All notable changes to this project will be documented on this page.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
----
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Planned
+
+- React Native iOS and Android release verification.
+- Additional components after the web beta is stable.
+
+## [0.1.0-beta.1] - 2026-08-23
+
 ### Added
 
-- Initial component library with 30+ components
-- CLI tool for project initialization and component installation
-- Documentation site with installation guides
+- Web-first source registry containing all 31 existing components.
+- `@moe-ui/cli` with `init` and recursive, integrity-checked `add` commands.
+- Versioned registry and project configuration schemas.
+- Fumadocs component previews backed by canonical registry source.
+- Chromium, Firefox, WebKit, responsive, dark-theme, and automated accessibility gates.
 
 ### Changed
 
-- Nothing yet
+- Release support is now explicit: Next.js 16 App Router, React 19, and modern desktop browsers.
+- The workspace package is private and renamed to `@moe-ui/registry`; users receive source files instead of a runtime component package.
+- Uniwind and React Native Web are configured directly in Next.js and builds use Webpack.
+- Checkbox, Radio Group, Tabs, Toggle, and Menubar accept correct controlled and uncontrolled web state shapes while preserving existing controlled props.
 
 ### Fixed
 
-- Nothing yet
+- Context Menu now has a functional, deterministic preview.
+- Dialog state styling no longer reads an invalid `open` prop.
+- Invalid registry import aliases, missing dependencies, and component preview type errors.
 
----
+### Removed
 
-## [0.1.0] - 2026-02-08
-
-### Added
-
-- 🎉 Initial release
-- Core components: Button, Card, Input, Label, Text, Textarea
-- Layout components: Accordion, Collapsible, Separator, Tabs
-- Overlay components: Alert Dialog, Dialog, Dropdown Menu, Context Menu, Popover, Tooltip, Hover Card
-- Form components: Checkbox, Radio Group, Select, Switch, Toggle, Toggle Group
-- Feedback components: Alert, Badge, Progress, Skeleton
-- Media components: Avatar, Aspect Ratio
-- CLI tool with `init` and `add` commands
-- Package manager options (`--pm bun`, `--pm npm`, `--pm pnpm`)
+- Starlight documentation, the experimental filters package, Cloudflare/OpenNext configuration, and committed Wrangler output.
+- Native production claims and the native platform selector from the web beta documentation.

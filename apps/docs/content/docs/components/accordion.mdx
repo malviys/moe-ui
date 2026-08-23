@@ -1,173 +1,36 @@
 ---
 title: Accordion
-description: A vertically stacked set of interactive headings that each reveal a section of content.
+description: Vertically stacked, interactive headings that reveal content.
 ---
 
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { ComponentPreview } from "@/components/component-preview";
-import { AccordionPreview } from "@/components/preview/accordion";
-import { AccordionSingleTypePreview } from "@/components/preview/accordion/single";
-import { AccordionMultipleTypePreview } from "@/components/preview/accordion/multiple";
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AccordionPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/accordion/index.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+<ComponentPreview name="accordion-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add accordion ```</Tab>
-  <Tab value="Manual">
-<Steps>
-<Step>
-  #### Install the following dependency:
-  ```bash
-  npx expo install @rn-primitives/accordion
-  ```
-</Step>
-<Step>
-  #### Copy/paste the following code to `@/components/ui/accordion.tsx`
-  ```json doc-gen:file
-  {
-    "type": "code",
-    "file": "./node_modules/@moe/registry/src/components/ui/accordion.tsx",
-    "codeblock": {
-      "lang": "tsx"
-    }
-  }
-  ```
-</Step>
-<Step>
-  #### Update `tailwind.config.js`
-  Add the following animations:
-  ```js
-  /** @type {import('tailwindcss').Config} */
-  module.exports = {
-    theme: {
-      extend: {
-        keyframes: {
-          "accordion-down": {
-            from: { height: "0" },
-            to: { height: "var(--radix-accordion-content-height)" },
-          },
-          "accordion-up": {
-            from: { height: "var(--radix-accordion-content-height)" },
-            to: { height: "0" },
-          },
-        },
-        animation: {
-          "accordion-down": "accordion-down 0.2s ease-out",
-          "accordion-up": "accordion-up 0.2s ease-out",
-        },
-      },
-    },
-  };
-  ```
-</Step>
-</Steps>
-  </Tab>
-</Tabs>
+```bash
+pnpm dlx @moe-ui/cli@beta add accordion
+```
 
 ## Usage
 
-```tsx
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@moe/registry/ui/accordion";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-return (
-  <Accordion type="single" collapsible className="w-full max-w-sm">
-    <AccordionItem value="item-1">
-      <AccordionTrigger>Is it accessible?</AccordionTrigger>
-      <AccordionContent>
-        Yes. It adheres to the WAI-ARIA design pattern.
-      </AccordionContent>
-    </AccordionItem>
-    <AccordionItem value="item-2">
-      <AccordionTrigger>Is it styled?</AccordionTrigger>
-      <AccordionContent>
-        Yes. It comes with default styles that match the other components'
-        aesthetic.
-      </AccordionContent>
-    </AccordionItem>
-    <AccordionItem value="item-3">
-      <AccordionTrigger>Is it animated?</AccordionTrigger>
-      <AccordionContent>
-        Yes. It is animated by default, and can be customized.
-      </AccordionContent>
-    </AccordionItem>
-  </Accordion>
-);
+```tsx
+import { Accordion } from "@/components/ui/accordion";
 ```
 
-## Types
+## Variants and composition
 
-### Single
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AccordionSingleTypePreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/accordion/single.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Public API
 
-### Multiple
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AccordionMultipleTypePreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/accordion/multiple.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Keyboard and accessibility
 
-## Props
+Arrow-key and Tab behavior follows the underlying accessible primitive. Focus indicators remain visible in both themes.
 
-| Prop            | Type                                  | Default    | Description                                                                          |
-| --------------- | ------------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
-| `type`          | `'single' \| 'multiple'`              | `'single'` | Whether a single or multiple items can be opened at the same time                    |
-| `collapsible`   | `boolean`                             | `false`    | When type is "single", allows closing content when clicking trigger for an open item |
-| `value`         | `string \| string[]`                  | -          | The controlled value of the item to expand                                           |
-| `onValueChange` | `(value: string \| string[]) => void` | -          | Event handler called when the expanded state changes                                 |
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

@@ -1,19 +1,40 @@
 ---
 title: Registry
-description: Browse and discover components from the registry
+description: Versioned component metadata and canonical source endpoints.
 icon: Library
 ---
 
-import { Callout } from "fumadocs-ui/components/callout";
+The Moe UI registry is public, deterministic, and generated from the private `@moe-ui/registry` workspace package. It is a distribution format for source files, not a browser runtime.
 
-<Callout type="info">
-  Registry is coming soon! A central place to browse, discover, and install
-  components.
-</Callout>
+## Endpoints
 
-## Planned Features
+- [Registry index](/r/index.json) — discover all public components
+- `/r/<component>.json` — one component, source, package dependencies, and registry dependencies
+- [Project configuration schema](/schema/components.json)
+- [Registry item schema](/schema/registry-item.json)
 
-- **Component browser** - Search and filter components
-- **Version information** - Track component versions and updates
-- **Dependencies** - See what each component requires
-- **Preview** - Live preview of components before installing
+Every item contains a schema version, name, type, destination files, full source content, npm dependency versions, recursive registry dependencies, and a SHA-256 integrity value.
+
+```json title="components.json"
+{
+  "$schema": "https://moe-ui.vercel.app/schema/components.json",
+  "schemaVersion": 1,
+  "registry": "https://moe-ui.vercel.app/r",
+  "typescript": true,
+  "paths": {
+    "components": "@/components/ui",
+    "lib": "@/lib",
+    "css": "app/globals.css"
+  }
+}
+```
+
+## Dependency resolution
+
+`registryDependencies` names other source items such as helpers or compound components. The CLI traverses this graph once, detects missing items, validates each checksum, and writes dependencies before the requested component. `dependencies` are package-manager dependencies installed at their tested beta ranges.
+
+## Ownership and conflicts
+
+Installed files belong to your project. Moe UI never tracks them through a hidden runtime package. A later `add` is a no-op when local content matches the registry and protects differing content unless overwrite is explicitly authorized.
+
+Generated assets are checked into the docs application so Vercel serves them as immutable source artifacts. CI regenerates them and requires a clean diff.

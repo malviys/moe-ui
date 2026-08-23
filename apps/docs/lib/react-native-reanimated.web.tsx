@@ -18,7 +18,9 @@ export const LinearTransition = transition;
 
 export const Extrapolation = { CLAMP: "clamp" } as const;
 
-export function LayoutAnimationConfig({ children }: PropsWithChildren<{ skipEntering?: boolean }>) {
+export function LayoutAnimationConfig({
+  children,
+}: PropsWithChildren<{ skipEntering?: boolean }>) {
   return <Fragment>{children}</Fragment>;
 }
 
@@ -49,7 +51,10 @@ export function withRepeat<T>(value: T) {
 export function interpolate(value: number, input: number[], output: number[]) {
   const [inputStart = 0, inputEnd = 1] = input;
   const [outputStart = 0, outputEnd = 1] = output;
-  const ratio = inputEnd === inputStart ? 0 : (value - inputStart) / (inputEnd - inputStart);
+  const ratio =
+    inputEnd === inputStart
+      ? 0
+      : (value - inputStart) / (inputEnd - inputStart);
   return outputStart + ratio * (outputEnd - outputStart);
 }
 

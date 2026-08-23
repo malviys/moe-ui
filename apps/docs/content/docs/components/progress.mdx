@@ -1,84 +1,36 @@
 ---
 title: Progress
-description: Displays an indicator showing the completion progress of a task.
+description: A visual indicator for task completion.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="progress-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add progress ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
 ```bash
-npx expo install @rn-primitives/progress
+pnpm dlx @moe-ui/cli@beta add progress
 ```
-
-### Copy/paste the following code to `@/components/ui/progress.tsx`
-
-```tsx
-import * as ProgressPrimitive from "@rn-primitives/progress";
-import * as React from "react";
-import { View } from "react-native";
-import { cn } from "@/lib/utils";
-
-const Progress = React.forwardRef<
-  React.ElementRef<typeof ProgressPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
->(({ className, value, ...props }, ref) => (
-  <ProgressPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
-      className,
-    )}
-    {...props}
-  >
-    <ProgressPrimitive.Indicator
-      className="h-full w-full flex-1 bg-primary web:transition-all"
-      style={{ transform: [{ translateX: `-${100 - (value || 0)}%` }] }}
-    />
-  </ProgressPrimitive.Root>
-));
-Progress.displayName = ProgressPrimitive.Root.displayName;
-
-export { Progress };
-```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
+The CLI installs editable source into your application. Import the component from your configured UI directory:
+
 ```tsx
-import { Progress } from "@moe/registry/ui/progress";
-import * as React from "react";
-import { View } from "react-native";
-
-export function ProgressDemo() {
-  const [progress, setProgress] = React.useState(13);
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => setProgress(66), 500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <View className="w-full max-w-sm">
-      <Progress value={progress} />
-    </View>
-  );
-}
+import { Progress } from "@/components/ui/progress";
 ```
 
-## Props
+## Variants and composition
 
-| Prop    | Type     | Default | Description                |
-| ------- | -------- | ------- | -------------------------- |
-| `value` | `number` | `0`     | The progress value (0-100) |
-| `max`   | `number` | `100`   | The maximum value          |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Status is not communicated by color alone. Add an accessible label or live-region behavior when the message changes dynamically.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

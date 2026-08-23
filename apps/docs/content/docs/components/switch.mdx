@@ -1,129 +1,36 @@
 ---
 title: Switch
-description: A control that allows the user to toggle between checked and not checked.
+description: A control for toggling an immediate on or off setting.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="switch-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add switch ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
 ```bash
-npx expo install @rn-primitives/switch
+pnpm dlx @moe-ui/cli@beta add switch
 ```
-
-### Copy/paste the following code to `@/components/ui/switch.tsx`
-
-```tsx
-import * as SwitchPrimitive from "@rn-primitives/switch";
-import * as React from "react";
-import { Platform } from "react-native";
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from "react-native-reanimated";
-import { useColorScheme } from "@/lib/useColorScheme";
-import { cn } from "@/lib/utils";
-
-const RGB_COLORS = {
-  light: {
-    primary: "rgb(24, 24, 27)",
-    input: "rgb(228, 228, 231)",
-  },
-  dark: {
-    primary: "rgb(250, 250, 250)",
-    input: "rgb(39, 39, 42)",
-  },
-};
-
-const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>
->(({ className, ...props }, ref) => {
-  const { colorScheme } = useColorScheme();
-  const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
-  const animatedRootStyle = useAnimatedStyle(() => {
-    return {
-      backgroundColor: interpolateColor(
-        translateX.value,
-        [0, 18],
-        [RGB_COLORS[colorScheme].input, RGB_COLORS[colorScheme].primary],
-      ),
-    };
-  });
-  const animatedThumbStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: withTiming(translateX.value, { duration: 200 }) },
-    ],
-  }));
-  return (
-    <Animated.View
-      style={animatedRootStyle}
-      className={cn(
-        "h-8 w-[46px] rounded-full",
-        props.disabled && "opacity-50",
-      )}
-    >
-      <SwitchPrimitive.Root
-        className={cn(
-          "flex-row h-8 w-[46px] shrink-0 items-center rounded-full border-2 border-transparent",
-          className,
-        )}
-        {...props}
-        ref={ref}
-      >
-        <Animated.View style={animatedThumbStyle}>
-          <SwitchPrimitive.Thumb
-            className={cn(
-              "h-7 w-7 rounded-full bg-background shadow-md shadow-foreground/25 ring-0",
-            )}
-          />
-        </Animated.View>
-      </SwitchPrimitive.Root>
-    </Animated.View>
-  );
-});
-Switch.displayName = "Switch";
-
-export { Switch };
-```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
+The CLI installs editable source into your application. Import the component from your configured UI directory:
+
 ```tsx
-import { Switch } from "@moe/registry/ui/switch";
-import { Label } from "@moe/registry/ui/label";
-import { View } from "react-native";
-import * as React from "react";
-
-export function SwitchDemo() {
-  const [enabled, setEnabled] = React.useState(false);
-
-  return (
-    <View className="flex-row items-center gap-2">
-      <Switch checked={enabled} onCheckedChange={setEnabled} />
-      <Label>Airplane Mode</Label>
-    </View>
-  );
-}
+import { Switch } from "@/components/ui/switch";
 ```
 
-## Props
+## Variants and composition
 
-| Prop              | Type                         | Default | Description                                         |
-| ----------------- | ---------------------------- | ------- | --------------------------------------------------- |
-| `checked`         | `boolean`                    | `false` | The controlled checked state                        |
-| `onCheckedChange` | `(checked: boolean) => void` | -       | Event handler called when the checked state changes |
-| `disabled`        | `boolean`                    | `false` | When true, prevents the user from interacting       |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Associate the control with a visible label. Keyboard focus, disabled state, and validation semantics are covered by the web test matrix.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

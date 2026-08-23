@@ -1,84 +1,36 @@
 ---
 title: Label
-description: Renders an accessible label associated with controls.
+description: An accessible label associated with a form control.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="label-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add label ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
 ```bash
-npx expo install @rn-primitives/label
+pnpm dlx @moe-ui/cli@beta add label
 ```
-
-### Copy/paste the following code to `@/components/ui/label.tsx`
-
-```tsx
-import * as LabelPrimitive from "@rn-primitives/label";
-import * as React from "react";
-import { cn } from "@/lib/utils";
-
-const Label = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Text>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Text>
->(
-  (
-    { className, onPress, onLongPress, onPressIn, onPressOut, ...props },
-    ref,
-  ) => (
-    <LabelPrimitive.Root
-      className="web:cursor-default"
-      onPress={onPress}
-      onLongPress={onLongPress}
-      onPressIn={onPressIn}
-      onPressOut={onPressOut}
-    >
-      <LabelPrimitive.Text
-        ref={ref}
-        className={cn(
-          "text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
-          className,
-        )}
-        {...props}
-      />
-    </LabelPrimitive.Root>
-  ),
-);
-Label.displayName = LabelPrimitive.Root.displayName;
-
-export { Label };
-```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { Label } from "@moe/registry/ui/label";
-import { Input } from "@moe/registry/ui/input";
-import { View } from "react-native";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-export function LabelDemo() {
-  return (
-    <View className="w-full max-w-sm items-start gap-1.5">
-      <Label nativeID="email">Email</Label>
-      <Input aria-labelledby="email" placeholder="Enter email" />
-    </View>
-  );
-}
+```tsx
+import { Label } from "@/components/ui/label";
 ```
 
-## Props
+## Variants and composition
 
-| Prop       | Type     | Default | Description                                         |
-| ---------- | -------- | ------- | --------------------------------------------------- |
-| `nativeID` | `string` | -       | ID used to associate with input via aria-labelledby |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Associate the control with a visible label. Keyboard focus, disabled state, and validation semantics are covered by the web test matrix.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

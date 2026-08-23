@@ -1,92 +1,36 @@
 ---
 title: Text
-description: A component for displaying text.
+description: Typography primitives with semantic web roles.
 ---
 
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { TextPreview } from "@/components/preview/text";
-import { TypographyPreview } from "@/components/preview/text/typography";
-import { ComponentPreview } from "@/components/component-preview";
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <TextPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/text/index.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+<ComponentPreview name="text-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add text ```</Tab>
-  <Tab value="Manual">
-<Steps>
-<Step>
-  #### Install the following dependency:
-  ```bash
-  npx expo install @rn-primitives/slot
-  ```
-</Step>
-<Step>
-  #### Copy/paste the following code to `@/components/ui/text.tsx`
-  ```json doc-gen:file
-  {
-    "type": "code",
-    "file": "./node_modules/@moe/registry/src/components/ui/text.tsx",
-    "codeblock": {
-    "lang": "tsx"
-  }
-}
+```bash
+pnpm dlx @moe-ui/cli@beta add text
 ```
-</Step>
-</Steps>
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { Text } from "@moe/registry/ui/text";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-return <Text>Hello World</Text>;
+```tsx
+import { Text } from "@/components/ui/text";
 ```
 
-## Typography
+## Variants and composition
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <TypographyPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/text/typography.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
-## Props
+## Public API
 
-| Prop        | Type     | Default | Description            |
-| ----------- | -------- | ------- | ---------------------- |
-| `className` | `string` | -       | Additional CSS classes |
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Semantic roles, disabled state, visible focus, and contrast are verified in the component browser matrix.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

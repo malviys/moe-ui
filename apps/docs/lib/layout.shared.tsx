@@ -6,7 +6,11 @@ export function baseOptions(): BaseLayoutProps {
       title: "Moe UI",
       url: "/",
     },
-    links: [{ text: "Docs", url: "/docs" }],
+    links: [
+      { text: "Docs", url: "/docs" },
+      { text: "Components", url: "/docs/component-list" },
+      { text: "Install", url: "/docs/installation" },
+    ],
     githubUrl: "https://github.com/moe-ui/moe-ui",
   };
 }
@@ -14,8 +18,8 @@ export function baseOptions(): BaseLayoutProps {
 export const banner = {
   content: (
     <>
-      🚧 This project is in <strong>experimental phase</strong> and will be
-      stable after v1.0.0
+      <strong>v0.1 web beta:</strong> source-owned components for Next.js 16 App
+      Router.
     </>
   ),
 };

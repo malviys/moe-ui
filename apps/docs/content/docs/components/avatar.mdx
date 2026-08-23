@@ -1,157 +1,36 @@
 ---
 title: Avatar
-description: An image element with a fallback for representing the user.
+description: An image with an accessible fallback for a person or entity.
 ---
 
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { ComponentPreview } from "@/components/component-preview";
-import { AvatarPreview } from "@/components/preview/avatar";
-import { AvatarImageExamplePreview } from "@/components/preview/avatar/image";
-import { AvatarFallbackExamplePreview } from "@/components/preview/avatar/fallback";
-import { AvatarSizesExamplePreview } from "@/components/preview/avatar/sizes";
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AvatarPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/avatar/index.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+<ComponentPreview name="avatar-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add avatar ```</Tab>
-  <Tab value="Manual">
-<Steps>
-<Step>
-  #### Install the following dependency:
-  ```bash
-  npx expo install @rn-primitives/avatar
-  ```
-</Step>
-<Step>
-  #### Copy/paste the following code to `@/components/ui/avatar.tsx`
-  ```json doc-gen:file
-  {
-    "type": "code",
-    "file": "./node_modules/@moe/registry/src/components/ui/avatar.tsx",
-    "codeblock": {
-      "lang": "tsx"
-    }
-  }
-  ```
-</Step>
-</Steps>
-  </Tab>
-</Tabs>
+```bash
+pnpm dlx @moe-ui/cli@beta add avatar
+```
 
 ## Usage
 
-```tsx
-import { Avatar, AvatarFallback, AvatarImage } from "@moe/registry/ui/avatar";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-return (
-  <Avatar>
-    <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
-    <AvatarFallback>CN</AvatarFallback>
-  </Avatar>
-);
+```tsx
+import { Avatar } from "@/components/ui/avatar";
 ```
 
-## Examples
+## Variants and composition
 
-### Image
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AvatarImageExamplePreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/avatar/image.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Public API
 
-### Fallback
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AvatarFallbackExamplePreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/avatar/fallback.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Keyboard and accessibility
 
-### Sizes
+Provide meaningful alternative text for informative media and an empty alternative for decorative media.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AvatarSizesExamplePreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/avatar/sizes.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Browser support
 
-## Props
-
-### Avatar
-
-| Prop        | Type     | Default | Description            |
-| ----------- | -------- | ------- | ---------------------- |
-| `className` | `string` | -       | Additional CSS classes |
-
-### AvatarImage
-
-| Prop     | Type                  | Default | Description      |
-| -------- | --------------------- | ------- | ---------------- |
-| `source` | `ImageSourcePropType` | -       | The image source |
-
-### AvatarFallback
-
-| Prop      | Type     | Default | Description                            |
-| --------- | -------- | ------- | -------------------------------------- |
-| `delayMs` | `number` | `0`     | Time to wait before rendering fallback |
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

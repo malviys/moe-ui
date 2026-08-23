@@ -1,140 +1,36 @@
 ---
 title: Toggle Group
-description: A set of two-state buttons that can be toggled on or off.
+description: A coordinated set of single or multiple toggles.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="toggle-group-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add toggle-group ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
 ```bash
-npx expo install @rn-primitives/toggle-group
+pnpm dlx @moe-ui/cli@beta add toggle-group
 ```
-
-### Copy/paste the following code to `@/components/ui/toggle-group.tsx`
-
-```tsx
-import * as ToggleGroupPrimitive from "@rn-primitives/toggle-group";
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
-import { View } from "react-native";
-import { cn } from "@/lib/utils";
-import { TextClassContext } from "@/components/ui/text";
-import { toggleTextVariants, toggleVariants } from "@/components/ui/toggle";
-
-const ToggleGroupContext = React.createContext<VariantProps<
-  typeof toggleVariants
-> | null>(null);
-
-const ToggleGroup = React.forwardRef<
-  React.ElementRef<typeof ToggleGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root> &
-    VariantProps<typeof toggleVariants>
->(({ className, variant, size, children, ...props }, ref) => (
-  <ToggleGroupPrimitive.Root
-    ref={ref}
-    className={cn("flex flex-row items-center justify-center gap-1", className)}
-    {...props}
-  >
-    <ToggleGroupContext.Provider value={{ variant, size }}>
-      {children}
-    </ToggleGroupContext.Provider>
-  </ToggleGroupPrimitive.Root>
-));
-
-ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName;
-
-function useToggleGroupContext() {
-  const context = React.useContext(ToggleGroupContext);
-  if (!context) {
-    throw new Error("ToggleGroupItem must be used within a ToggleGroup");
-  }
-  return context;
-}
-
-const ToggleGroupItem = React.forwardRef<
-  React.ElementRef<typeof ToggleGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> &
-    VariantProps<typeof toggleVariants>
->(({ className, children, variant, size, ...props }, ref) => {
-  const context = useToggleGroupContext();
-  const { value } = ToggleGroupPrimitive.useRootContext();
-
-  return (
-    <TextClassContext.Provider
-      value={cn(
-        toggleTextVariants({
-          variant: context.variant || variant,
-          size: context.size || size,
-        }),
-        ToggleGroupPrimitive.utils.getIsSelected(value, props.value) &&
-          "text-accent-foreground",
-        props.disabled && "web:pointer-events-none opacity-50",
-      )}
-    >
-      <ToggleGroupPrimitive.Item
-        ref={ref}
-        className={cn(
-          toggleVariants({
-            variant: context.variant || variant,
-            size: context.size || size,
-          }),
-          props.disabled && "web:pointer-events-none opacity-50",
-          ToggleGroupPrimitive.utils.getIsSelected(value, props.value) &&
-            "bg-accent",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </ToggleGroupPrimitive.Item>
-    </TextClassContext.Provider>
-  );
-});
-
-ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName;
-
-export { ToggleGroup, ToggleGroupItem };
-```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { ToggleGroup, ToggleGroupItem } from "@moe/registry/ui/toggle-group";
-import { Bold, Italic, Underline } from "lucide-react-native";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-export function ToggleGroupDemo() {
-  return (
-    <ToggleGroup type="multiple">
-      <ToggleGroupItem value="bold" aria-label="Toggle bold">
-        <Bold className="h-4 w-4 text-foreground" />
-      </ToggleGroupItem>
-      <ToggleGroupItem value="italic" aria-label="Toggle italic">
-        <Italic className="h-4 w-4 text-foreground" />
-      </ToggleGroupItem>
-      <ToggleGroupItem value="underline" aria-label="Toggle underline">
-        <Underline className="h-4 w-4 text-foreground" />
-      </ToggleGroupItem>
-    </ToggleGroup>
-  );
-}
+```tsx
+import { ToggleGroup } from "@/components/ui/toggle-group";
 ```
 
-## Props
+## Variants and composition
 
-| Prop            | Type                                  | Default    | Description                                       |
-| --------------- | ------------------------------------- | ---------- | ------------------------------------------------- |
-| `type`          | `'single' \| 'multiple'`              | `'single'` | Whether a single or multiple items can be pressed |
-| `value`         | `string \| string[]`                  | -          | The controlled value                              |
-| `onValueChange` | `(value: string \| string[]) => void` | -          | Event handler called when value changes           |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Associate the control with a visible label. Keyboard focus, disabled state, and validation semantics are covered by the web test matrix.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

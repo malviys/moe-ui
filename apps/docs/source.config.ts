@@ -1,11 +1,10 @@
+import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
 import {
   defineConfig,
   defineDocs,
   frontmatterSchema,
   metaSchema,
 } from "fumadocs-mdx/config";
-
-import { remarkDocGen, fileGenerator } from "fumadocs-docgen";
 
 // You can customise Zod schemas for frontmatter and `meta.json` here
 // see https://fumadocs.dev/docs/mdx/collections

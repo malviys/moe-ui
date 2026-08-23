@@ -299,6 +299,12 @@ description: ${component.description}
 
 <ComponentPreview name="${component.name}-preview" />
 
+## Installation
+
+\`\`\`bash
+pnpm dlx @moe-ui/cli@beta add ${component.name}
+\`\`\`
+
 ## Usage
 
 The CLI installs editable source into your application. Import the component from your configured UI directory:
@@ -309,9 +315,13 @@ import { ${symbol} } from "@/components/ui/${component.name}";
 
 ## Variants and composition
 
-The canonical source panel above lists every public export and the complete implementation. Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
-## Accessibility
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
 
 ${accessibilityCopy[component.category]}
 

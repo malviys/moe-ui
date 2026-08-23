@@ -1,80 +1,36 @@
 ---
 title: Textarea
-description: Displays a form textarea or a component that looks like a textarea.
+description: A styled multiline text input.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="textarea-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add textarea ```</Tab>
-  <Tab value="Manual">
-
-### Copy/paste the following code to `@/components/ui/textarea.tsx`
-
-```tsx
-import * as React from "react";
-import { TextInput, type TextInputProps } from "react-native";
-import { cn } from "@/lib/utils";
-
-const Textarea = React.forwardRef<
-  React.ElementRef<typeof TextInput>,
-  TextInputProps
->(
-  (
-    {
-      className,
-      multiline = true,
-      numberOfLines = 4,
-      placeholderClassName,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <TextInput
-        ref={ref}
-        className={cn(
-          "web:flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base lg:text-sm native:text-lg native:leading-[1.25] text-foreground placeholder:text-muted-foreground web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-          props.editable === false && "opacity-50 web:cursor-not-allowed",
-          className,
-        )}
-        placeholderClassName={cn("text-muted-foreground", placeholderClassName)}
-        multiline={multiline}
-        numberOfLines={numberOfLines}
-        textAlignVertical="top"
-        {...props}
-      />
-    );
-  },
-);
-
-Textarea.displayName = "Textarea";
-
-export { Textarea };
+```bash
+pnpm dlx @moe-ui/cli@beta add textarea
 ```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { Textarea } from "@moe/registry/ui/textarea";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-export function TextareaDemo() {
-  return <Textarea placeholder="Type your message here." />;
-}
+```tsx
+import { Textarea } from "@/components/ui/textarea";
 ```
 
-## Props
+## Variants and composition
 
-| Prop           | Type                     | Default | Description                            |
-| -------------- | ------------------------ | ------- | -------------------------------------- |
-| `placeholder`  | `string`                 | -       | Placeholder text                       |
-| `value`        | `string`                 | -       | The controlled value                   |
-| `onChangeText` | `(text: string) => void` | -       | Event handler called when text changes |
-| `disabled`     | `boolean`                | `false` | Whether the textarea is disabled       |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Associate the control with a visible label. Keyboard focus, disabled state, and validation semantics are covered by the web test matrix.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

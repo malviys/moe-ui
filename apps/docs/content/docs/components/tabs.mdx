@@ -1,107 +1,36 @@
 ---
 title: Tabs
-description: A set of layered sections of content that display one panel at a time.
+description: A keyboard-navigable set of layered content panels.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="tabs-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add tabs ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
 ```bash
-npx expo install @rn-primitives/tabs
+pnpm dlx @moe-ui/cli@beta add tabs
 ```
-
-### Copy/paste the following code to `@/components/ui/tabs.tsx`
-
-```tsx
-import * as TabsPrimitive from "@rn-primitives/tabs";
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { TextClassContext } from "@/components/ui/text";
-
-const Tabs = TabsPrimitive.Root;
-
-const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(
-      "web:inline-flex h-10 native:h-12 items-center justify-center rounded-md bg-muted p-1 native:px-1.5",
-      className,
-    )}
-    {...props}
-  />
-));
-TabsList.displayName = TabsPrimitive.List.displayName;
-
-const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => {
-  const { value } = TabsPrimitive.useRootContext();
-  return (
-    <TextClassContext.Provider
-      value={cn(
-        "text-sm native:text-base font-medium text-muted-foreground web:transition-all",
-        value === props.value && "text-foreground",
-      )}
-    >
-      <TabsPrimitive.Trigger
-        ref={ref}
-        className={cn(
-          "inline-flex items-center justify-center shadow-none web:whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium web:ring-offset-background web:transition-all web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-          props.disabled && "web:pointer-events-none opacity-50",
-          props.value === value &&
-            "bg-background shadow-lg shadow-foreground/5",
-          className,
-        )}
-        {...props}
-      />
-    </TextClassContext.Provider>
-  );
-});
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-
-const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content
-    ref={ref}
-    className={cn(
-      "web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-      className,
-    )}
-    {...props}
-  />
-));
-TabsContent.displayName = TabsPrimitive.Content.displayName;
-
-export { Tabs, TabsContent, TabsList, TabsTrigger };
-```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
+The CLI installs editable source into your application. Import the component from your configured UI directory:
+
 ```tsx
+import { Tabs } from "@/components/ui/tabs";
 ```
 
-## Props
+## Variants and composition
 
-| Prop            | Type                      | Default | Description                             |
-| --------------- | ------------------------- | ------- | --------------------------------------- |
-| `value`         | `string`                  | -       | The controlled value                    |
-| `onValueChange` | `(value: string) => void` | -       | Event handler called when value changes |
-| `defaultValue`  | `string`                  | -       | The default value                       |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Arrow-key and Tab behavior follows the underlying accessible primitive. Focus indicators remain visible in both themes.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

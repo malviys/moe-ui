@@ -1,245 +1,36 @@
 ---
 title: Button
-description: Displays a button or a component that looks like a button.
+description: A pressable action with variants and sizes.
 ---
 
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { ComponentPreview } from "@/components/component-preview";
-import { ButtonPreview } from "@/components/preview/button";
-import { ButtonDefaultVariantPreview } from "@/components/preview/button/default";
-import { ButtonDestructiveVariantPreview } from "@/components/preview/button/destructive";
-import { ButtonOutlineVariantPreview } from "@/components/preview/button/outline";
-import { ButtonSecondaryVariantPreview } from "@/components/preview/button/secondary";
-import { ButtonGhostVariantPreview } from "@/components/preview/button/ghost";
-import { ButtonLinkVariantPreview } from "@/components/preview/button/link";
-import { ButtonSizesPreview } from "@/components/preview/button/sizes";
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/index.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+<ComponentPreview name="button-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add button ```</Tab>
-  <Tab value="Manual">
-<Steps>
-<Step>
-  ### Install the following dependencies
-  ```bash
-  npx expo install @rn-primitives/slot
-  ```
-</Step>
-<Step>
-  ### Copy/paste the following code to `@/components/ui/text.tsx`
-  ```json doc-gen:file
-  {
-    "type": "code",
-    "file": "./node_modules/@moe/registry/src/components/ui/text.tsx",
-    "codeblock": {
-      "lang": "tsx"
-    }
-  }
-  ```
-</Step>
-<Step>
-  ### Copy/paste the following code to `@/components/ui/button.tsx`
-  ```json doc-gen:file
-  {
-    "type": "code",
-    "file": "./node_modules/@moe/registry/src/components/ui/button.tsx",
-    "codeblock": {
-      "lang": "tsx"
-    }
-  }
-  ```
-</Step>
-</Steps>
-  </Tab>
-</Tabs>
+```bash
+pnpm dlx @moe-ui/cli@beta add button
+```
 
 ## Usage
 
-```tsx
-import { Button } from "@moe/registry/ui/button";
-import { Text } from "@moe/registry/ui/text";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-return (
-  <Button>
-    <Text>Button</Text>
-  </Button>
-);
+```tsx
+import { Button } from "@/components/ui/button";
 ```
 
-## Variants
+## Variants and composition
 
-### Default
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonDefaultVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/default.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Public API
 
-### Destructive
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonDestructiveVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/destructive.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Keyboard and accessibility
 
-### Outline
+Semantic roles, disabled state, visible focus, and contrast are verified in the component browser matrix.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonOutlineVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/outline.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Browser support
 
-### Secondary
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonSecondaryVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/secondary.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
-
-### Ghost
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonGhostVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/ghost.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
-
-### Link
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonLinkVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/link.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
-
-## Sizes
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <ButtonSizesPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/button/sizes.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
-
-## Props
-
-| Prop       | Type                                                                          | Default     | Description                    |
-| ---------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------ |
-| `variant`  | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link'` | `'default'` | The visual style               |
-| `size`     | `'default' \| 'sm' \| 'lg' \| 'icon'`                                         | `'default'` | The size of the button         |
-| `disabled` | `boolean`                                                                     | `false`     | Whether the button is disabled |
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

@@ -1,126 +1,36 @@
 ---
 title: Alert
-description: Displays a callout for user attention with important messages.
+description: A prominent message for important contextual information.
 ---
 
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { ComponentPreview } from "@/components/component-preview";
-import { AlertPreview } from "@/components/preview/alert";
-import { AlertDefaultVariantPreview } from "@/components/preview/alert/default";
-import { AlertDestructiveVariantPreview } from "@/components/preview/alert/destructive";
-
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AlertPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/alert/index.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+<ComponentPreview name="alert-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add alert ```</Tab>
-  <Tab value="Manual">
-<Steps>
-<Step>
-  ### Install the following dependencies
-  ```bash
-  npx expo install @rn-primitives/slot
-  ```
-</Step>
-<Step>
-  ### Copy/paste the following code to `@/components/ui/alert.tsx`
-  ```json doc-gen:file
-  {
-    "type": "code",
-    "file": "./node_modules/@moe/registry/src/components/ui/alert.tsx",
-    "codeblock": {
-      "lang": "tsx"
-    }
-  }
-  ```
-</Step>
-</Steps>
-  </Tab>
-</Tabs>
+```bash
+pnpm dlx @moe-ui/cli@beta add alert
+```
 
 ## Usage
 
-```tsx
-import { Alert, AlertDescription, AlertTitle } from "@moe/registry/ui/alert";
-import { AlertCircle } from "lucide-react-native";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-return (
-  <Alert icon={AlertCircle}>
-    <AlertTitle>Heads up!</AlertTitle>
-    <AlertDescription>
-      You can add components to your app using the cli.
-    </AlertDescription>
-  </Alert>
-);
+```tsx
+import { Alert } from "@/components/ui/alert";
 ```
 
-## Variants
+## Variants and composition
 
-### Default
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AlertDefaultVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/alert/default.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Public API
 
-### Destructive
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
 
-<Tabs items={["Preview", "Code"]}>
-  <Tab value="Preview">
-    <ComponentPreview>
-      <AlertDestructiveVariantPreview />
-    </ComponentPreview>
-  </Tab>
-  <Tab value="Code">
-    ```json doc-gen:file
-    {
-      "type": "code",
-      "file": "./components/preview/alert/destructive.tsx",
-      "codeblock": {
-        "lang": "tsx"
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+## Keyboard and accessibility
 
-## Props
+Status is not communicated by color alone. Add an accessible label or live-region behavior when the message changes dynamically.
 
-| Prop            | Type                         | Default     | Description                   |
-| --------------- | ---------------------------- | ----------- | ----------------------------- |
-| `icon`          | `LucideIcon`                 | -           | Icon to display in the alert  |
-| `variant`       | `'default' \| 'destructive'` | `'default'` | The visual style of the alert |
-| `iconClassName` | `string`                     | -           | Additional classes for icon   |
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

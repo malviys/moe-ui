@@ -1,58 +1,36 @@
 ---
 title: Skeleton
-description: Use to show a placeholder while content is loading.
+description: A placeholder representing content while it loads.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="skeleton-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add skeleton ```</Tab>
-  <Tab value="Manual">
-
-### Copy/paste the following code to `@/components/ui/skeleton.tsx`
-
-```tsx
-import { cn } from "@/lib/utils";
-import { View } from "react-native";
-
-function Skeleton({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof View>) {
-  return (
-    <View
-      className={cn("rounded-md bg-secondary animate-pulse", className)}
-      {...props}
-    />
-  );
-}
-
-export { Skeleton };
+```bash
+pnpm dlx @moe-ui/cli@beta add skeleton
 ```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { Skeleton } from "@moe/registry/ui/skeleton";
-import { View } from "react-native";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-export function SkeletonDemo() {
-  return (
-    <View className="flex-row items-center gap-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <View className="gap-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
-      </View>
-    </View>
-  );
-}
+```tsx
+import { Skeleton } from "@/components/ui/skeleton";
 ```
 
+## Variants and composition
+
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Status is not communicated by color alone. Add an accessible label or live-region behavior when the message changes dynamically.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

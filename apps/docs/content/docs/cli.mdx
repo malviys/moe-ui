@@ -1,19 +1,54 @@
 ---
 title: CLI
-description: Command-line interface for adding components to your project
+description: Initialize projects and install source-owned components.
 icon: SquareTerminal
 ---
 
-import { Callout } from "fumadocs-ui/components/callout";
+`@moe-ui/cli@0.1.0-beta.1` is a Node.js 20+ executable. Use the npm `beta` tag while the web release is in prerelease.
 
-<Callout type="info">
-  CLI is coming soon! We're working on a command-line tool to help you add
-  components to your project with a single command.
-</Callout>
+## `init`
 
-## Planned Features
+```bash
+moe-ui init [--cwd <path>] [--yes] [--package-manager pnpm|npm|yarn]
+```
 
-- **Add components** - Install components directly into your project
-- **Initialize project** - Set up your project with the required dependencies
-- **Update components** - Keep your components up to date
-- **Diff view** - See what changes will be made before applying them
+Initializes an existing TypeScript Next.js App Router project. Package manager and `src/` layout are detected automatically. `--cwd` targets a different project, `--package-manager` overrides detection, and `--yes` accepts non-destructive defaults.
+
+The command preflights every required transformation. If an existing Next config, root layout, CSS entry, or Moe UI configuration cannot be transformed safely, it exits before partial edits are made.
+
+## `add`
+
+```bash
+moe-ui add <components...> [--cwd <path>] [--overwrite] [--no-install]
+```
+
+Fetches metadata from the configured registry, validates its schema and integrity, resolves registry dependencies recursively, and writes owned source to configured aliases. Package dependencies are installed using the detected manager unless `--no-install` is set.
+
+Without `--overwrite`, a file with different local content is protected and the command exits with the exact conflict. Re-running against unchanged installed source performs no write.
+
+## Examples
+
+```bash
+pnpm dlx @moe-ui/cli@beta init --package-manager pnpm
+pnpm dlx @moe-ui/cli@beta add button input
+pnpm dlx @moe-ui/cli@beta add dialog --no-install
+pnpm dlx @moe-ui/cli@beta add button --overwrite
+```
+
+## Troubleshooting
+
+### Unsupported project
+
+The beta requires `app/` or `src/app/`, TypeScript, and a supported Next.js version. Pages Router and JavaScript-only projects are rejected intentionally.
+
+### Next config cannot be transformed
+
+The CLI only composes configurations it can recognize without discarding behavior. Follow the printed manual instructions or simplify the export, then rerun `init`.
+
+### Registry or network failure
+
+No component files are committed until every requested item and recursive dependency has been fetched and validated. Retry after connectivity returns or set the `registry` URL in `components.json` to an approved mirror.
+
+### Local changes conflict
+
+Compare your file with the `content` field at `/r/<component>.json`. Keep your local version, merge manually, or rerun with `--overwrite` after saving the changes you need.

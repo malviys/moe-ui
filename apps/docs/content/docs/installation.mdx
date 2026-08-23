@@ -1,136 +1,57 @@
 ---
 title: Installation
-description: Getting Started with Moe UI
+description: Initialize Moe UI in a TypeScript Next.js App Router project.
 icon: Terminal
 ---
 
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+Moe UI's initializer supports TypeScript Next.js 16 App Router projects. Run it from the application root:
 
-## Manual Installation
+```bash
+pnpm dlx @moe-ui/cli@beta init
+```
 
-Since we don't have a CLI yet, you need to manually install the dependencies and configure your project.
+The initializer detects pnpm, npm, or yarn and whether the project uses `src/`. It then performs a safety preflight before writing anything.
 
-### 1. Install Dependencies
+## What init changes
 
-Install the required packages for NativeWind, Reanimated, and utility libraries.
+`init` creates `components.json`, installs the tested web dependencies, adds theme CSS and Uniwind declarations, and writes a small Next configuration helper containing the React Native Web aliases and extensions.
 
-<Tabs items={["npm", "pnpm", "bun", "yarn"]}>
-  <Tab value="npm">
+Apply the helper in `next.config.ts` as instructed by the CLI. Moe UI uses Webpack because the Uniwind Next plugin does not support Turbopack yet.
 
-    ```bash
-    npm install nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
-    ```
+```ts title="next.config.ts"
+import type { NextConfig } from "next";
+import { withMoeUI } from "./moe-ui.next";
 
-  </Tab>
-  <Tab value="pnpm">
+const nextConfig: NextConfig = {};
 
-    ```bash
-    pnpm add nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
-    ```
+export default withMoeUI(nextConfig);
+```
 
-  </Tab>
-  <Tab value="bun">
+Add the root attributes used by React Native Web and theme switching:
 
-    ```bash
-    bun add nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
-    ```
-
-  </Tab>
-  <Tab value="yarn">
-
-    ```bash
-    yarn add nativewind tailwindcss react-native-reanimated react-native-safe-area-context clsx tailwind-merge lucide-react-native
-    ```
-
-  </Tab>
-</Tabs>
-
-### 2. Configure NativeWind
-
-Follow the [NativeWind v4 documentation](https://www.nativewind.dev/v4/getting-started/expo) to set up Tailwind CSS in your Expo project.
-
-Typically, this involves:
-
-1. Running `npx tailwindcss init` to create `tailwind.config.js`.
-2. Configuring your `babel.config.js` to include the `nativewind/babel` plugin.
-3. Adding the `nativewind-env.d.ts` file.
-
-### 3. Add Utilities
-
-Create a `lib/utils.ts` file to handle class merging. This is used by all components.
-
-```ts title="lib/utils.ts"
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+```tsx title="app/layout.tsx"
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>{children}</body>
+    </html>
+  );
 }
 ```
 
-### 4. Configure Theme
+## Add a component
 
-Create a `global.css` file to define your CSS variables for the theme. NativeWind v4 uses these variables to style your components.
-
-```css title="global.css"
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-  }
-}
+```bash
+pnpm dlx @moe-ui/cli@beta add button dialog
 ```
 
-Make sure to import this file in your root layout file (e.g., `app/_layout.tsx`).
+The CLI resolves component and helper dependencies recursively, installs package dependencies, and writes source beneath the aliases in `components.json`. Running the same command again is idempotent. Existing files are never silently replaced; review the conflict and rerun with `--overwrite` only when that is intentional.
 
-```tsx
-import "../global.css";
-```
+## Requirements
 
-## That's it!
+- Node.js 20.9 or newer
+- TypeScript
+- Next.js 16 App Router
+- React 19
 
-You can now start copying compoments from the documentation to your project.
+See [CLI reference](/docs/cli) for flags and [troubleshooting](/docs/cli#troubleshooting) for safe-transform failures.

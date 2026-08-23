@@ -1,80 +1,36 @@
 ---
 title: Separator
-description: Visually or semantically separates content.
+description: A visual or semantic divider between content.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="separator-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add separator ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
 ```bash
-npx expo install @rn-primitives/separator
+pnpm dlx @moe-ui/cli@beta add separator
 ```
-
-### Copy/paste the following code to `@/components/ui/separator.tsx`
-
-```tsx
-import * as SeparatorPrimitive from "@rn-primitives/separator";
-import * as React from "react";
-import { cn } from "@/lib/utils";
-
-const Separator = React.forwardRef<
-  React.ElementRef<typeof SeparatorPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
->(
-  (
-    { className, orientation = "horizontal", decorative = true, ...props },
-    ref,
-  ) => (
-    <SeparatorPrimitive.Root
-      ref={ref}
-      decorative={decorative}
-      orientation={orientation}
-      className={cn(
-        "shrink-0 bg-border",
-        orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
-        className,
-      )}
-      {...props}
-    />
-  ),
-);
-Separator.displayName = SeparatorPrimitive.Root.displayName;
-
-export { Separator };
-```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { Separator } from "@moe/registry/ui/separator";
-import { View } from "react-native";
-import { Text } from "@moe/registry/ui/text";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-export function SeparatorDemo() {
-  return (
-    <View className="w-full max-w-sm">
-      <Text>Above</Text>
-      <Separator className="my-4" />
-      <Text>Below</Text>
-    </View>
-  );
-}
+```tsx
+import { Separator } from "@/components/ui/separator";
 ```
 
-## Props
+## Variants and composition
 
-| Prop          | Type                         | Default        | Description                      |
-| ------------- | ---------------------------- | -------------- | -------------------------------- |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the separator |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Semantic roles, disabled state, visible focus, and contrast are verified in the component browser matrix.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.

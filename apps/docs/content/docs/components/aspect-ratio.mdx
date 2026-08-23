@@ -1,58 +1,36 @@
 ---
 title: Aspect Ratio
-description: Displays content within a desired ratio.
+description: Keeps content within a consistent aspect ratio.
 ---
-
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 <ComponentPreview name="aspect-ratio-preview" />
 
 ## Installation
 
-<Tabs items={["CLI", "Manual"]}>
-  <Tab value="CLI">```bash npx @moe/cli add aspect-ratio ```</Tab>
-  <Tab value="Manual">
-
-### Install the following dependency:
-
 ```bash
-npx expo install @rn-primitives/aspect-ratio
+pnpm dlx @moe-ui/cli@beta add aspect-ratio
 ```
-
-### Copy/paste the following code to `@/components/ui/aspect-ratio.tsx`
-
-```tsx
-import * as AspectRatioPrimitive from "@rn-primitives/aspect-ratio";
-
-const AspectRatio = AspectRatioPrimitive.Root;
-
-export { AspectRatio };
-```
-
-  </Tab>
-</Tabs>
 
 ## Usage
 
-```tsx
-import { AspectRatio } from "@moe/registry/ui/aspect-ratio";
-import { Image } from "react-native";
+The CLI installs editable source into your application. Import the component from your configured UI directory:
 
-export function AspectRatioDemo() {
-  return (
-    <AspectRatio ratio={16 / 9}>
-      <Image
-        source={{ uri: "https://example.com/image.jpg" }}
-        style={{ width: "100%", height: "100%" }}
-        resizeMode="cover"
-      />
-    </AspectRatio>
-  );
-}
+```tsx
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 ```
 
-## Props
+## Variants and composition
 
-| Prop    | Type     | Default | Description              |
-| ------- | -------- | ------- | ------------------------ |
-| `ratio` | `number` | `1`     | The desired aspect ratio |
+Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+
+## Public API
+
+The canonical source panel above lists every public export, dependency, and the complete implementation shipped by the registry.
+
+## Keyboard and accessibility
+
+Provide meaningful alternative text for informative media and an empty alternative for decorative media.
+
+## Browser support
+
+This beta is release-tested in Chromium, Firefox, and WebKit in light and dark themes. See the [web compatibility matrix](/docs/web-compatibility) for the current gate.
