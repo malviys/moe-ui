@@ -28,7 +28,9 @@ test.describe("component documentation matrix", () => {
       await expect(preview).toBeVisible();
       for (const variant of component.previewVariants) {
         await expect(
-          preview.locator(`[data-preview-variant="${variant.id}"]`),
+          page.locator(
+            `${component.previewSelector}[data-preview-variant="${variant.id}"]`,
+          ),
         ).toBeVisible();
       }
       await expect(
@@ -36,7 +38,7 @@ test.describe("component documentation matrix", () => {
       ).toBeVisible();
 
       const accessibility = await new AxeBuilder({ page })
-        .include(component.selector)
+        .include(component.previewSelector)
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();
       expect(accessibility.violations).toEqual([]);
@@ -45,14 +47,26 @@ test.describe("component documentation matrix", () => {
         await page.setViewportSize(viewportSizes[viewport]);
         for (const theme of themes) {
           await setTheme(page, theme);
-          await preview.scrollIntoViewIfNeeded();
-          const screenshot = await preview.screenshot({
-            animations: "disabled",
-          });
-          await testInfo.attach(`${component.name}-${viewport}-${theme}`, {
-            body: screenshot,
-            contentType: "image/png",
-          });
+          const previewSections = page.locator(component.previewSelector);
+          for (
+            let index = 0;
+            index < (await previewSections.count());
+            index++
+          ) {
+            const previewSection = previewSections.nth(index);
+            await previewSection.scrollIntoViewIfNeeded();
+            const screenshot = await previewSection.screenshot({
+              animations: "disabled",
+            });
+            const variant = component.previewVariants[index];
+            await testInfo.attach(
+              `${component.name}-${variant?.id ?? "default"}-${viewport}-${theme}`,
+              {
+                body: screenshot,
+                contentType: "image/png",
+              },
+            );
+          }
         }
       }
     });

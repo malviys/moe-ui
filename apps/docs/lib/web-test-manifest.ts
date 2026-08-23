@@ -36,6 +36,7 @@ export const webTestManifest = registry.components.map((component) => ({
   ...component,
   route: `/docs/components/${component.name}`,
   selector: `[data-testid="preview-${component.name}"]`,
+  previewSelector: `[data-component-preview="${component.name}"]`,
   previewVariants:
     componentPreviewVariants[
       component.name as keyof typeof componentPreviewVariants

@@ -4,6 +4,7 @@ import path from "node:path";
 import process from "node:process";
 import registryPackage from "../../../packages/registry/package.json";
 import registryManifest from "../../../packages/registry/registry.json";
+import { componentPreviewVariants } from "../lib/component-preview-manifest";
 
 type RegistryFile = {
   path: string;
@@ -292,10 +293,26 @@ async function main() {
 
   for (const component of registryManifest.components) {
     const symbol = component.title.replace(/\s+/g, "");
+    const variants =
+      componentPreviewVariants[
+        component.name as keyof typeof componentPreviewVariants
+      ];
+    const variantSections = variants
+      ? variants
+          .slice(1)
+          .map(
+            ({ id, label }) => `### ${label}
+
+<ComponentPreview name="${component.name}-preview" variant="${id}" />`,
+          )
+          .join("\n\n")
+      : "";
     const doc = `---
 title: ${component.title}
 description: ${component.description}
 ---
+
+## Preview
 
 <ComponentPreview name="${component.name}-preview" />
 
@@ -315,7 +332,7 @@ import { ${symbol} } from "@/components/ui/${component.name}";
 
 ## Variants and composition
 
-Components with documented variants show them together in the live gallery above. Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
+${variantSections ? `Each additional variant has its own live preview and testable section.\n\n${variantSections}\n\n` : ""}Compound parts and variants remain regular source in your project, so you can change them without wrapping a package API.
 
 ## Public API
 
