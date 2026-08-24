@@ -29,6 +29,7 @@
     "eslint-config-prettier": "^10",
     "husky": "^9",
     "prettier": "^3",
-    "turbo": "^2.8.9"
+    "turbo": "^2.8.9",
+    "vercel": "^59.5.0"
   }
 }

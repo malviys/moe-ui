@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       git_ref:
-        description: Protected main commit already deployed by Vercel Git integration
+        description: Protected main commit already deployed by the CI/CD pipeline
         required: true
         default: main
 

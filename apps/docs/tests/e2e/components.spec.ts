@@ -24,6 +24,7 @@ test.describe("component documentation matrix", () => {
       page,
     }, testInfo) => {
       await page.goto(component.route);
+      await page.waitForLoadState("networkidle");
       const preview = page.locator(component.selector);
       await expect(preview).toBeVisible();
       for (const variant of component.previewVariants) {
@@ -70,9 +71,7 @@ test.describe("component documentation matrix", () => {
           ) {
             const previewSection = previewSections.nth(index);
             await previewSection.scrollIntoViewIfNeeded();
-            const screenshot = await previewSection.screenshot({
-              animations: "disabled",
-            });
+            const screenshot = await previewSection.screenshot();
             const variant = component.previewVariants[index];
             await testInfo.attach(
               `${component.name}-${variant?.id ?? "default"}-${viewport}-${theme}`,

@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   pull_request:
@@ -6,11 +6,54 @@ on:
     branches: [main]
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-cd-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: write
+
 jobs:
+  codeql:
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      packages: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, actions]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: security-extended
+      - uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:${{ matrix.language }}
+
+  dependency-review:
+    name: Dependency vulnerability review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Review pull request dependencies
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+      - name: Skip dependency diff on protected branch
+        if: github.event_name != 'pull_request'
+        run: echo "Dependency changes were reviewed before merge."
+
   quality:
+    name: Format, lint, types, unit tests, and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,6 +75,7 @@ jobs:
       - run: pnpm build
 
   browsers:
+    name: Browser end-to-end tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -55,6 +99,7 @@ jobs:
           retention-days: 14
 
   cli-fixture:
+    name: CLI integration fixture
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -85,3 +130,93 @@ jobs:
           node packages/cli/dist/index.js add button input dialog --cwd "$fixture" --package-manager pnpm
           pnpm --dir "$fixture" types:check
           pnpm --dir "$fixture" build
+
+  deploy-preview:
+    name: Deploy Vercel preview
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    needs: [codeql, dependency-review, quality, browsers, cli-fixture]
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+      url: ${{ steps.deploy.outputs.url }}
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate Vercel credentials
+        run: |
+          for name in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing required GitHub Actions secret: $name"
+              exit 1
+            fi
+          done
+      - name: Pull preview environment
+        run: pnpm exec vercel pull --yes --environment=preview --token="$VERCEL_TOKEN" --cwd apps/docs
+      - name: Build Vercel artifact
+        run: pnpm exec vercel build --token="$VERCEL_TOKEN" --cwd apps/docs
+      - name: Deploy preview artifact
+        id: deploy
+        run: |
+          deployment_url="$(pnpm exec vercel deploy --prebuilt --token="$VERCEL_TOKEN" --cwd apps/docs)"
+          echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
+
+  deploy-production:
+    name: Deploy Vercel production
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [codeql, dependency-review, quality, browsers, cli-fixture]
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate Vercel credentials
+        run: |
+          for name in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing required GitHub Actions secret: $name"
+              exit 1
+            fi
+          done
+      - name: Pull production environment
+        run: pnpm exec vercel pull --yes --environment=production --token="$VERCEL_TOKEN" --cwd apps/docs
+      - name: Build production artifact
+        run: pnpm exec vercel build --prod --token="$VERCEL_TOKEN" --cwd apps/docs
+      - name: Deploy production artifact
+        id: deploy
+        run: |
+          deployment_url="$(pnpm exec vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" --cwd apps/docs)"
+          echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
+      - name: Smoke test deployment
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          for path in / /r/index.json /r/button.json /schema/registry-item.json; do
+            curl --fail --silent --show-error --retry 5 --retry-delay 2 "$DEPLOYMENT_URL$path" >/dev/null
+          done

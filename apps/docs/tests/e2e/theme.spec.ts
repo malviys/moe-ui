@@ -32,7 +32,8 @@ test.describe("documentation themes", () => {
 
     await page.reload();
     await expect(root).toHaveClass(/dark/);
-    await page.goto("/");
+    await page.getByRole("link", { name: /Moe UI beta/ }).click();
+    await expect(page).toHaveURL(/\/$/);
     await expect(root).toHaveClass(/dark/);
 
     await page.locator('button[aria-label="light"]:visible').click();

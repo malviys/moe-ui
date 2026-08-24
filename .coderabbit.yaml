@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+tone_instructions: Be concise and direct. Prioritize correctness, security, accessibility, public API compatibility, and maintainability.
+
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 0
+    base_branches:
+      - main
+  path_filters:
+    - "!pnpm-lock.yaml"
+    - "!apps/docs/public/**"
+    - "!apps/docs/content/docs/components/**"
+    - "!apps/docs/uniwind-types.d.ts"

@@ -109,24 +109,18 @@ test.describe("documentation experience", () => {
     await expect(searchTrigger).toBeFocused();
   });
 
-  test("reduced motion disables the ambient hero animation", async ({
-    page,
-  }) => {
+  test("reduced motion disables homepage transitions", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
 
-    const motion = await page
-      .locator(".hero-colour")
-      .first()
-      .evaluate((node) => {
-        const style = getComputedStyle(node);
-        return {
-          duration: style.animationDuration,
-          iterations: style.animationIterationCount,
-        };
-      });
+    const primaryAction = page.getByRole("link", { name: "Get started" });
+    await expect(primaryAction).toBeVisible();
+    const motion = await primaryAction.evaluate((node) => ({
+      reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
+      transitionDuration: getComputedStyle(node).transitionDuration,
+    }));
 
-    expect(motion.duration).not.toBe("14s");
-    expect(motion.iterations).toBe("1");
+    expect(motion.reduced).toBe(true);
+    expect(Number.parseFloat(motion.transitionDuration)).toBeLessThan(0.001);
   });
 });

@@ -14,6 +14,8 @@ Canonical component source lives in `packages/registry/src`. Update `packages/re
 
 Run `pnpm format` to format the repository. `pnpm check` verifies Prettier formatting, ESLint rules, and TypeScript types; the same command runs automatically before each Git push after dependencies are installed.
 
+See [`docs/ci-cd.md`](docs/ci-cd.md) for required checks, CodeRabbit review setup, and Vercel deployment configuration.
+
 ## Pull requests
 
 - Keep existing component exports and prop shapes unless correctness or accessibility requires a beta correction.
