@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
 import {
   themes,
   viewports,
@@ -18,11 +18,34 @@ async function setTheme(page: Page, theme: "light" | "dark") {
   }, theme);
 }
 
+async function capturePreviewScreenshot(previewSection: Locator) {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      await expect(previewSection).toBeAttached();
+      return await previewSection.screenshot({ animations: "disabled" });
+    } catch (error) {
+      const isTransientDetachment =
+        error instanceof Error &&
+        error.message.includes("Element is not attached to the DOM");
+
+      if (!isTransientDetachment || attempt === 2) {
+        throw error;
+      }
+    }
+  }
+
+  throw new Error("Unable to capture the preview screenshot");
+}
+
 test.describe("component documentation matrix", () => {
   for (const component of webTestManifest) {
     test(`${component.name} renders, remains accessible, and captures responsive states`, async ({
       page,
     }, testInfo) => {
+      testInfo.setTimeout(
+        testInfo.timeout + component.previewVariants.length * 15_000,
+      );
+      await page.emulateMedia({ reducedMotion: "reduce" });
       await page.goto(component.route);
       await page.waitForLoadState("networkidle");
       const preview = page.locator(component.selector);
@@ -53,6 +76,12 @@ test.describe("component documentation matrix", () => {
         `install-source-${component.name}`,
       ]);
 
+      if (component.name === "checkbox") {
+        await expect(
+          page.locator(`${component.previewSelector} [aria-checked]`),
+        ).toHaveAttribute("role", "checkbox");
+      }
+
       const accessibility = await new AxeBuilder({ page })
         .include(component.previewSelector)
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
@@ -70,10 +99,7 @@ test.describe("component documentation matrix", () => {
             index++
           ) {
             const previewSection = previewSections.nth(index);
-            await previewSection.scrollIntoViewIfNeeded();
-            const screenshot = await previewSection.screenshot({
-              animations: "disabled",
-            });
+            const screenshot = await capturePreviewScreenshot(previewSection);
             const variant = component.previewVariants[index];
             await testInfo.attach(
               `${component.name}-${variant?.id ?? "default"}-${viewport}-${theme}`,
