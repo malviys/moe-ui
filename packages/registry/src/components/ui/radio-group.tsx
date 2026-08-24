@@ -17,7 +17,8 @@ function RadioGroup({
     defaultValue?: string;
     onValueChange?: (value: string) => void;
   }) {
-  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] =
+    React.useState(defaultValue);
   const value = valueProp ?? uncontrolledValue;
   return (
     <RadioGroupPrimitive.Root

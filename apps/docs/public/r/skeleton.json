@@ -1,5 +1,5 @@
 {
-  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "$schema": "https://moe-ui-docs.vercel.app/schema/registry-item.json",
   "schemaVersion": 1,
   "name": "skeleton",
   "title": "Skeleton",
@@ -10,7 +10,7 @@
     {
       "path": "components/ui/skeleton.tsx",
       "target": "components/ui/skeleton.tsx",
-      "content": "\"use client\";\n\nimport { cn } from \"../../lib/utils\";\nimport { View } from \"react-native\";\nimport Animated, {\n  useAnimatedStyle,\n  useSharedValue,\n  withRepeat,\n  withTiming,\n} from \"react-native-reanimated\";\nimport * as React from \"react\";\n\nconst duration = 1000;\n\nfunction Skeleton({\n  className,\n  ...props\n}: React.ComponentProps<typeof View> & React.RefAttributes<View>) {\n  const sv = useSharedValue(1);\n\n  React.useEffect(() => {\n    sv.value = withRepeat(withTiming(0.5, { duration }), -1, true);\n  }, []);\n\n  const style = useAnimatedStyle(\n    () => ({\n      opacity: sv.value,\n    }),\n    [sv],\n  );\n  return (\n    <Animated.View\n      style={style}\n      className={cn(\"bg-secondary dark:bg-muted rounded-md\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Skeleton };\n"
+      "content": "\"use client\";\n\nimport { cn } from \"../../lib/utils\";\nimport { View } from \"react-native\";\nimport Animated, {\n  useAnimatedStyle,\n  useSharedValue,\n  withRepeat,\n  withTiming,\n} from \"react-native-reanimated\";\nimport * as React from \"react\";\n\nconst duration = 1000;\n\nfunction Skeleton({\n  className,\n  ...props\n}: React.ComponentProps<typeof View> & React.RefAttributes<View>) {\n  const sv = useSharedValue(1);\n\n  React.useEffect(() => {\n    sv.value = withRepeat(withTiming(0.5, { duration }), -1, true);\n  }, [sv]);\n\n  const style = useAnimatedStyle(\n    () => ({\n      opacity: sv.value,\n    }),\n    [sv],\n  );\n  return (\n    <Animated.View\n      style={style}\n      className={cn(\"bg-secondary dark:bg-muted rounded-md\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Skeleton };\n"
     }
   ],
   "dependencies": {
@@ -20,5 +20,5 @@
   "registryDependencies": [
     "utils"
   ],
-  "integrity": "sha256-4sEIJj/sTGC2NDRoJ0wc1rhKiOt4ZdueiK9kaov7Uu8="
+  "integrity": "sha256-0NrtuVW5O3l95pMUsyT1u/4AH5mKOOucG7/UoSMF3x8="
 }

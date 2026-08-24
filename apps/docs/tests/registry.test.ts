@@ -48,25 +48,26 @@ describe("generated registry", () => {
     ).toBe(true);
   });
 
-  it.each(
-    webTestManifest.map((component) => component.name),
-  )("validates %s and its source integrity", async (name) => {
-    const item = JSON.parse(
-      await readFile(path.join(publicRoot, `r/${name}.json`), "utf8"),
-    ) as RegistryItem;
-    expect(item).toMatchObject({
-      schemaVersion: 1,
-      name,
-      dependencies: expect.any(Object),
-      registryDependencies: expect.any(Array),
-    });
-    expect(item.files).toHaveLength(1);
-    expect(item.files[0]?.target).toMatch(/^(components\/ui|lib)\//);
-    const digest = createHash("sha256")
-      .update(item.files[0]?.content ?? "")
-      .digest("base64");
-    expect(item.integrity).toBe(`sha256-${digest}`);
-  });
+  it.each(webTestManifest.map((component) => component.name))(
+    "validates %s and its source integrity",
+    async (name) => {
+      const item = JSON.parse(
+        await readFile(path.join(publicRoot, `r/${name}.json`), "utf8"),
+      ) as RegistryItem;
+      expect(item).toMatchObject({
+        schemaVersion: 1,
+        name,
+        dependencies: expect.any(Object),
+        registryDependencies: expect.any(Array),
+      });
+      expect(item.files).toHaveLength(1);
+      expect(item.files[0]?.target).toMatch(/^(components\/ui|lib)\//);
+      const digest = createHash("sha256")
+        .update(item.files[0]?.content ?? "")
+        .digest("base64");
+      expect(item.integrity).toBe(`sha256-${digest}`);
+    },
+  );
 
   it("publishes versioned project and registry item schemas", async () => {
     const [componentsSchema, itemSchema] = await Promise.all([

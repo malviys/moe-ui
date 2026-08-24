@@ -90,6 +90,6 @@ function NativeIndicator({ value, className }: IndicatorProps) {
   );
 }
 
-function NullIndicator(_props: IndicatorProps) {
+function NullIndicator() {
   return null;
 }

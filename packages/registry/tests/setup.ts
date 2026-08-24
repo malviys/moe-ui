@@ -1,7 +1,9 @@
 import "@testing-library/jest-dom/vitest";
 
 if (!("CSSRuleList" in globalThis)) {
-  Object.defineProperty(globalThis, "CSSRuleList", { value: class CSSRuleList extends Array {} });
+  Object.defineProperty(globalThis, "CSSRuleList", {
+    value: class CSSRuleList extends Array {},
+  });
 }
 
 if (!("matchMedia" in window)) {

@@ -27,8 +27,7 @@ export function ComponentPreviewClient({
   const [copied, setCopied] = useState(false);
   const id = useId();
   const normalizedName = name?.replace(/-preview$/, "") as
-    | PreviewName
-    | undefined;
+    PreviewName | undefined;
   const definition = normalizedName
     ? previewRegistry[normalizedName]
     : undefined;

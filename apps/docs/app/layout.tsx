@@ -6,7 +6,7 @@ import type { Metadata, Viewport } from "next";
 import { SearchFocusRestoration } from "@/components/search-focus-restoration";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://moe-ui.vercel.app"),
+  metadataBase: new URL("https://moe-ui-docs.vercel.app"),
   title: {
     default: "Moe UI — React Native and web components",
     template: "%s · Moe UI",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "A collection of components for Expo and Next.js.",
   applicationName: "Moe UI",
   authors: [
-    { name: "Moe UI contributors", url: "https://github.com/moe-ui/moe-ui" },
+    { name: "Moe UI contributors", url: "https://github.com/malviys/moe-ui" },
   ],
   keywords: [
     "React",

@@ -20,4 +20,4 @@ Generate and serve the local registry from the repository with `pnpm registry:ge
 
 NativeWind initialization targets the v5 preview and its Tailwind CSS 4 stack.
 
-The beta registry is hosted at `https://moe-ui.vercel.app/r`.
+The beta registry is hosted at `https://moe-ui-docs.vercel.app/r`.

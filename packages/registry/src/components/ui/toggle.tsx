@@ -54,7 +54,8 @@ function Toggle({
     defaultPressed?: boolean;
     onPressedChange?: (pressed: boolean) => void;
   }) {
-  const [uncontrolledPressed, setUncontrolledPressed] = React.useState(defaultPressed);
+  const [uncontrolledPressed, setUncontrolledPressed] =
+    React.useState(defaultPressed);
   const pressed = pressedProp ?? uncontrolledPressed;
   return (
     <TextClassContext.Provider

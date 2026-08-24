@@ -35,8 +35,7 @@ export async function ComponentPreview({
   variant,
 }: ComponentPreviewProps) {
   const normalizedName = name?.replace(/-preview$/, "") as
-    | PreviewName
-    | undefined;
+    PreviewName | undefined;
   const source = normalizedName
     ? await readFile(
         path.join(

@@ -34,10 +34,10 @@ jobs:
       - run: pnpm --filter @moe-ui/cli build
       - name: Smoke test production deployment and registry
         run: |
-          curl --fail --silent --show-error https://moe-ui.vercel.app/ >/dev/null
-          curl --fail --silent --show-error https://moe-ui.vercel.app/r/index.json >/dev/null
-          curl --fail --silent --show-error https://moe-ui.vercel.app/r/button.json >/dev/null
-          curl --fail --silent --show-error https://moe-ui.vercel.app/schema/registry-item.json >/dev/null
+          curl --fail --silent --show-error https://moe-ui-docs.vercel.app/ >/dev/null
+          curl --fail --silent --show-error https://moe-ui-docs.vercel.app/r/index.json >/dev/null
+          curl --fail --silent --show-error https://moe-ui-docs.vercel.app/r/button.json >/dev/null
+          curl --fail --silent --show-error https://moe-ui-docs.vercel.app/schema/registry-item.json >/dev/null
       - name: Publish CLI with beta tag
         run: pnpm --filter @moe-ui/cli publish --tag beta --no-git-checks
         env:

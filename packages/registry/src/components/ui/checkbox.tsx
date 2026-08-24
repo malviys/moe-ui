@@ -27,7 +27,8 @@ function Checkbox({
     indicatorClassName?: string;
     iconClassName?: string;
   }) {
-  const [uncontrolledChecked, setUncontrolledChecked] = React.useState(defaultChecked);
+  const [uncontrolledChecked, setUncontrolledChecked] =
+    React.useState(defaultChecked);
   const checked = checkedProp ?? uncontrolledChecked;
 
   return (

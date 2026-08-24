@@ -22,7 +22,7 @@ export default function HomePage() {
                 View components
               </Link>
               <Link
-                href="https://github.com/moe-ui/moe-ui"
+                href="https://github.com/malviys/moe-ui"
                 target="_blank"
                 className="hero-github-action"
                 aria-label="Moe UI on GitHub"
@@ -60,7 +60,7 @@ export default function HomePage() {
           <nav aria-label="Footer navigation">
             <Link href="/docs">Docs</Link>
             <Link href="/docs/components">Components</Link>
-            <Link href="https://github.com/moe-ui/moe-ui" target="_blank">
+            <Link href="https://github.com/malviys/moe-ui" target="_blank">
               GitHub
             </Link>
           </nav>

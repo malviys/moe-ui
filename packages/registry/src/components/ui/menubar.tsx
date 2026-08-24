@@ -140,6 +140,7 @@ function MenubarSubTrigger({
           }),
           open && "bg-accent",
           inset && "pl-8",
+          className,
         )}
         {...props}
       >
@@ -192,31 +193,40 @@ function MenubarContent({
   return (
     <MenubarPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
-        <NativeOnlyAnimatedView
-          entering={FadeIn}
-          style={StyleSheet.absoluteFill}
-          pointerEvents="box-none"
+        <MenubarPrimitive.Overlay
+          style={Platform.select({
+            web: overlayStyle ?? undefined,
+            native: overlayStyle
+              ? StyleSheet.flatten([
+                  StyleSheet.absoluteFill,
+                  overlayStyle as typeof StyleSheet.absoluteFill,
+                ])
+              : StyleSheet.absoluteFill,
+          })}
+          className={overlayClassName}
         >
-          <TextClassContext.Provider value="text-popover-foreground">
-            <MenubarPrimitive.Content
-              className={cn(
-                "bg-popover border-border min-w-[12rem] overflow-hidden rounded-md border p-1 shadow-lg shadow-black/5",
-                Platform.select({
-                  web: cn(
-                    "animate-in fade-in-0 zoom-in-95 max-h-[var(--radix-context-menu-content-available-height)] origin-[var(--radix-context-menu-content-transform-origin)] z-50 cursor-default",
-                    props.side === "bottom" && "slide-in-from-top-2",
-                    props.side === "top" && "slide-in-from-bottom-2",
-                  ),
-                }),
-                className,
-              )}
-              align={align}
-              alignOffset={alignOffset}
-              sideOffset={sideOffset}
-              {...props}
-            />
-          </TextClassContext.Provider>
-        </NativeOnlyAnimatedView>
+          <NativeOnlyAnimatedView entering={FadeIn}>
+            <TextClassContext.Provider value="text-popover-foreground">
+              <MenubarPrimitive.Content
+                className={cn(
+                  "bg-popover border-border min-w-[12rem] overflow-hidden rounded-md border p-1 shadow-lg shadow-black/5",
+                  Platform.select({
+                    web: cn(
+                      "animate-in fade-in-0 zoom-in-95 max-h-[var(--radix-context-menu-content-available-height)] origin-[var(--radix-context-menu-content-transform-origin)] z-50 cursor-default",
+                      props.side === "bottom" && "slide-in-from-top-2",
+                      props.side === "top" && "slide-in-from-bottom-2",
+                    ),
+                  }),
+                  className,
+                )}
+                align={align}
+                alignOffset={alignOffset}
+                sideOffset={sideOffset}
+                {...props}
+              />
+            </TextClassContext.Provider>
+          </NativeOnlyAnimatedView>
+        </MenubarPrimitive.Overlay>
       </FullWindowOverlay>
     </MenubarPrimitive.Portal>
   );

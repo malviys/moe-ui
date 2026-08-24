@@ -1,5 +1,5 @@
 {
-  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "$schema": "https://moe-ui-docs.vercel.app/schema/registry-item.json",
   "schemaVersion": 1,
   "name": "input",
   "title": "Input",

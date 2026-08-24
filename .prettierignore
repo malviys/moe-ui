@@ -1,0 +1,15 @@
+.next
+.playwright-cli
+.source
+.turbo
+coverage
+dist
+node_modules
+playwright-report
+test-results
+pnpm-lock.yaml
+
+# Generated documentation and registry assets
+apps/docs/content/docs/components
+apps/docs/public/r
+apps/docs/public/schema

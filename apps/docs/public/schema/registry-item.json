@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "$id": "https://moe-ui-docs.vercel.app/schema/registry-item.json",
   "title": "Moe UI registry item",
   "type": "object",
   "additionalProperties": false,

@@ -4,7 +4,12 @@ import { describe, expect, it, vi } from "vitest";
 import { Button } from "../src/components/ui/button";
 import * as buttonExports from "../src/components/ui/button";
 import { Checkbox } from "../src/components/ui/checkbox";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../src/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../src/components/ui/tabs";
 import { Text } from "../src/components/ui/text";
 import { cn } from "../src/lib/utils";
 
@@ -33,7 +38,11 @@ describe("component contracts", () => {
     const user = userEvent.setup();
     const onCheckedChange = vi.fn();
     const { rerender } = render(
-      <Checkbox accessibilityLabel="Terms" defaultChecked onCheckedChange={onCheckedChange} />,
+      <Checkbox
+        accessibilityLabel="Terms"
+        defaultChecked
+        onCheckedChange={onCheckedChange}
+      />,
     );
     const checkbox = screen.getByRole("checkbox", { name: "Terms" });
     expect(checkbox).toBeChecked();
@@ -41,7 +50,13 @@ describe("component contracts", () => {
     expect(checkbox).not.toBeChecked();
     expect(onCheckedChange).toHaveBeenCalledWith(false);
 
-    rerender(<Checkbox accessibilityLabel="Terms" checked onCheckedChange={onCheckedChange} />);
+    rerender(
+      <Checkbox
+        accessibilityLabel="Terms"
+        checked
+        onCheckedChange={onCheckedChange}
+      />,
+    );
     expect(screen.getByRole("checkbox", { name: "Terms" })).toBeChecked();
   });
 
@@ -50,16 +65,23 @@ describe("component contracts", () => {
     render(
       <Tabs defaultValue="first">
         <TabsList accessibilityLabel="Demo tabs">
-          <TabsTrigger value="first"><Text>First</Text></TabsTrigger>
-          <TabsTrigger value="second"><Text>Second</Text></TabsTrigger>
+          <TabsTrigger value="first">
+            <Text>First</Text>
+          </TabsTrigger>
+          <TabsTrigger value="second">
+            <Text>Second</Text>
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="first"><Text>First panel</Text></TabsContent>
-        <TabsContent value="second"><Text>Second panel</Text></TabsContent>
+        <TabsContent value="first">
+          <Text>First panel</Text>
+        </TabsContent>
+        <TabsContent value="second">
+          <Text>Second panel</Text>
+        </TabsContent>
       </Tabs>,
     );
     expect(screen.getByText("First panel")).toBeVisible();
     await user.click(screen.getByRole("tab", { name: "Second" }));
     expect(screen.getByText("Second panel")).toBeVisible();
   });
-
 });

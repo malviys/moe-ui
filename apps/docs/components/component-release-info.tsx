@@ -87,7 +87,7 @@ export async function ComponentReleaseInfo({ name }: { name: string }) {
             </span>
             <Link
               className="ml-auto inline-flex items-center gap-1 text-fd-foreground hover:underline"
-              href={`https://github.com/moe-ui/moe-ui/blob/main/packages/registry/src/components/ui/${name}.tsx`}
+              href={`https://github.com/malviys/moe-ui/blob/main/packages/registry/src/components/ui/${name}.tsx`}
               target="_blank"
             >
               Open source <ExternalLink className="size-3" aria-hidden />

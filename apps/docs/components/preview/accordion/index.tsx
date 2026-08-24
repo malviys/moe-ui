@@ -19,7 +19,7 @@ export const AccordionPreview = () => {
       <AccordionItem value="item-2">
         <AccordionTrigger>Is it styled?</AccordionTrigger>
         <AccordionContent>
-          Yes. It comes with default styles that match the other components'
+          Yes. It comes with default styles that match the other components’
           aesthetic.
         </AccordionContent>
       </AccordionItem>

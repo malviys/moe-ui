@@ -3,7 +3,6 @@
 import * as HoverCardPrimitive from "@rn-primitives/hover-card";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { cn } from "../../lib/utils";
 
 const HoverCard = HoverCardPrimitive.Root;

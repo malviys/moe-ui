@@ -8,6 +8,7 @@ export default function AspectRatioPreview() {
     <View className="w-[300px]">
       <AspectRatio ratio={16 / 9}>
         <Image
+          alt="Mountain landscape"
           source={{
             uri: "/media/preview-landscape.svg",
           }}

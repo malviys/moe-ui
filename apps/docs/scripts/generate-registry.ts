@@ -135,7 +135,7 @@ async function createItem(name: string): Promise<RegistryItem> {
   const integrity = `sha256-${createHash("sha256").update(content).digest("base64")}`;
 
   return {
-    $schema: "https://moe-ui.vercel.app/schema/registry-item.json",
+    $schema: "https://moe-ui-docs.vercel.app/schema/registry-item.json",
     schemaVersion: 1,
     name,
     title: metadata.title,
@@ -153,7 +153,7 @@ async function createItem(name: string): Promise<RegistryItem> {
 
 const registryItemSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://moe-ui.vercel.app/schema/registry-item.json",
+  $id: "https://moe-ui-docs.vercel.app/schema/registry-item.json",
   title: "Moe UI registry item",
   type: "object",
   additionalProperties: false,
@@ -200,7 +200,7 @@ const registryItemSchema = {
 
 const componentsSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://moe-ui.vercel.app/schema/components.json",
+  $id: "https://moe-ui-docs.vercel.app/schema/components.json",
   title: "Moe UI project configuration",
   $defs: {
     paths: {
@@ -290,10 +290,10 @@ async function main() {
     await emit(path.join(outputRoot, `${item.name}.json`), item);
 
   await emit(path.join(outputRoot, "index.json"), {
-    $schema: "https://moe-ui.vercel.app/schema/registry.json",
+    $schema: "https://moe-ui-docs.vercel.app/schema/registry.json",
     schemaVersion: 1,
     name: "moe-ui",
-    homepage: "https://moe-ui.vercel.app",
+    homepage: "https://moe-ui-docs.vercel.app",
     items: items
       .filter((item) => publicComponents.has(item.name))
       .map(({ name, title, description, category, integrity }) => ({

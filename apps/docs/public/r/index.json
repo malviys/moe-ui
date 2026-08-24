@@ -1,8 +1,8 @@
 {
-  "$schema": "https://moe-ui.vercel.app/schema/registry.json",
+  "$schema": "https://moe-ui-docs.vercel.app/schema/registry.json",
   "schemaVersion": 1,
   "name": "moe-ui",
-  "homepage": "https://moe-ui.vercel.app",
+  "homepage": "https://moe-ui-docs.vercel.app",
   "items": [
     {
       "name": "accordion",
@@ -23,7 +23,7 @@
       "title": "Alert Dialog",
       "description": "A modal confirmation dialog that interrupts the user.",
       "category": "overlay",
-      "integrity": "sha256-ZiTyxPed0SqtnSrI5CK0sbBtZ4ZX7OeXzS4OlBf6hEg="
+      "integrity": "sha256-Gz8JgMwHXOERDSK353ZqBfjm1mVVWBW1jSA/owIJLO8="
     },
     {
       "name": "aspect-ratio",
@@ -65,7 +65,7 @@
       "title": "Checkbox",
       "description": "A control for toggling a boolean choice.",
       "category": "form",
-      "integrity": "sha256-f5Gwn99PeA1A89YpWjx1vxYYQiiTXcDaI8SfoMhp8sE="
+      "integrity": "sha256-69IhYmUhlKgt+fm+wl1zK89ZXETBLI2+v9NqO6jWkwg="
     },
     {
       "name": "collapsible",
@@ -79,7 +79,7 @@
       "title": "Context Menu",
       "description": "A contextual action menu opened from a pointer gesture.",
       "category": "overlay",
-      "integrity": "sha256-RcXPxfdz3Qhulddv769vO4wAbM6BX0wIBUtLD0tWPhI="
+      "integrity": "sha256-R9uX3CQjThY4KWF9WKshPEBYo6dLiD2jRDq+zVwbkjk="
     },
     {
       "name": "dialog",
@@ -93,14 +93,14 @@
       "title": "Dropdown Menu",
       "description": "A keyboard-navigable menu anchored to a trigger.",
       "category": "overlay",
-      "integrity": "sha256-UGtC2mnaVpqSFw692QMKQihO4pRQ3CA5QdkYOXb378w="
+      "integrity": "sha256-i27QqK45Hd0TEJzlb+y6OmvhYU6qWLjzknJ0hgwU6Qw="
     },
     {
       "name": "hover-card",
       "title": "Hover Card",
       "description": "A preview card revealed by hover or keyboard focus.",
       "category": "overlay",
-      "integrity": "sha256-lfOaz5QUk93iL+/x5jfS/ovEJ+pEg5yNBjzWJk0V2+M="
+      "integrity": "sha256-NHowKTykSYHlSIHnSSLG9epv2G3VRiCA70Hk02nL7LQ="
     },
     {
       "name": "input",
@@ -121,7 +121,7 @@
       "title": "Menubar",
       "description": "A persistent application menu with nested actions.",
       "category": "navigation",
-      "integrity": "sha256-9zX1PvgJVcGZX5Opw4lRbrOfbAKZkcufq2i+IHdBqng="
+      "integrity": "sha256-xq6jJixmr+rHoNoQ0zNr/JCr6UIxjiA7JOnaJ3Apr4Y="
     },
     {
       "name": "popover",
@@ -135,21 +135,21 @@
       "title": "Progress",
       "description": "A visual indicator for task completion.",
       "category": "feedback",
-      "integrity": "sha256-dwCdSBxCx5brn2j31Rq6kpHXQuctuPn+MiOAMBXMJSk="
+      "integrity": "sha256-XSW2reN70l51dKn/Qou06KJJKoXxBOfTtcQy1ePoHLU="
     },
     {
       "name": "radio-group",
       "title": "Radio Group",
       "description": "A mutually exclusive set of selectable options.",
       "category": "form",
-      "integrity": "sha256-rV3z0wzd6/qBkjic+eN0d7xVuOOkaokEjYOpTaM3TI4="
+      "integrity": "sha256-aXJtWd1GN0Ctp0Hx3BNCDc0HG2jQUKHxKLwAP9H89U0="
     },
     {
       "name": "select",
       "title": "Select",
       "description": "A trigger and listbox for choosing one option.",
       "category": "form",
-      "integrity": "sha256-++mF8XXY+S7WUhdLmnS8hBOPNloT1aQluJWUDIMTwF8="
+      "integrity": "sha256-QHy5wSsAKlM1l1P1yfwEA6kW87KPzPGKx80ZrzJoYJ4="
     },
     {
       "name": "separator",
@@ -170,7 +170,7 @@
       "title": "Skeleton",
       "description": "A placeholder representing content while it loads.",
       "category": "feedback",
-      "integrity": "sha256-4sEIJj/sTGC2NDRoJ0wc1rhKiOt4ZdueiK9kaov7Uu8="
+      "integrity": "sha256-0NrtuVW5O3l95pMUsyT1u/4AH5mKOOucG7/UoSMF3x8="
     },
     {
       "name": "switch",
@@ -184,7 +184,7 @@
       "title": "Tabs",
       "description": "A keyboard-navigable set of layered content panels.",
       "category": "navigation",
-      "integrity": "sha256-UG8hXjtGJaQqiEWQosb6HiETrKY5iQzrmb/XTuxW+18="
+      "integrity": "sha256-kbhKOV2fMH72oGvs5ADKXhOz6vTJ/urXYc/uEw/Ioa0="
     },
     {
       "name": "text",
@@ -205,7 +205,7 @@
       "title": "Toggle",
       "description": "A two-state button that can be on or off.",
       "category": "form",
-      "integrity": "sha256-UDCR/ww8KQoOS0/A52RoiN3jWky7h4iuth6rmt6nq3U="
+      "integrity": "sha256-deFkhBl5cyjdanMVpESmPOYFCq60fWsR6HH7h1bIiF0="
     },
     {
       "name": "toggle-group",

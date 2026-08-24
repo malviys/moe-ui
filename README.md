@@ -28,15 +28,15 @@ Running without arguments opens an interactive command menu. Interactive initial
 
 The beta currently contains 31 source items: Accordion, Alert, Alert Dialog, Aspect Ratio, Avatar, Badge, Button, Card, Checkbox, Collapsible, Context Menu, Dialog, Dropdown Menu, Hover Card, Input, Label, Menubar, Popover, Progress, Radio Group, Select, Separator, Sheet, Skeleton, Switch, Tabs, Text, Textarea, Toggle, Toggle Group, and Tooltip.
 
-Every component page at [moe-ui.vercel.app](https://moe-ui.vercel.app) includes a live preview, install command, public exports, canonical source, accessibility behavior, and browser status.
+Every component page at [moe-ui-docs.vercel.app](https://moe-ui-docs.vercel.app) includes a live preview, install command, public exports, canonical source, accessibility behavior, and browser status.
 
 ## Repository
 
-| Workspace | Purpose |
-| --- | --- |
-| `apps/docs` | Fumadocs website, public registry assets, and browser tests |
-| `packages/registry` | Private canonical component source and metadata |
-| `packages/cli` | Public `@moe-ui/cli` package |
+| Workspace           | Purpose                                                     |
+| ------------------- | ----------------------------------------------------------- |
+| `apps/docs`         | Fumadocs website, public registry assets, and browser tests |
+| `packages/registry` | Private canonical component source and metadata             |
+| `packages/cli`      | Public `@moe-ui/cli` package                                |
 
 Components are not published as a runtime package. `@moe-ui/registry` remains private and the CLI copies generated registry source into user projects.
 

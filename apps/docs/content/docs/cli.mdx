@@ -13,11 +13,29 @@ description: Initialize projects and install source-owned components.
   usage="moe-ui init [options]"
   summary="Initializes an existing TypeScript Next.js App Router or Expo project. The framework, package manager, src/ layout, and supported entry point are detected automatically."
   flags={[
-    { name: "--styling", value: "uniwind | nativewind", description: "Bypass the interactive styling-engine selection." },
-    { name: "--yes", description: "Accept the non-destructive Uniwind default." },
-    { name: "--cwd", value: "<path>", description: "Target a different application package." },
-    { name: "--package-manager", value: "pnpm | npm | yarn | bun", description: "Override lockfile detection." },
-    { name: "--no-install", description: "Write configuration without installing dependencies." },
+    {
+      name: "--styling",
+      value: "uniwind | nativewind",
+      description: "Bypass the interactive styling-engine selection.",
+    },
+    {
+      name: "--yes",
+      description: "Accept the non-destructive Uniwind default.",
+    },
+    {
+      name: "--cwd",
+      value: "<path>",
+      description: "Target a different application package.",
+    },
+    {
+      name: "--package-manager",
+      value: "pnpm | npm | yarn | bun",
+      description: "Override lockfile detection.",
+    },
+    {
+      name: "--no-install",
+      description: "Write configuration without installing dependencies.",
+    },
   ]}
 />
 
@@ -33,9 +51,19 @@ The framework and styling engine are persisted in schema v2 of `components.json`
   usage="moe-ui add <components...> [options]"
   summary="Fetches registry metadata, validates integrity, resolves dependencies recursively, and writes owned component source into the configured paths."
   flags={[
-    { name: "--cwd", value: "<path>", description: "Target a different initialized application." },
-    { name: "--overwrite", description: "Replace conflicting component source deliberately." },
-    { name: "--no-install", description: "Write source without installing package dependencies." },
+    {
+      name: "--cwd",
+      value: "<path>",
+      description: "Target a different initialized application.",
+    },
+    {
+      name: "--overwrite",
+      description: "Replace conflicting component source deliberately.",
+    },
+    {
+      name: "--no-install",
+      description: "Write source without installing package dependencies.",
+    },
   ]}
 />
 

@@ -28,7 +28,7 @@ export function baseOptions(): BaseLayoutProps {
       { text: "Components", url: "/docs/components" },
       { text: "Installation", url: "/docs/installation" },
     ],
-    githubUrl: "https://github.com/moe-ui/moe-ui",
+    githubUrl: "https://github.com/malviys/moe-ui",
   };
 }
 

@@ -25,6 +25,7 @@ jobs:
       - run: pnpm registry:generate
       - name: Require deterministic generated assets
         run: git diff --exit-code -- apps/docs/public apps/docs/content/docs/components
+      - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm types:check
       - run: pnpm test

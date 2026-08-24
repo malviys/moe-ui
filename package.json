@@ -8,8 +8,11 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint",
-    "format": "turbo format",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm format:check && pnpm lint && pnpm types:check",
     "types:check": "turbo types:check",
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
@@ -17,11 +20,15 @@
     "registry:check": "pnpm --filter docs registry:check",
     "dev:docs": "turbo dev --filter=docs",
     "build:docs": "turbo build --filter=docs",
-    "start:docs": "pnpm --filter docs start"
+    "start:docs": "pnpm --filter docs start",
+    "prepare": "husky"
   },
-  "peerDependencies": {},
-  "dependencies": {},
   "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "eslint-config-prettier": "^10",
+    "husky": "^9",
+    "prettier": "^3",
     "turbo": "^2.8.9"
   }
 }

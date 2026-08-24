@@ -1,5 +1,5 @@
 {
-  "$schema": "https://moe-ui.vercel.app/schema/registry-item.json",
+  "$schema": "https://moe-ui-docs.vercel.app/schema/registry-item.json",
   "schemaVersion": 1,
   "name": "utils",
   "title": "Utilities",
@@ -10,12 +10,12 @@
     {
       "path": "lib/utils.ts",
       "target": "lib/utils.ts",
-      "content": "export { twMerge as cn } from 'tailwind-merge';\n"
+      "content": "export { twMerge as cn } from \"tailwind-merge\";\n"
     }
   ],
   "dependencies": {
     "tailwind-merge": "^3.5.0"
   },
   "registryDependencies": [],
-  "integrity": "sha256-11oSUQMDzAndu78KJpTpXrL9qKy583f3A7SYH/3VtHU="
+  "integrity": "sha256-zNX3lj2MKzTMGgF3pPYcjBK689eolGtZJ/SKWnNrjb0="
 }

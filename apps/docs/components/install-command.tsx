@@ -18,6 +18,8 @@ export function InstallCommand({ name }: { name: string }) {
   useEffect(() => {
     const stored = window.localStorage.getItem(storageKey);
     if (packageManagers.includes(stored as PackageManager)) {
+      // Hydrate the persisted browser preference after the component mounts.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setManager(stored as PackageManager);
     }
   }, []);

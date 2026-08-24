@@ -461,9 +461,9 @@ describe("registry installation", () => {
 
   it("uses the stored styling engine for Tailwind 4 merge compatibility and icon peers", () => {
     const nativeConfig = {
-      $schema: "https://moe-ui.vercel.app/schema/components.json",
+      $schema: "https://moe-ui-docs.vercel.app/schema/components.json",
       schemaVersion: 2 as const,
-      registry: "https://moe-ui.vercel.app/r",
+      registry: "https://moe-ui-docs.vercel.app/r",
       typescript: true as const,
       framework: "expo" as const,
       styling: "nativewind" as const,

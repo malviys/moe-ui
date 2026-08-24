@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
-export const DEFAULT_REGISTRY = "https://moe-ui.vercel.app/r";
+export const DEFAULT_REGISTRY = "https://moe-ui-docs.vercel.app/r";
 
 export type PackageManager = "pnpm" | "npm" | "yarn" | "bun";
 export type Framework = "next" | "expo";
@@ -336,7 +336,8 @@ function normalizeConfig(value: unknown): ComponentsConfig {
   if (config.schemaVersion === 1) {
     return {
       $schema:
-        config.$schema ?? "https://moe-ui.vercel.app/schema/components.json",
+        config.$schema ??
+        "https://moe-ui-docs.vercel.app/schema/components.json",
       schemaVersion: 2,
       registry: config.registry,
       typescript: true,
@@ -1074,7 +1075,7 @@ export async function initProject(options: CliOptions) {
           projectPackage.type,
         );
   const config: ComponentsConfig = {
-    $schema: "https://moe-ui.vercel.app/schema/components.json",
+    $schema: "https://moe-ui-docs.vercel.app/schema/components.json",
     schemaVersion: 2,
     registry,
     typescript: true,
