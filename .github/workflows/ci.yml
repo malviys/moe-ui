@@ -165,13 +165,13 @@ jobs:
             fi
           done
       - name: Pull preview environment
-        run: pnpm exec vercel pull --yes --environment=preview --token="$VERCEL_TOKEN" --cwd apps/docs
+        run: pnpm exec vercel pull --yes --environment=preview --token="$VERCEL_TOKEN" --cwd apps/docs --scope="$VERCEL_ORG_ID"
       - name: Build Vercel artifact
-        run: pnpm exec vercel build --token="$VERCEL_TOKEN" --cwd apps/docs
+        run: pnpm exec vercel build --token="$VERCEL_TOKEN" --cwd apps/docs --scope="$VERCEL_ORG_ID"
       - name: Deploy preview artifact
         id: deploy
         run: |
-          deployment_url="$(pnpm exec vercel deploy --prebuilt --token="$VERCEL_TOKEN" --cwd apps/docs)"
+          deployment_url="$(pnpm exec vercel deploy --prebuilt --token="$VERCEL_TOKEN" --cwd apps/docs --scope="$VERCEL_ORG_ID")"
           echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
 
   deploy-production:
@@ -205,13 +205,13 @@ jobs:
             fi
           done
       - name: Pull production environment
-        run: pnpm exec vercel pull --yes --environment=production --token="$VERCEL_TOKEN" --cwd apps/docs
+        run: pnpm exec vercel pull --yes --environment=production --token="$VERCEL_TOKEN" --cwd apps/docs --scope="$VERCEL_ORG_ID"
       - name: Build production artifact
-        run: pnpm exec vercel build --prod --token="$VERCEL_TOKEN" --cwd apps/docs
+        run: pnpm exec vercel build --prod --token="$VERCEL_TOKEN" --cwd apps/docs --scope="$VERCEL_ORG_ID"
       - name: Deploy production artifact
         id: deploy
         run: |
-          deployment_url="$(pnpm exec vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" --cwd apps/docs)"
+          deployment_url="$(pnpm exec vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" --cwd apps/docs --scope="$VERCEL_ORG_ID")"
           echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
       - name: Smoke test deployment
         env:
