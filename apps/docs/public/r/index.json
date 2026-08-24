@@ -100,7 +100,7 @@
       "title": "Hover Card",
       "description": "A preview card revealed by hover or keyboard focus.",
       "category": "overlay",
-      "integrity": "sha256-7adhYLY1sYrRgMREBvUV7pjqFzEXYQ8iOe+RmYlwZgI="
+      "integrity": "sha256-lfOaz5QUk93iL+/x5jfS/ovEJ+pEg5yNBjzWJk0V2+M="
     },
     {
       "name": "input",

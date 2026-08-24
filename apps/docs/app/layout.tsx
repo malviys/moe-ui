@@ -8,11 +8,10 @@ import { SearchFocusRestoration } from "@/components/search-focus-restoration";
 export const metadata: Metadata = {
   metadataBase: new URL("https://moe-ui.vercel.app"),
   title: {
-    default: "Moe UI — Components you own",
+    default: "Moe UI — React Native and web components",
     template: "%s · Moe UI",
   },
-  description:
-    "Accessible, source-owned React components for Next.js and Expo, delivered as code you can shape.",
+  description: "A collection of components for Expo and Next.js.",
   applicationName: "Moe UI",
   authors: [
     { name: "Moe UI contributors", url: "https://github.com/moe-ui/moe-ui" },
@@ -28,16 +27,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Moe UI",
-    title: "Moe UI — Web components you own",
-    description:
-      "31 accessible React components. Installed as source. Built for Next.js and Expo.",
+    title: "Moe UI — React Native and web components",
+    description: "A collection of components for Expo and Next.js.",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Moe UI — Web components you own",
-    description:
-      "31 accessible React components. Installed as source. Built for Next.js and Expo.",
+    title: "Moe UI — React Native and web components",
+    description: "A collection of components for Expo and Next.js.",
   },
 };
 
@@ -45,14 +42,14 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fffaf2" },
-    { media: "(prefers-color-scheme: dark)", color: "#151310" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#171717" },
   ],
 };
 
 export default function Layout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} flex min-h-screen flex-col`}
       >

@@ -45,7 +45,15 @@ export type CliOptions = {
   overwrite: boolean;
   install: boolean;
   packageManager?: PackageManager;
+  registry?: string;
   styling?: StylingEngine;
+};
+
+export type RegistryIndexItem = {
+  name: string;
+  title: string;
+  description: string;
+  category: string;
 };
 
 type ProjectPackage = {
@@ -97,17 +105,19 @@ const EXPO_NATIVE_PACKAGES = new Set([
 ]);
 
 function usage() {
-  return `Moe UI v0.1 beta\n\nUsage:\n  moe-ui init [--cwd <path>] [--styling <uniwind|nativewind>] [--yes] [--package-manager <pnpm|npm|yarn|bun>] [--no-install]\n  moe-ui add <components...> [--cwd <path>] [--overwrite] [--no-install]\n`;
+  return `Moe UI v0.1 beta\n\nUsage:\n  moe-ui\n  moe-ui init [--cwd <path>] [--styling <uniwind|nativewind>] [--registry <url>] [--yes] [--package-manager <pnpm|npm|yarn|bun>] [--no-install]\n  moe-ui add [components...] [--cwd <path>] [--overwrite] [--no-install]\n\nRun without a command for interactive mode.\n`;
 }
 
 export function parseArguments(argv: string[]) {
   const [command, ...rest] = argv;
-  if (
-    !command ||
-    command === "help" ||
-    command === "--help" ||
-    command === "-h"
-  ) {
+  if (!command) {
+    return {
+      command: "interactive" as const,
+      components: [],
+      options: defaultOptions(),
+    };
+  }
+  if (command === "help" || command === "--help" || command === "-h") {
     return {
       command: "help" as const,
       components: [],
@@ -131,6 +141,12 @@ export function parseArguments(argv: string[]) {
         throw new Error("--package-manager must be pnpm, npm, yarn, or bun");
       }
       options.packageManager = value;
+    } else if (argument === "--registry") {
+      if (command !== "init")
+        throw new Error("--registry is only valid with `moe-ui init`.");
+      const value = rest[++index];
+      if (!value) throw new Error("--registry requires a URL");
+      options.registry = normalizeRegistryUrl(value);
     } else if (argument === "--styling") {
       if (command !== "init")
         throw new Error("--styling is only valid with `moe-ui init`.");
@@ -151,14 +167,56 @@ export function parseArguments(argv: string[]) {
       components.push(argument);
     }
   }
-  if (command === "add" && components.length === 0) {
-    throw new Error("Add at least one component name.");
-  }
   return { command, components, options };
 }
 
 function defaultOptions(): CliOptions {
   return { cwd: process.cwd(), yes: false, overwrite: false, install: true };
+}
+
+function interactiveTerminal() {
+  return Boolean(process.stdin.isTTY && process.stdout.isTTY);
+}
+
+async function ask(question: string) {
+  const prompt = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  try {
+    return await prompt.question(question);
+  } finally {
+    prompt.close();
+  }
+}
+
+export function parseCommandSelection(answer: string): "init" | "add" {
+  const selection = answer.trim().toLowerCase();
+  if (selection === "" || selection === "1" || selection === "init")
+    return "init";
+  if (selection === "2" || selection === "add") return "add";
+  throw new Error("Invalid command selection. Enter 1 for init or 2 for add.");
+}
+
+async function selectCommand() {
+  if (!interactiveTerminal()) return "help" as const;
+  const answer = await ask(
+    "What would you like to do?\n  1. Initialize this project\n  2. Add components\nSelection [1]: ",
+  );
+  return parseCommandSelection(answer);
+}
+
+export function normalizeRegistryUrl(value: string) {
+  let url: URL;
+  try {
+    url = new URL(value.trim());
+  } catch {
+    throw new Error("Registry must be a valid http:// or https:// URL.");
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    throw new Error("Registry must be a valid http:// or https:// URL.");
+  }
+  return url.toString().replace(/\/$/, "");
 }
 
 async function exists(file: string) {
@@ -333,23 +391,15 @@ async function selectStyling(
   }
   if (options.styling) return options.styling;
   if (options.yes) return "uniwind" as const;
-  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+  if (!interactiveTerminal()) {
     throw new Error(
       "A styling engine is required in non-interactive mode. Pass --styling uniwind|nativewind or --yes to accept Uniwind.",
     );
   }
-  const prompt = createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  try {
-    const answer = await prompt.question(
-      "Choose a styling engine:\n  1. Uniwind (recommended)\n  2. NativeWind\nSelection [1]: ",
-    );
-    return parseStylingSelection(answer);
-  } finally {
-    prompt.close();
-  }
+  const answer = await ask(
+    "Choose a styling engine:\n  1. Uniwind (recommended)\n  2. NativeWind\nSelection [1]: ",
+  );
+  return parseStylingSelection(answer);
 }
 
 export function parseStylingSelection(answer: string): StylingEngine {
@@ -358,6 +408,17 @@ export function parseStylingSelection(answer: string): StylingEngine {
   throw new Error(
     "Invalid styling selection. Enter 1 for Uniwind or 2 for NativeWind.",
   );
+}
+
+async function selectRegistry(
+  options: CliOptions,
+  existing: ComponentsConfig | undefined,
+) {
+  if (options.registry) return options.registry;
+  if (existing) return existing.registry;
+  if (options.yes || !interactiveTerminal()) return DEFAULT_REGISTRY;
+  const answer = await ask(`Registry URL [${DEFAULT_REGISTRY}]: `);
+  return answer.trim() === "" ? DEFAULT_REGISTRY : normalizeRegistryUrl(answer);
 }
 
 async function readProjectPackage(cwd: string) {
@@ -996,6 +1057,7 @@ export async function initProject(options: CliOptions) {
     );
   }
   const styling = await selectStyling(options, existing);
+  const registry = await selectRegistry(options, existing);
   const manager = options.packageManager ?? (await detectPackageManager(cwd));
   const plan =
     framework === "next"
@@ -1014,7 +1076,7 @@ export async function initProject(options: CliOptions) {
   const config: ComponentsConfig = {
     $schema: "https://moe-ui.vercel.app/schema/components.json",
     schemaVersion: 2,
-    registry: existing?.registry ?? DEFAULT_REGISTRY,
+    registry,
     typescript: true,
     framework,
     styling,
@@ -1076,6 +1138,92 @@ async function fetchItem(registry: string, name: string) {
   return item;
 }
 
+function validateRegistryIndex(value: unknown): RegistryIndexItem[] {
+  if (!value || typeof value !== "object")
+    throw new Error("Registry index response is not an object.");
+  const items = (value as { items?: unknown }).items;
+  if (!Array.isArray(items))
+    throw new Error("Registry index does not contain an items array.");
+  return items.map((item) => {
+    if (!item || typeof item !== "object")
+      throw new Error("Registry index contains an invalid item.");
+    const candidate = item as Partial<RegistryIndexItem>;
+    if (
+      typeof candidate.name !== "string" ||
+      typeof candidate.title !== "string" ||
+      typeof candidate.description !== "string" ||
+      typeof candidate.category !== "string"
+    ) {
+      throw new Error("Registry index contains an invalid item.");
+    }
+    return candidate as RegistryIndexItem;
+  });
+}
+
+async function fetchRegistryIndex(registry: string) {
+  const response = await fetch(`${registry.replace(/\/$/, "")}/index.json`);
+  if (!response.ok) {
+    throw new Error(
+      `Unable to fetch the registry index: ${response.status} ${response.statusText}`,
+    );
+  }
+  return validateRegistryIndex(await response.json());
+}
+
+export function parseComponentSelection(
+  answer: string,
+  items: RegistryIndexItem[],
+) {
+  const tokens = answer
+    .trim()
+    .toLowerCase()
+    .split(/[\s,]+/)
+    .filter(Boolean);
+  if (tokens.length === 0) {
+    throw new Error("Select at least one component.");
+  }
+  if (tokens.includes("all")) return items.map((item) => item.name);
+
+  const available = new Map(
+    items.map((item) => [item.name.toLowerCase(), item]),
+  );
+  const selected: string[] = [];
+  for (const token of tokens) {
+    const numeric = /^\d+$/.test(token) ? Number(token) : undefined;
+    const item = numeric ? items[numeric - 1] : available.get(token);
+    if (!item) {
+      throw new Error(
+        `Unknown component selection: ${token}. Enter a listed number or component name.`,
+      );
+    }
+    if (!selected.includes(item.name)) selected.push(item.name);
+  }
+  return selected;
+}
+
+async function selectComponents(options: CliOptions) {
+  if (!interactiveTerminal()) {
+    throw new Error("Add at least one component name.");
+  }
+  const configFile = path.join(path.resolve(options.cwd), "components.json");
+  if (!(await exists(configFile)))
+    throw new Error("Run `moe-ui init` before adding components.");
+  const config = normalizeConfig(
+    JSON.parse(await readFile(configFile, "utf8")),
+  );
+  const items = await fetchRegistryIndex(config.registry);
+  const choices = items
+    .map(
+      (item, index) =>
+        `  ${index + 1}. ${item.title} (${item.name}) — ${item.category}`,
+    )
+    .join("\n");
+  const answer = await ask(
+    `Choose components by number or name (comma-separated), or enter all:\n${choices}\nSelection: `,
+  );
+  return parseComponentSelection(answer, items);
+}
+
 async function resolveItems(registry: string, requested: string[]) {
   const items = new Map<string, RegistryItem>();
   const queue = [...requested];
@@ -1104,19 +1252,11 @@ function targetPath(cwd: string, config: ComponentsConfig, target: string) {
 }
 
 async function confirmOverwrite(relativePath: string) {
-  if (!process.stdin.isTTY || !process.stdout.isTTY)
+  if (!interactiveTerminal())
     throw new Error(`${relativePath} already exists. Re-run with --overwrite.`);
-  const prompt = createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  try {
-    const answer = await prompt.question(`Overwrite ${relativePath}? (y/N) `);
-    if (!/^y(es)?$/i.test(answer.trim()))
-      throw new Error(`Kept local changes in ${relativePath}.`);
-  } finally {
-    prompt.close();
-  }
+  const answer = await ask(`Overwrite ${relativePath}? (y/N) `);
+  if (!/^y(es)?$/i.test(answer.trim()))
+    throw new Error(`Kept local changes in ${relativePath}.`);
 }
 
 export function registryDependenciesFor(
@@ -1186,18 +1326,24 @@ export async function addComponents(names: string[], options: CliOptions) {
 
 export async function run(argv = process.argv.slice(2)) {
   const parsed = parseArguments(argv);
-  if (parsed.command === "help") {
+  const command =
+    parsed.command === "interactive" ? await selectCommand() : parsed.command;
+  if (command === "help") {
     console.log(usage());
     return;
   }
-  if (parsed.command === "init") {
+  if (command === "init") {
     const config = await initProject(parsed.options);
     console.log(
       `Moe UI initialized for ${config.framework} with ${config.styling}. Add a component with \`moe-ui add button\`.`,
     );
     return;
   }
-  const result = await addComponents(parsed.components, parsed.options);
+  const components =
+    parsed.components.length > 0
+      ? parsed.components
+      : await selectComponents(parsed.options);
+  const result = await addComponents(components, parsed.options);
   console.log(`Installed ${result.items.join(", ")}.`);
 }
 

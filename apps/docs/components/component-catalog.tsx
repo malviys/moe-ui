@@ -1,4 +1,39 @@
-import { ArrowUpRight } from "lucide-react";
+import {
+  AlignLeft,
+  ArrowUpRight,
+  Badge,
+  Boxes,
+  ChartNoAxesColumnIncreasing,
+  CheckSquare,
+  ChevronDown,
+  ChevronsUpDown,
+  CircleDot,
+  CircleUserRound,
+  Columns3,
+  CreditCard,
+  GalleryVerticalEnd,
+  Info,
+  ListCollapse,
+  ListFilter,
+  type LucideIcon,
+  Menu,
+  MessageSquareMore,
+  MessageSquareText,
+  Minus,
+  MousePointerClick,
+  OctagonAlert,
+  PanelRightOpen,
+  PanelsTopLeft,
+  PanelTop,
+  Ratio,
+  ScanLine,
+  SquareCheck,
+  Tag,
+  TextCursorInput,
+  ToggleLeft,
+  ToggleRight,
+  Type,
+} from "lucide-react";
 import Link from "next/link";
 import {
   type ComponentCategory,
@@ -6,6 +41,40 @@ import {
   componentCategories,
 } from "@/lib/component-accents";
 import { components } from "@/lib/registry";
+
+const componentIcons: Record<string, LucideIcon> = {
+  accordion: ListCollapse,
+  alert: Info,
+  "alert-dialog": OctagonAlert,
+  "aspect-ratio": Ratio,
+  avatar: CircleUserRound,
+  badge: Badge,
+  button: MousePointerClick,
+  card: CreditCard,
+  checkbox: SquareCheck,
+  collapsible: ChevronsUpDown,
+  "context-menu": Menu,
+  dialog: PanelsTopLeft,
+  "dropdown-menu": ChevronDown,
+  "hover-card": GalleryVerticalEnd,
+  input: TextCursorInput,
+  label: Tag,
+  menubar: PanelTop,
+  popover: MessageSquareMore,
+  progress: ChartNoAxesColumnIncreasing,
+  "radio-group": CircleDot,
+  select: ListFilter,
+  separator: Minus,
+  sheet: PanelRightOpen,
+  skeleton: ScanLine,
+  switch: ToggleLeft,
+  tabs: Columns3,
+  text: Type,
+  textarea: AlignLeft,
+  toggle: ToggleRight,
+  "toggle-group": CheckSquare,
+  tooltip: MessageSquareText,
+};
 
 export function ComponentCatalog() {
   return (
@@ -24,12 +93,13 @@ export function ComponentCatalog() {
             aria-labelledby={`catalog-${category}`}
           >
             <header>
-              <span className="category-orbit" aria-hidden />
               <div>
-                <h2 id={`catalog-${category}`}>{details.label}</h2>
+                <div className="catalog-heading-line">
+                  <h2 id={`catalog-${category}`}>{details.label}</h2>
+                  <span className="catalog-count">{entries.length}</span>
+                </div>
                 <p>{details.description}</p>
               </div>
-              <span className="catalog-count">{entries.length}</span>
             </header>
             <div className="catalog-grid">
               {entries.map((component) => (
@@ -54,6 +124,8 @@ function CatalogCard({
   component: (typeof components)[number];
   category: ComponentCategory;
 }) {
+  const ComponentIcon = componentIcons[component.name] ?? Boxes;
+
   return (
     <Link
       href={`/docs/components/${component.name}`}
@@ -61,9 +133,7 @@ function CatalogCard({
       data-accent={category}
     >
       <div className="catalog-glyph" aria-hidden>
-        <span />
-        <span />
-        <span />
+        <ComponentIcon />
       </div>
       <div>
         <h3>{component.title}</h3>

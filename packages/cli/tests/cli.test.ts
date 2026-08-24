@@ -8,7 +8,10 @@ import {
   detectFramework,
   detectPackageManager,
   initProject,
+  normalizeRegistryUrl,
   parseArguments,
+  parseCommandSelection,
+  parseComponentSelection,
   parseStylingSelection,
   registryDependenciesFor,
   validateRegistryItem,
@@ -109,9 +112,13 @@ describe("CLI arguments and detection", () => {
     expect(
       parseArguments(["add", "button", "dialog", "--overwrite"]).components,
     ).toEqual(["button", "dialog"]);
+    expect(
+      parseArguments(["init", "--registry", "http://localhost:3000/r/"]).options
+        .registry,
+    ).toBe("http://localhost:3000/r");
   });
 
-  it("rejects invalid styling usage, unknown commands, and empty add lists", () => {
+  it("rejects invalid styling usage and unknown commands", () => {
     expect(() => parseArguments(["init", "--styling", "other"])).toThrow(
       "must be uniwind or nativewind",
     );
@@ -119,7 +126,49 @@ describe("CLI arguments and detection", () => {
       parseArguments(["add", "button", "--styling", "uniwind"]),
     ).toThrow("only valid");
     expect(() => parseArguments(["nope"])).toThrow("Unknown command");
-    expect(() => parseArguments(["add"])).toThrow("Add at least one");
+    expect(parseArguments([]).command).toBe("interactive");
+    expect(parseArguments(["add"]).components).toEqual([]);
+  });
+
+  it("parses interactive command and component selections", () => {
+    expect(parseCommandSelection("")).toBe("init");
+    expect(parseCommandSelection("add")).toBe("add");
+    expect(() => parseCommandSelection("3")).toThrow("Invalid command");
+
+    const items = [
+      {
+        name: "button",
+        title: "Button",
+        description: "Button",
+        category: "foundation",
+      },
+      {
+        name: "alert-dialog",
+        title: "Alert Dialog",
+        description: "Alert Dialog",
+        category: "overlay",
+      },
+    ];
+    expect(parseComponentSelection("1, alert-dialog, 1", items)).toEqual([
+      "button",
+      "alert-dialog",
+    ]);
+    expect(parseComponentSelection("all", items)).toEqual([
+      "button",
+      "alert-dialog",
+    ]);
+    expect(() => parseComponentSelection("missing", items)).toThrow(
+      "Unknown component",
+    );
+  });
+
+  it("normalizes and validates registry URLs", () => {
+    expect(normalizeRegistryUrl("http://localhost:3000/r/")).toBe(
+      "http://localhost:3000/r",
+    );
+    expect(() => normalizeRegistryUrl("file:///tmp/registry")).toThrow(
+      "http:// or https://",
+    );
   });
 
   it("maps the interactive numbered selection with Uniwind as the default", () => {
@@ -210,6 +259,15 @@ describe("project initialization", () => {
       styling: "uniwind",
       typescript: true,
     });
+  });
+
+  it("stores an explicit local registry URL", async () => {
+    const cwd = await nextFixture();
+    const config = await initProject({
+      ...options(cwd),
+      registry: "http://localhost:3000/r",
+    });
+    expect(config.registry).toBe("http://localhost:3000/r");
   });
 
   it("configures Next.js with NativeWind 5 and Tailwind 4", async () => {

@@ -7,11 +7,12 @@ Moe UI is a source-copy component registry for TypeScript React projects. The CL
 ## Quick start
 
 ```bash
+pnpm dlx @moe-ui/cli@beta
 pnpm dlx @moe-ui/cli@beta init
 pnpm dlx @moe-ui/cli@beta add button dialog
 ```
 
-Interactive initialization asks whether to use Uniwind or NativeWind. For automation, pass `--styling uniwind|nativewind`; `--yes` keeps the backwards-compatible Uniwind default. The initializer detects Next.js or Expo, the package manager, and supported application layouts before configuring the selected stack.
+Running without arguments opens an interactive command menu. Interactive initialization asks for the styling engine and registry URL, while `add` without names presents the component catalog. For automation, pass `--styling uniwind|nativewind`; `--yes` keeps the backwards-compatible Uniwind and production-registry defaults. The initializer detects Next.js or Expo, the package manager, and supported application layouts before configuring the selected stack.
 
 ## Supported stack
 
@@ -65,6 +66,8 @@ Registry JSON and component documentation are generated from `packages/registry/
 ```bash
 pnpm registry:generate
 ```
+
+For local CLI testing, run `pnpm dev:docs` and initialize the test app with `--registry http://localhost:3000/r`.
 
 ## Release status
 

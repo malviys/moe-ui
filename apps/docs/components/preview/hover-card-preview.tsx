@@ -25,7 +25,11 @@ export default function HoverCardPreview() {
         <View className="flex flex-row justify-between space-x-4">
           <Avatar alt="Vercel profile">
             <AvatarImage source={{ uri: "/media/avatar.svg" }} />
-            <AvatarFallback>VC</AvatarFallback>
+            <AvatarFallback>
+              <Text>
+                VC
+              </Text>
+            </AvatarFallback>
           </Avatar>
           <View className="space-y-1">
             <Text className="text-sm font-semibold">@nextjs</Text>
