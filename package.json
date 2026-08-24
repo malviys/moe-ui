@@ -15,7 +15,7 @@
     "check": "pnpm format:check && pnpm lint && pnpm types:check",
     "types:check": "turbo types:check",
     "test": "turbo test",
-    "test:e2e": "turbo test:e2e",
+    "test:e2e": "turbo build && turbo test:e2e",
     "registry:generate": "pnpm --filter docs registry:generate",
     "registry:check": "pnpm --filter docs registry:check",
     "dev:docs": "turbo dev --filter=docs",
