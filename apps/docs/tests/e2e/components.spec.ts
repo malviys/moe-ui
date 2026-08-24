@@ -71,7 +71,9 @@ test.describe("component documentation matrix", () => {
           ) {
             const previewSection = previewSections.nth(index);
             await previewSection.scrollIntoViewIfNeeded();
-            const screenshot = await previewSection.screenshot();
+            const screenshot = await previewSection.screenshot({
+              animations: "disabled",
+            });
             const variant = component.previewVariants[index];
             await testInfo.attach(
               `${component.name}-${variant?.id ?? "default"}-${viewport}-${theme}`,
