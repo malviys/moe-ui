@@ -1,0 +1,16 @@
+---
+title: Theme Generator
+description: Build a balanced Moe UI color system and copy it into your project.
+icon: Palette
+full: true
+---
+
+Use the generator to create cohesive light and dark foundations from a single accent color. Pick your styling engine, preview the result, then replace the `/* Moe UI theme */` block in your global CSS with the generated tokens.
+
+<ThemeGenerator />
+
+## Using your theme
+
+Paste the generated CSS after the Tailwind and styling-engine imports in your project's `global.css`. The tokens map directly to Moe UI component classes, so installed components adopt the new palette and radius without source changes.
+
+For an existing project, keep the import order created by `init` and replace only the theme block. Commit the result with your application source so every platform uses the same semantic colors.

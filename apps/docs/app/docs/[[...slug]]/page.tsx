@@ -23,12 +23,17 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const MDX = page.data.body;
   const componentName =
     page.slugs[0] === "components" ? page.slugs[1] : undefined;
+  const pageClassName = componentName
+    ? "component-doc-page"
+    : page.slugs[0] === "cli"
+      ? "docs-content-page cli-doc-page"
+      : "docs-content-page";
 
   return (
     <DocsPage
       toc={page.data.toc}
       full={page.data.full}
-      className={componentName ? "component-doc-page" : "docs-content-page"}
+      className={pageClassName}
     >
       <div className="docs-page-heading">
         <div>

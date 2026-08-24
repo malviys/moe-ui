@@ -1,24 +1,25 @@
 ---
 title: CLI
 description: Initialize projects and install source-owned components.
-icon: SquareTerminal
 ---
 
 `@moe-ui/cli@0.1.0-beta.1` is a Node.js 20+ executable. Use the npm `beta` tag while the release is in prerelease.
 
+<CliQuickStart />
+
 ## `init`
 
-```bash
-moe-ui init [--cwd <path>] [--styling uniwind|nativewind] [--yes] [--package-manager pnpm|npm|yarn|bun] [--no-install]
-```
-
-Initializes an existing TypeScript Next.js App Router or Expo project. The framework, package manager, `src/` layout, and supported entry point are detected automatically.
-
-- `--styling` bypasses the interactive Uniwind or NativeWind selection.
-- `--yes` accepts the non-destructive Uniwind default.
-- `--cwd` targets a different application package.
-- `--package-manager` overrides lockfile detection.
-- `--no-install` writes configuration without installing dependencies.
+<CliCommand
+  usage="moe-ui init [options]"
+  summary="Initializes an existing TypeScript Next.js App Router or Expo project. The framework, package manager, src/ layout, and supported entry point are detected automatically."
+  flags={[
+    { name: "--styling", value: "uniwind | nativewind", description: "Bypass the interactive styling-engine selection." },
+    { name: "--yes", description: "Accept the non-destructive Uniwind default." },
+    { name: "--cwd", value: "<path>", description: "Target a different application package." },
+    { name: "--package-manager", value: "pnpm | npm | yarn | bun", description: "Override lockfile detection." },
+    { name: "--no-install", description: "Write configuration without installing dependencies." },
+  ]}
+/>
 
 In a non-interactive environment, pass `--styling` or `--yes`. If both Next.js and Expo appear in the same package, target the intended application with `--cwd`.
 
@@ -28,23 +29,23 @@ The framework and styling engine are persisted in schema v2 of `components.json`
 
 ## `add`
 
-```bash
-moe-ui add <components...> [--cwd <path>] [--overwrite] [--no-install]
-```
+<CliCommand
+  usage="moe-ui add <components...> [options]"
+  summary="Fetches registry metadata, validates integrity, resolves dependencies recursively, and writes owned component source into the configured paths."
+  flags={[
+    { name: "--cwd", value: "<path>", description: "Target a different initialized application." },
+    { name: "--overwrite", description: "Replace conflicting component source deliberately." },
+    { name: "--no-install", description: "Write source without installing package dependencies." },
+  ]}
+/>
 
-Fetches metadata from the configured registry, validates its schema and integrity, resolves registry dependencies recursively, and writes owned source to configured paths. The stored framework controls dependency installation: Expo-native packages use `expo install`, while ordinary dependencies use the detected package manager.
+The stored framework controls dependency installation: Expo-native packages use `expo install`, while ordinary dependencies use the detected package manager.
 
 Without `--overwrite`, a file with different local content is protected and the command exits with the exact conflict. Re-running against unchanged installed source performs no write.
 
 ## Examples
 
-```bash
-pnpm dlx @moe-ui/cli@beta init --styling uniwind
-pnpm dlx @moe-ui/cli@beta init --styling nativewind --no-install
-pnpm dlx @moe-ui/cli@beta add button input
-pnpm dlx @moe-ui/cli@beta add dialog --no-install
-pnpm dlx @moe-ui/cli@beta add button --overwrite
-```
+<CliExamples />
 
 ## Troubleshooting
 
