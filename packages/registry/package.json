@@ -1,5 +1,5 @@
 {
-  "name": "@moe-ui/registry",
+  "name": "@moe-labs/registry",
   "version": "0.1.0-beta.1",
   "private": true,
   "exports": {

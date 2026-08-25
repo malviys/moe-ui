@@ -1,5 +1,5 @@
 {
-  "name": "moe-ui",
+  "name": "moe-labs",
   "packageManager": "pnpm@9.15.4",
   "workspaces": [
     "apps/*",

@@ -1,11 +1,11 @@
 {
-  "name": "@moe-ui/cli",
+  "name": "@moe-labs/cli",
   "version": "0.1.0-beta.1",
   "description": "Install Moe UI source components into Next.js and Expo applications.",
   "type": "module",
   "license": "MIT",
   "bin": {
-    "moe-ui": "./dist/index.js"
+    "moe-ui": "dist/index.js"
   },
   "exports": {
     ".": {
