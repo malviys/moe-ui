@@ -111,7 +111,7 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @moe-ui/cli build
+      - run: pnpm --filter @moe-labs/cli build
       - run: pnpm --filter docs build
       - name: Start local registry
         run: |
@@ -123,7 +123,7 @@ jobs:
           exit 1
       - name: Initialize, add representative components, typecheck, and build
         run: |
-          fixture="$RUNNER_TEMP/moe-ui-next-fixture"
+          fixture="$RUNNER_TEMP/moe-labs-next-fixture"
           cp -R packages/cli/fixtures/next-app "$fixture"
           node packages/cli/dist/index.js init --cwd "$fixture" --yes --package-manager pnpm
           node -e 'const fs=require("node:fs"); const p=process.argv[1]; const c=JSON.parse(fs.readFileSync(p)); c.registry="http://127.0.0.1:3000/r"; fs.writeFileSync(p, JSON.stringify(c,null,2)+"\n")' "$fixture/components.json"

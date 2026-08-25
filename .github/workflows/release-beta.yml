@@ -30,8 +30,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm registry:check
-      - run: pnpm --filter @moe-ui/cli test
-      - run: pnpm --filter @moe-ui/cli build
+      - run: pnpm --filter @moe-labs/cli test
+      - run: pnpm --filter @moe-labs/cli build
       - name: Smoke test production deployment and registry
         run: |
           curl --fail --silent --show-error https://moe-ui-docs.vercel.app/ >/dev/null
@@ -39,7 +39,7 @@ jobs:
           curl --fail --silent --show-error https://moe-ui-docs.vercel.app/r/button.json >/dev/null
           curl --fail --silent --show-error https://moe-ui-docs.vercel.app/schema/registry-item.json >/dev/null
       - name: Publish CLI with beta tag
-        run: pnpm --filter @moe-ui/cli publish --tag beta --no-git-checks
+        run: pnpm --filter @moe-labs/cli publish --tag beta --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create GitHub prerelease
