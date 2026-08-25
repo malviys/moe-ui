@@ -205,13 +205,13 @@ jobs:
             fi
           done
       - name: Pull production environment
-        run: pnpm exec vercel pull --yes --environment=production --token="$VERCEL_TOKEN" --cwd apps/docs
+        run: pnpm exec vercel pull --yes --environment=production --token="$VERCEL_TOKEN" --cwd .
       - name: Build production artifact
-        run: pnpm exec vercel build --prod --token="$VERCEL_TOKEN" --cwd apps/docs
+        run: pnpm exec vercel build --prod --token="$VERCEL_TOKEN" --cwd .
       - name: Deploy production artifact
         id: deploy
         run: |
-          deployment_url="$(pnpm exec vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" --cwd apps/docs)"
+          deployment_url="$(pnpm exec vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" --cwd .)"
           echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
       - name: Smoke test deployment
         env:
